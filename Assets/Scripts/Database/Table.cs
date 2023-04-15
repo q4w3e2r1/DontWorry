@@ -13,22 +13,22 @@ public class Table
     [SerializeField] private List<string> _columnsName = new();
     [SerializeField] private List<string> _columnsType = new();
     
-    private Dictionary<string, string> _columnsDictionary = new();
+    public Dictionary<string, string> ColumsDictionary = new();
 
-    public string[] Columns => _columnsDictionary.Keys.ToArray();
+    public string[] Columns => ColumsDictionary.Keys.ToArray();
 
     public Table(string name, Dictionary<string, string> colums)
     {
         Name = name;
-        _columnsDictionary = colums;
+        ColumsDictionary = colums;
     }
 
     public void Initialize()
     {
-        if(_columnsName.Count == 0 || _columnsDictionary.Count != 0)
+        if(_columnsName.Count == 0 || ColumsDictionary.Count != 0)
             return;
         for (int i = 0; i < _columnsName.Count; i++)
-            _columnsDictionary[_columnsName[i]] = _columnsType[i];
+            ColumsDictionary[_columnsName[i]] = _columnsType[i];
     }
 
     public static string Write(string header, string[] rows)

@@ -9,15 +9,13 @@ public class Database
 
     private IDbConnection _connection;
 
-    private Dictionary<string, Table> _tables = new();
-
-    public HashSet<string> Tables => _tables.Keys.ToHashSet();
+    public Dictionary<string, Table> Tables = new();
 
     public Database(string name, string path, Dictionary<string, Table> tables)
     {
         Name = name;
         _connection = new SqliteConnection($"URI=file:{path}/{Name}.sqlite");
-        _tables = tables;
+        Tables = tables;
     }
 
     public string Connect()
@@ -27,7 +25,7 @@ public class Database
     }
 
     public void Disconnect() 
-        => _connection.Close();
+        => _connection?.Close();
 
     public void ExecuteQueryWithoutAnswer(string query)
     {
@@ -44,11 +42,11 @@ public class Database
     }
 
     public void CreateTable(string name, Dictionary<string, string> colums) 
-        => _tables[name] = new Table(name, colums);
+        => Tables[name] = new Table(name, colums);
 
     public void DropTable(string name)
-        => _tables.Remove(name);
+        => Tables.Remove(name);
 
     public string[] ShowTableColumns(string name)
-        => _tables[name].Columns;
+        => Tables[name].Columns;
 }

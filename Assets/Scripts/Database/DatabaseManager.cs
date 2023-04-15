@@ -17,11 +17,14 @@ public class DatabaseManager : MonoBehaviour
     private Dictionary<string, Dictionary<string, Table>> _allowedDatabases = new();
     private Dictionary<string, Database> _existingDatabases = new();
 
+    private Stack<Command> _commandHistory = new();
+    private Stack<Command> _cancelledCommands = new();
+
     public string[] AllowedColumnTypes;
+    public string[] AllowedColumnAttributes;
+    [HideInInspector] public Database ConnectedDatabase;
     [HideInInspector] public string[] AllowedDatabases => _allowedDatabases.Keys.ToArray();
     [HideInInspector] public string[] ExistingDatabases => _existingDatabases.Keys.ToArray();
-
-    private Database _connectedDatabaseName;
 
     private void Awake()
     {
@@ -72,27 +75,32 @@ public class DatabaseManager : MonoBehaviour
             new Dictionary<string, Table>());
 
         _existingDatabases[name] = database;
-
         _existingDatabases[name].Connect();
         _existingDatabases[name].Disconnect();
     }
 
     public void DropDatabase(string name)
     {
-        if (_connectedDatabaseName.Name == name)
+        if (ConnectedDatabase?.Name == name)
         {
             _existingDatabases[name].Disconnect();
-            _connectedDatabaseName = null;
+            ConnectedDatabase = null;
         }
-
         _existingDatabases.Remove(name);
     }
 
     public void UseDatabase(string name)
     { 
-        _connectedDatabaseName?.Disconnect();
-        _connectedDatabaseName = _existingDatabases[name];
-        _connectedDatabaseName.Connect();
+        ConnectedDatabase?.Disconnect();
+
+        if (name == "")
+        {
+            ConnectedDatabase = null;
+            return;
+        }
+
+        ConnectedDatabase = _existingDatabases[name];
+        ConnectedDatabase.Connect();
     }
 
     public string ShowDatabases()
@@ -106,7 +114,7 @@ public class DatabaseManager : MonoBehaviour
 
     public void CreateTable(string name, string[] columnNames, string[] columnTypes) 
     {
-        if (_connectedDatabaseName.Tables.Contains(name))
+        if (ConnectedDatabase.Tables.ContainsKey(name))
             DropTable(name);
 
         var columns = new Dictionary<string, string>();
@@ -117,30 +125,34 @@ public class DatabaseManager : MonoBehaviour
             columnsText[i] = $"{columnNames[i]} {columnTypes[i]}";
         }
         
-        _connectedDatabaseName.ExecuteQueryWithoutAnswer($"CREATE TABLE {name}({string.Join(", ", columnsText)})");
-        _connectedDatabaseName.CreateTable(name, columns);
+        ConnectedDatabase.ExecuteQueryWithoutAnswer($"CREATE TABLE {name}({string.Join(", ", columnsText)})");
+        ConnectedDatabase.CreateTable(name, columns);
     }
 
     public void DropTable(string name)
     {
-        _connectedDatabaseName.ExecuteQueryWithoutAnswer($"DROP TABLE {name}");
-        _connectedDatabaseName.DropTable(name);
+        ConnectedDatabase.ExecuteQueryWithoutAnswer($"DROP TABLE {name}");
+        ConnectedDatabase.DropTable(name);
     }
 
     public string[] GetTables()
-        => _connectedDatabaseName.Tables.ToArray();
+        => ConnectedDatabase.Tables.Keys.ToArray();
 
     public string[] GetTablesColums(string name)
-        => _connectedDatabaseName.ShowTableColumns(name);
+        => ConnectedDatabase.ShowTableColumns(name);
 
     public string ShowTables()
-        => Table.Write($"Tables_in_{_connectedDatabaseName}", _connectedDatabaseName.Tables.ToArray());
+    {
+        if (ConnectedDatabase == null)
+            return"ERROR 1046 (3D000): No database selected";
+        else
+            return Table.Write($"Tables_in_{ConnectedDatabase}", ConnectedDatabase.Tables.Keys.ToArray());
+    }
+
 
     #endregion
 
     #region CommandPattern
-    private Stack<Command> _commandHistory = new();
-    private Stack<Command> _cancelledCommands = new();
 
     public void ExecuteCommand(Command command)
     {
@@ -153,7 +165,6 @@ public class DatabaseManager : MonoBehaviour
     public void Undo()
     {
         _commandHistory.TryPop(out Command command);
-        Debug.Log(command.GetType());
         if (command == null)
             return;
         _cancelledCommands.Push(command);
@@ -171,10 +182,9 @@ public class DatabaseManager : MonoBehaviour
 
     #endregion
 
-    public void Write(string message)
+    public void Write(string message) 
     {
         _output.text += message + '\n';
         Debug.Log(message);
-    }
-    //=> _output.text += message + '\n';
+    } 
 }

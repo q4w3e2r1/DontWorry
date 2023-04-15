@@ -11,13 +11,6 @@ public class CreateDatabaseCommand : Command
 {
     [SerializeField] private TMP_Dropdown _name;
 
-    private Database _databaseBackup;
-
-    public CreateDatabaseCommand(TMP_Dropdown name)
-    { 
-        _name = name;
-    }
-
     private void Start()
     {
         _name.SetOptions(_dbManager.AllowedDatabases);
@@ -31,15 +24,17 @@ public class CreateDatabaseCommand : Command
             return false;
 
         SaveBackup();
-
+        _dbManager.CreateDatabase(name);
         Write("Query OK, 1 row affected");
 
         return true;
     }
 
-    public new void Undo()
+    public override void Undo()
     {
         _dbManager.DropDatabase(_name.captionText.text);
-        base.Undo();
+
+        _output.text = _backup;
+        Destroy(gameObject);
     }
 }

@@ -24,11 +24,7 @@ public abstract class Command : MonoBehaviour
         _backup = _output.text;
     }
 
-    public void Undo()
-    {
-        _output.text = _backup;
-        Destroy(gameObject);
-    }
+    public abstract void Undo();
 
     public void Write(string message)
     {

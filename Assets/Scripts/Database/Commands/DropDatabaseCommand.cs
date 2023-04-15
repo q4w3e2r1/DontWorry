@@ -25,8 +25,16 @@ public class DropDatabaseCommand : Command
         SaveBackup();
 
         _dbManager.DropDatabase(databaseName);
-        _dbManager.Write("Query OK, 0 row affected");
+        Write("Query OK, 0 row affected");
         
         return true;
+    }
+
+    public override void Undo()
+    { 
+        _dbManager.CreateDatabase(_name.captionText.text);
+
+        _output.text = _backup;
+        Destroy(gameObject);
     }
 }

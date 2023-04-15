@@ -22,9 +22,14 @@ public class ShowDatabasesCommand : Command
     {
         SaveBackup();
 
-        var n = _dbManager.ShowDatabases();
-        Write(n);
+        Write(_dbManager.ShowDatabases());
 
         return true;
+    }
+
+    public override void Undo()
+    {
+        _output.text = _backup;
+        Destroy(gameObject);
     }
 }

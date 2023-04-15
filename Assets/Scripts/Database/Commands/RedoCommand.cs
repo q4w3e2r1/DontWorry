@@ -7,14 +7,15 @@ using UnityEngine.UI;
 
 public class RedoCommand : Command
 {
-    private void Start()
-    {
-        //GetComponent<Button>().onClick.AddListener(value => _dbManager.ExecuteCommand(this));
-    }
-
     public override bool Execute()
     {
         _dbManager.Redo();
         return false;
+    }
+
+    public override void Undo()
+    {
+        _output.text = _backup;
+        Destroy(gameObject);
     }
 }

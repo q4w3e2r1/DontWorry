@@ -16,8 +16,14 @@ public class ShowTablesCommand : Command
     {
         SaveBackup();
 
-        _dbManager.Write(_dbManager.ShowTables());
+        Write(_dbManager.ShowTables());
 
         return true;
+    }
+
+    public override void Undo()
+    {
+        _output.text = _backup;
+        Destroy(gameObject);
     }
 }

@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 public class UseDatabaseCommand : Command
 {
     [SerializeField] private TMP_Dropdown _name;
+    private Database _databaseBackup;
 
     private void Start()
     {
@@ -26,8 +27,25 @@ public class UseDatabaseCommand : Command
         SaveBackup();
 
         _dbManager.UseDatabase(name);
-        _dbManager.Write("Database changed");
+        Write("Database changed");
 
         return true;
+    }
+
+    private new void SaveBackup()
+    {
+        _databaseBackup = _dbManager.ConnectedDatabase;
+        base.SaveBackup();
+    }
+
+    public override void Undo()
+    {
+        if(_databaseBackup != null)
+            _dbManager.UseDatabase(_databaseBackup.Name);
+        else
+            _dbManager.UseDatabase("");
+
+        _output.text = _backup;
+        Destroy(gameObject);
     }
 }
