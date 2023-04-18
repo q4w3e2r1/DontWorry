@@ -1,10 +1,12 @@
-using System.Collections;
+using Scripts.Extensions;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-using System;
+using UnityEngine.Events;
 
 public class DatabaseManager : MonoBehaviour
 {
@@ -13,7 +15,9 @@ public class DatabaseManager : MonoBehaviour
     [Space]
     [SerializeField] private string[] _databasesName;
     [SerializeField] private List<Table> _tables = new();
-    
+    [Space]
+    [SerializeField] private Chat _chat;
+
     private Dictionary<string, Dictionary<string, Table>> _allowedDatabases = new();
     private Dictionary<string, Database> _existingDatabases = new();
 
@@ -70,13 +74,15 @@ public class DatabaseManager : MonoBehaviour
 
     public void CreateDatabase(string name)
     {
-        var database = new Database(name, 
+        var database = new Database(name,
             $"{Application.dataPath}/Databases/{_databasesFolder}",
             new Dictionary<string, Table>());
 
         _existingDatabases[name] = database;
         _existingDatabases[name].Connect();
         _existingDatabases[name].Disconnect();
+
+        _chat.CheckMessage($"CREATE DATABASE {name}");
     }
 
     public void DropDatabase(string name)
@@ -87,10 +93,12 @@ public class DatabaseManager : MonoBehaviour
             ConnectedDatabase = null;
         }
         _existingDatabases.Remove(name);
+
+        _chat.CheckMessage($"DROP DATABASE {name}");
     }
 
     public void UseDatabase(string name)
-    { 
+    {
         ConnectedDatabase?.Disconnect();
 
         if (name == "")
@@ -101,10 +109,13 @@ public class DatabaseManager : MonoBehaviour
 
         ConnectedDatabase = _existingDatabases[name];
         ConnectedDatabase.Connect();
+
+        _chat.CheckMessage($"USE {name}");
     }
 
     public string ShowDatabases()
     {
+        _chat.CheckMessage("SHOW DATABASES");
         return Table.Write("Databases", ExistingDatabases);
     }
 
@@ -112,7 +123,7 @@ public class DatabaseManager : MonoBehaviour
 
     #region Table
 
-    public void CreateTable(string name, string[] columnNames, string[] columnTypes) 
+    public void CreateTable(string name, string[] columnNames, string[] columnTypes)
     {
         if (ConnectedDatabase.Tables.ContainsKey(name))
             DropTable(name);
@@ -124,19 +135,44 @@ public class DatabaseManager : MonoBehaviour
             columns[columnNames[i]] = columnTypes[i];
             columnsText[i] = $"{columnNames[i]} {columnTypes[i]}";
         }
-        
-        ConnectedDatabase.ExecuteQueryWithoutAnswer($"CREATE TABLE {name}({string.Join(", ", columnsText)})");
+
+        var command = $"CREATE TABLE {name}({string.Join(", ", columnsText)})";
+        ConnectedDatabase.ExecuteQueryWithoutAnswer(command);
         ConnectedDatabase.CreateTable(name, columns);
+
+        _chat.CheckMessage(command);
     }
 
     public void DropTable(string name)
     {
-        ConnectedDatabase.ExecuteQueryWithoutAnswer($"DROP TABLE {name}");
+        var command = $"DROP TABLE {name}";
+        ConnectedDatabase.ExecuteQueryWithoutAnswer(command);
         ConnectedDatabase.DropTable(name);
+        _chat.CheckMessage(command);
+    }
+
+    public void InsertInto(string tableName, string[] columns, string[] values)
+    {
+        var command = $"INSERT INTO {tableName} ({string.Join(", ", columns)}) VALUES (\"{string.Join("\", \"", values)}\")";
+        ConnectedDatabase.ExecuteQueryWithoutAnswer(command);
+        _chat.CheckMessage(command);
+    }
+
+    public string Select(string tableName, string selectedValue)
+    {
+        var command = $"SELECT {selectedValue} FROM {tableName}";
+        var reader = ConnectedDatabase.ExecuteQueryWithReader(command);
+
+        var header = ConnectedDatabase.Tables[tableName].Columns;
+        var rows = reader.GetRows();
+
+        _chat.CheckMessage(command);
+
+        return Table.Write(header, rows);
     }
 
     public string[] GetTables()
-        => ConnectedDatabase.Tables.Keys.ToArray();
+    => ConnectedDatabase.Tables.Keys.ToArray();
 
     public string[] GetTablesColums(string name)
         => ConnectedDatabase.ShowTableColumns(name);
@@ -144,9 +180,12 @@ public class DatabaseManager : MonoBehaviour
     public string ShowTables()
     {
         if (ConnectedDatabase == null)
-            return"ERROR 1046 (3D000): No database selected";
+            return "ERROR 1046 (3D000): No database selected";
         else
+        {
+            _chat.CheckMessage("SHOW TABLES");
             return Table.Write($"Tables_in_{ConnectedDatabase}", ConnectedDatabase.Tables.Keys.ToArray());
+        }
     }
 
 
@@ -182,9 +221,18 @@ public class DatabaseManager : MonoBehaviour
 
     #endregion
 
-    public void Write(string message) 
+    public void Write(string message)
     {
         _output.text += message + '\n';
-        Debug.Log(message);
-    } 
+        // Debug.Log(message);
+    }
+}
+
+[Serializable]
+public class Message
+{
+    public string Text;
+    public string ConditionsForSending;
+    public bool IsSent;
+    public UnityEvent OnSending;
 }

@@ -1,11 +1,6 @@
 using Scripts.Extensions;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class UseDatabaseCommand : Command
 {
@@ -40,7 +35,7 @@ public class UseDatabaseCommand : Command
 
     public override void Undo()
     {
-        if(_databaseBackup != null)
+        if (_databaseBackup != null)
             _dbManager.UseDatabase(_databaseBackup.Name);
         else
             _dbManager.UseDatabase("");

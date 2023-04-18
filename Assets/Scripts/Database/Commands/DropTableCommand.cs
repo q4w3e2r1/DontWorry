@@ -1,6 +1,4 @@
 using Scripts.Extensions;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -19,6 +17,12 @@ public class DropTableCommand : Command
 
     public override bool Execute()
     {
+        if (_dbManager.ConnectedDatabase == null)
+        {
+            Write("ERROR 1046 (3D000): No database selected");
+            return true;
+        }
+
         var name = _name.captionText.text;
         if (name == "...")
             return false;
@@ -38,7 +42,7 @@ public class DropTableCommand : Command
     }
 
     public override void Undo()
-    { 
+    {
         _dbManager.CreateTable(_table.Name, _table.Columns, _table.ColumsDictionary.Values.ToArray());
 
         _output.text = _backup;

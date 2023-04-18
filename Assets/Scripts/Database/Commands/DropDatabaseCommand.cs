@@ -1,10 +1,6 @@
 using Scripts.Extensions;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DropDatabaseCommand : Command
 {
@@ -26,12 +22,12 @@ public class DropDatabaseCommand : Command
 
         _dbManager.DropDatabase(databaseName);
         Write("Query OK, 0 row affected");
-        
+
         return true;
     }
 
     public override void Undo()
-    { 
+    {
         _dbManager.CreateDatabase(_name.captionText.text);
 
         _output.text = _backup;

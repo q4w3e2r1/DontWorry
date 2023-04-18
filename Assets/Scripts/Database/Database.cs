@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Mono.Data.Sqlite;
+using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using Mono.Data.Sqlite;
 
 public class Database
 {
@@ -24,7 +23,7 @@ public class Database
         return "Database changed";
     }
 
-    public void Disconnect() 
+    public void Disconnect()
         => _connection?.Close();
 
     public void ExecuteQueryWithoutAnswer(string query)
@@ -41,7 +40,7 @@ public class Database
         return dbCommand.ExecuteReader();
     }
 
-    public void CreateTable(string name, Dictionary<string, string> colums) 
+    public void CreateTable(string name, Dictionary<string, string> colums)
         => Tables[name] = new Table(name, colums);
 
     public void DropTable(string name)

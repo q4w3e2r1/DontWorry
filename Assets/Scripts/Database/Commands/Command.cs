@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
-using TMPro.EditorUtilities;
+﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Command : MonoBehaviour
 {
@@ -20,7 +15,7 @@ public abstract class Command : MonoBehaviour
     }
 
     protected void SaveBackup()
-    { 
+    {
         _backup = _output.text;
     }
 
@@ -29,7 +24,7 @@ public abstract class Command : MonoBehaviour
     public void Write(string message)
     {
         _output.text += message + '\n';
-        Debug.Log(message);
+        _output.GetComponentInParent<ScrollRect>().ScrollToBottom();
     }
 
     public abstract bool Execute();

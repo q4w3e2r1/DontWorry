@@ -1,13 +1,14 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Scripts.Extensions
 {
-    public static class ExtensionMethods
+    public static class TMP_DropdownExtensions
     {
         public static void SetOptions(this TMP_Dropdown dropdown, string[] strings)
         {
