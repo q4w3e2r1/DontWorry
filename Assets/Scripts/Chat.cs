@@ -8,10 +8,13 @@ public class Chat : MonoBehaviour
 {
     [SerializeField] private UnityEngine.UI.Button _helpButton;
     [SerializeField] private UnityEngine.UI.Button _completeButton;
+    [SerializeField] private UnityEngine.UI.Button _restartButton;
     [Space]
     [SerializeField] private GameObject _messagePrefab;
     [Space]
     [SerializeField] private Message[] _messages;
+    [SerializeField] private Message[] _helpMessages;
+    [SerializeField] private Message[] _errorMessage;
 
 
     private void Start()
@@ -22,11 +25,22 @@ public class Chat : MonoBehaviour
     public void CheckMessage(string message)
     {
         Debug.Log(message);
-        var firstMessage = _messages.Where(message => !message.IsSent).First();
+        var firstMessage = _messages.Where(msg => !msg.IsSent).First();
+        var errorMessage = _errorMessage.Where(msg => msg.ConditionsForSending == message).FirstOrDefault();
+        if(errorMessage != null) 
+        {
+            Send(errorMessage);
+            return;
+        }
         if (firstMessage.ConditionsForSending != message)
             return;
 
         Send(firstMessage);
+    }
+
+    public void SendHelpMessage()
+    {
+        Send(_helpMessages[0]);
     }
 
     private void Send(Message message)
@@ -46,5 +60,11 @@ public class Chat : MonoBehaviour
     {
         _helpButton.gameObject.SetActive(false);
         _completeButton.gameObject.SetActive(true);
+    }
+
+    public void ChangeButtonToRestartButton()
+    {
+        _helpButton.gameObject.SetActive(false);
+        _restartButton.gameObject.SetActive(true);
     }
 }
