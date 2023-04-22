@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CreateTableCommand : Command
+public class CreateTableCommand : DatabaseCommand
 {
     private TMP_InputField _tableName;
 

@@ -2,13 +2,14 @@ using Scripts.Extensions;
 using TMPro;
 using UnityEngine;
 
-public class CreateDatabaseCommand : Command
+public class UseDatabaseCommand : DatabaseCommand
 {
     [SerializeField] private TMP_Dropdown _name;
+    private Database _databaseBackup;
 
     private void Start()
     {
-        _name.SetOptions(_dbManager.AllowedDatabases);
+        _name.SetOptions(_dbManager.ExistingDatabases);
         _name.onValueChanged.AddListener(value => _dbManager.ExecuteCommand(this));
     }
 
@@ -19,15 +20,25 @@ public class CreateDatabaseCommand : Command
             return false;
 
         SaveBackup();
-        _dbManager.CreateDatabase(name);
-        Write("Query OK, 1 row affected");
+
+        _dbManager.UseDatabase(name);
+        Write("Database changed");
 
         return true;
     }
 
+    private new void SaveBackup()
+    {
+        _databaseBackup = _dbManager.ConnectedDatabase;
+        base.SaveBackup();
+    }
+
     public override void Undo()
     {
-        _dbManager.DropDatabase(_name.captionText.text);
+        if (_databaseBackup != null)
+            _dbManager.UseDatabase(_databaseBackup.Name);
+        else
+            _dbManager.UseDatabase("");
 
         _output.text = _backup;
         Destroy(gameObject);

@@ -1,4 +1,4 @@
-﻿public class RedoCommand : Command
+﻿public class RedoCommand : DatabaseCommand
 {
     public override bool Execute()
     {

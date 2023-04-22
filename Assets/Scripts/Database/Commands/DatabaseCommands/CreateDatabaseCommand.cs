@@ -2,33 +2,32 @@ using Scripts.Extensions;
 using TMPro;
 using UnityEngine;
 
-public class DropDatabaseCommand : Command
+public class CreateDatabaseCommand : DatabaseCommand
 {
     [SerializeField] private TMP_Dropdown _name;
 
     private void Start()
     {
-        _name.SetOptions(_dbManager.ExistingDatabases);
+        _name.SetOptions(_dbManager.AllowedDatabases);
         _name.onValueChanged.AddListener(value => _dbManager.ExecuteCommand(this));
     }
 
     public override bool Execute()
     {
-        var databaseName = _name.captionText.text;
-        if (databaseName == "...")
+        var name = _name.captionText.text;
+        if (name == "...")
             return false;
 
         SaveBackup();
-
-        _dbManager.DropDatabase(databaseName);
-        Write("Query OK, 0 row affected");
+        _dbManager.CreateDatabase(name);
+        Write("Query OK, 1 row affected");
 
         return true;
     }
 
     public override void Undo()
     {
-        _dbManager.CreateDatabase(_name.captionText.text);
+        _dbManager.DropDatabase(_name.captionText.text);
 
         _output.text = _backup;
         Destroy(gameObject);

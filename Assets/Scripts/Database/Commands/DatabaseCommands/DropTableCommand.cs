@@ -3,7 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class DropTableCommand : Command
+public class DropTableCommand : DatabaseCommand
 {
     [SerializeField] private TMP_Dropdown _name;
 

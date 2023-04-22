@@ -4,7 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class SelectCommand : Command
+public class SelectCommand : DatabaseCommand
 {
     [SerializeField] private TMP_Dropdown _tableName;
     [SerializeField] private TMP_Dropdown _selectValue;

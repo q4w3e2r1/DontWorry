@@ -1,5 +1,10 @@
-public class ShowTablesCommand : Command
+public class ShowDatabasesCommand : DatabaseCommand
 {
+    public ShowDatabasesCommand(ShowDatabasesCommand command) { }
+
+    public ShowDatabasesCommand Copy(ShowDatabasesCommand command)
+        => new ShowDatabasesCommand(command);
+
     private void Start()
     {
         _dbManager.ExecuteCommand(this);
@@ -7,15 +12,9 @@ public class ShowTablesCommand : Command
 
     public override bool Execute()
     {
-        if (_dbManager.ConnectedDatabase == null)
-        {
-            Write("ERROR 1046 (3D000): No database selected");
-            return true;
-        }
-
         SaveBackup();
 
-        Write(_dbManager.ShowTables());
+        Write(_dbManager.ShowDatabases());
 
         return true;
     }

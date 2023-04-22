@@ -1,4 +1,4 @@
-﻿public class UndoCommand : Command
+﻿public class UndoCommand : DatabaseCommand
 {
     public override bool Execute()
     {

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InsertIntoCommand : Command
+public class InsertIntoCommand : DatabaseCommand
 {
     [SerializeField] private GameObject _textPrefab;
     private TMP_Dropdown _tableName;
