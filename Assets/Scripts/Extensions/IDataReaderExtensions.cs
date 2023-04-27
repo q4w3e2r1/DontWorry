@@ -1,28 +1,29 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using UnityEngine;
 
-public static class IDataReaderExtensions
+namespace SQL_Quest.Extentions
 {
-    public static string[][] GetRows(this IDataReader reader)
+    public static class IDataReaderExtensions
     {
-        var result = new List<string[]>();
-
-        while (reader.Read())
+        public static string[][] GetRows(this IDataReader reader)
         {
-            result.Add(ReadSingleRow((IDataRecord)reader));
+            var result = new List<string[]>();
+
+            while (reader.Read())
+            {
+                result.Add(ReadSingleRow((IDataRecord)reader));
+            }
+
+            return result.ToArray();
         }
 
-        return result.ToArray();
-    }
+        private static string[] ReadSingleRow(IDataRecord dataRecord)
+        {
+            var row = new string[dataRecord.FieldCount];
+            for (int i = 0; i < row.Length; i++)
+                row[i] = dataRecord[i].ToString();
 
-    private static string[] ReadSingleRow(IDataRecord dataRecord)
-    {
-        var row = new string[dataRecord.FieldCount];
-        for (int i = 0; i < row.Length; i++)
-            row[i] = dataRecord[i].ToString();
-
-        return row;
+            return row;
+        }
     }
 }

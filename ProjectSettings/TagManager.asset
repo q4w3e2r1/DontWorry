@@ -6,6 +6,9 @@ TagManager:
   tags:
   - DatabaseManager
   - Output
+  - Line
+  - Interactable
+  - Giyu
   layers:
   - Default
   - TransparentFX

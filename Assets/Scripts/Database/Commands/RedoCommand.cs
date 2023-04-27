@@ -1,14 +1,18 @@
-﻿public class RedoCommand : DatabaseCommand
+﻿
+namespace SQL_Quest.Database.Commands
 {
-    public override bool Execute()
+    public class RedoCommand : DatabaseCommand
     {
-        _dbManager.Redo();
-        return false;
-    }
+        public override bool Execute()
+        {
+            _dbManager.Redo();
+            return false;
+        }
 
-    public override void Undo()
-    {
-        _output.text = _backup;
-        Destroy(gameObject);
+        public override void Undo()
+        {
+            _output.text = _backup;
+            Destroy(gameObject);
+        }
     }
 }
