@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3976797868916771148}
   - component: {fileID: 3976797868916771149}
   - component: {fileID: 3976797868916771146}
-  - component: {fileID: 3976797868916771147}
-  - component: {fileID: 3976797868916771144}
+  - component: {fileID: 4194437053901801262}
+  - component: {fileID: 3597957675603891750}
   - component: {fileID: 3976797868916771145}
   m_Layer: 0
   m_Name: Giyu
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 32c0a2af92602f141aefd055a1ba5c1c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -149,7 +149,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3976797868916771147
+--- !u!114 &4194437053901801262
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,13 +158,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3976797868916770996}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb27fe4ac9e5b1a4a9ceae3cc773a44c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d03c5cdad2a9c14a9c4ba875fcca766, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _invertScale: 0
-  _speed: 2
+  _speed: 3
+  _data: {fileID: 11400000, guid: b242168268490ed4c8882be39deae8d9, type: 2}
   _interactionCheck: {fileID: 3976797869166172708}
---- !u!114 &3976797868916771144
+--- !u!114 &3597957675603891750
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,10 +174,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3976797868916770996}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3685550756af1f14e8305027632018fa, type: 3}
+  m_Script: {fileID: 11500000, guid: ce1529957284b384cacf3188a27f4b95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hero: {fileID: 3976797868916771147}
+  _hero: {fileID: 4194437053901801262}
 --- !u!114 &3976797868916771145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,8 +205,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3976797868916771144}
-        m_TargetAssemblyTypeName: HeroInputReader, Assembly-CSharp
+      - m_Target: {fileID: 3597957675603891750}
+        m_TargetAssemblyTypeName: SQL_Quest.Creatures.Player.PlayerInputReader, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -220,8 +221,8 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3976797868916771144}
-        m_TargetAssemblyTypeName: HeroInputReader, Assembly-CSharp
+      - m_Target: {fileID: 3597957675603891750}
+        m_TargetAssemblyTypeName: SQL_Quest.Creatures.Player.PlayerInputReader, Assembly-CSharp
         m_MethodName: OnInteract
         m_Mode: 0
         m_Arguments:
@@ -287,8 +288,9 @@ MonoBehaviour:
   _radius: 6
   _mask:
     serializedVersion: 2
-    m_Bits: 0
-  _tags: []
+    m_Bits: 4294967295
+  _tags:
+  - Interactable
   _onOverlap:
     m_PersistentCalls:
       m_Calls:

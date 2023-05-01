@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace SQL_Quest.Creatures
+namespace SQL_Quest.Creatures.Player
 {
-    public class HeroInputReader : MonoBehaviour
+    public class PlayerInputReader : MonoBehaviour
     {
-        [SerializeField] private Hero _hero;
+        [SerializeField] private Player _hero;
 
         public void OnMove(InputAction.CallbackContext context)
         {
