@@ -1,89 +1,102 @@
-
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SQL_Quest.Components.UI.Dialogs
 {
-	public class DialogBoxController : MonoBehaviour
-	{
-		[SerializeField] private Text _text;
-		[SerializeField] private GameObject _container;
-		[SerializeField] private Animator _animator;
-		[Space]
-		[SerializeField] private float _textSpeed = 0.1f;
+    public class DialogBoxController : MonoBehaviour
+    {
+        [SerializeField] private GameObject _container;
+        [SerializeField] private Animator _animator;
+        [Space]
+        [SerializeField] private float _textSpeed = 0.1f;
+        [Space]
+        [SerializeField] protected DialogContent _content;
 
-		private static readonly int IsOpen = Animator.StringToHash("IsOpen");
+        private static readonly int IsOpen = Animator.StringToHash("IsOpen");
 
-		private DialogData _data;
-		private int _currentSentence;
-		private Coroutine _typingRoutine;
+        private DialogData _data;
+        private int _currentSentence;
+        private Coroutine _typingRoutine;
 
-		public void ShowDialog(DialogData data)
-		{
-			_data = data;
-			_currentSentence = 0;
-			_text.text = string.Empty;
+        protected Sentence CurrentSentence => _data.Sentences[_currentSentence];
 
-			_container.SetActive(true);
-			_animator.SetBool(IsOpen, true);
-		}
+        public void ShowDialog(DialogData data)
+        {
+            _data = data;
+            _currentSentence = 0;
+            CurrentContent.Name.text = CurrentSentence.Name;
+            CurrentContent.Text.text = string.Empty;
+            CurrentContent.TrySetIcon(CurrentSentence.Icon);
 
-		private IEnumerator TypeDialogText()
-		{ 
-			_text.text = string.Empty;
-			var sentence = _data.Sentences[_currentSentence];
+            _container.SetActive(true);
+            _animator.SetBool(IsOpen, true);
+        }
 
-			foreach (var letter in sentence)
-			{
-				_text.text += letter;
-				yield return new WaitForSeconds(_textSpeed);
-			}
+        private IEnumerator TypeDialogText()
+        {
+            CurrentContent.Text.text = string.Empty;
+            var sentence = CurrentSentence;
+            CurrentContent.Name.text = sentence.Name;
+            CurrentContent.TrySetIcon(sentence.Icon);
 
-			_typingRoutine = null;
-		}
+            foreach (var letter in sentence.Value)
+            {
+                CurrentContent.Text.text += letter;
+                yield return new WaitForSeconds(_textSpeed);
+            }
 
-		public void OnSkip()
-		{
-			if (_typingRoutine == null)
-				return;
+            _typingRoutine = null;
+        }
 
-			StopTypeAnimation();
-			_text.text = _data.Sentences[_currentSentence];
-		}
+        protected virtual DialogContent CurrentContent => _content;
 
-		public void OnContinue()
-		{
+        public void OnSkip()
+        {
+            if (_typingRoutine == null)
+                return;
+
             StopTypeAnimation();
-			_currentSentence++;
+            CurrentContent.Text.text = _data.Sentences[_currentSentence].Value;
+        }
 
-			var isDialogComplete = _currentSentence >= _data.Sentences.Length;
-			if (isDialogComplete)
-				HideDialogBox();
-			else
-				OnStartDialogAnimation();
-		}
+        public void OnContinue()
+        {
+            if (_typingRoutine != null)
+            {
+                OnSkip();
+                return;
+            }
 
-		private void HideDialogBox()
-		{ 
-			_animator.SetBool(IsOpen, false);
-		}
+            StopTypeAnimation();
+            _currentSentence++;
 
-		private void StopTypeAnimation()
-		{
-			if (_typingRoutine != null)
-				StopCoroutine(_typingRoutine);
-			_typingRoutine = null;
-		}
+            var isDialogComplete = _currentSentence >= _data.Sentences.Length;
+            if (isDialogComplete)
+                HideDialogBox();
+            else
+                OnStartDialogAnimation();
+        }
 
-		private void OnStartDialogAnimation()
-		{ 
-			_typingRoutine = StartCoroutine(TypeDialogText());
-		}
+        private void HideDialogBox()
+        {
+            _animator.SetBool(IsOpen, false);
+        }
 
-		private void OnCloseAnimationComplete()
-		{ 
-			
-		}
+        private void StopTypeAnimation()
+        {
+            if (_typingRoutine != null)
+                StopCoroutine(_typingRoutine);
+            _typingRoutine = null;
+        }
+
+        protected virtual void OnStartDialogAnimation()
+        {
+            _typingRoutine = StartCoroutine(TypeDialogText());
+        }
+
+        private void OnCloseAnimationComplete()
+        {
+
+        }
     }
 }

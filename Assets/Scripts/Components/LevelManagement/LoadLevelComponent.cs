@@ -8,11 +8,17 @@ namespace SQL_Quest.Components.LevelManagement
     {
         [SerializeField] private string _sceneToLoad;
         [SerializeField] private Vector3 _position;
+        [SerializeField] private bool _invertScale;
+        [SerializeField] private bool _interactOnStart;
         [SerializeField] private PlayerData _playerData;
+
+        private static readonly int FadeAnim = Animator.StringToHash("Fade");
 
         public void Load()
         {
             _playerData.Position = _position;
+            _playerData.InvertScale = _invertScale;
+            _playerData.InteractOnStart = _interactOnStart;
             SceneManager.LoadScene(_sceneToLoad);
         }
     }

@@ -1,27 +1,21 @@
-using SQL_Quest.Components.UI.Chat;
 using SQL_Quest.Database.Commands;
-using SQL_Quest.Extentions;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 
 namespace SQL_Quest.Database
 {
     public class DatabaseManager : MonoBehaviour
     {
-        [SerializeField] private string _databasesFolder;
-        [SerializeField] private TextMeshProUGUI _output;
+        [SerializeField] public string DatabasesFolder;
         [Space]
         [SerializeField] private string[] _databasesName;
         [SerializeField] private List<Table> _tables = new();
-        [Space]
-        [SerializeField] private Chat _chat;
 
-        private Dictionary<string, Dictionary<string, Table>> _allowedDatabases = new();
-        private Dictionary<string, Database> _existingDatabases = new();
+        [HideInInspector] public Dictionary<string, Dictionary<string, Table>> AllowedDatabases = new();
+        [HideInInspector] public Dictionary<string, Database> ExistingDatabases = new();
 
         private Stack<DatabaseCommand> _commandHistory = new();
         private Stack<DatabaseCommand> _cancelledCommands = new();
@@ -29,8 +23,6 @@ namespace SQL_Quest.Database
         public string[] AllowedColumnTypes;
         public string[] AllowedColumnAttributes;
         [HideInInspector] public Database ConnectedDatabase;
-        [HideInInspector] public string[] AllowedDatabases => _allowedDatabases.Keys.ToArray();
-        [HideInInspector] public string[] ExistingDatabases => _existingDatabases.Keys.ToArray();
 
         private void Awake()
         {
@@ -41,21 +33,21 @@ namespace SQL_Quest.Database
         private void GetAllowedDatabases()
         {
             foreach (var databaseName in _databasesName)
-                _allowedDatabases[databaseName] = new();
+                AllowedDatabases[databaseName] = new();
 
             for (int i = 0; i < _tables.Count; i++)
             {
                 var databaseName = _tables[i].DatabaseName;
-                if (!_allowedDatabases.ContainsKey(databaseName))
-                    _allowedDatabases[databaseName] = new();
-                _allowedDatabases[databaseName][_tables[i].Name] = _tables[i];
+                if (!AllowedDatabases.ContainsKey(databaseName))
+                    AllowedDatabases[databaseName] = new();
+                AllowedDatabases[databaseName][_tables[i].Name] = _tables[i];
             }
         }
 
         private void GetExistingDatabases()
         {
             var databaseExtension = ".sqlite";
-            var path = $"{Application.dataPath}/Databases/{_databasesFolder}";
+            var path = $"{Application.dataPath}/Databases/{DatabasesFolder}";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -66,9 +58,9 @@ namespace SQL_Quest.Database
                 file.Substring(path.Length + 1, file.Length - databaseExtension.Length - 1 - path.Length));
             foreach (var file in files)
             {
-                if (!_allowedDatabases.ContainsKey(file))
+                if (!AllowedDatabases.ContainsKey(file))
                     continue;
-                _existingDatabases[file] = new Database(file, path, _allowedDatabases[file]);
+                ExistingDatabases[file] = new Database(file, path, AllowedDatabases[file]);
             }
         }
 
@@ -76,49 +68,26 @@ namespace SQL_Quest.Database
 
         public void CreateDatabase(string name)
         {
-            var database = new Database(name,
-                $"{Application.dataPath}/Databases/{_databasesFolder}",
-                new Dictionary<string, Table>());
-
-            _existingDatabases[name] = database;
-            _existingDatabases[name].Connect();
-            _existingDatabases[name].Disconnect();
-
-            _chat.CheckMessage($"CREATE DATABASE {name}");
+            var command = new CreateDatabaseCommand(name);
+            ExecuteCommand(command);
         }
 
         public void DropDatabase(string name)
         {
-            if (ConnectedDatabase?.Name == name)
-            {
-                _existingDatabases[name].Disconnect();
-                ConnectedDatabase = null;
-            }
-            _existingDatabases.Remove(name);
-
-            _chat.CheckMessage($"DROP DATABASE {name}");
+            var command = new DropDatabaseCommand(name);
+            ExecuteCommand(command);
         }
 
         public void UseDatabase(string name)
         {
-            ConnectedDatabase?.Disconnect();
-
-            if (name == "")
-            {
-                ConnectedDatabase = null;
-                return;
-            }
-
-            ConnectedDatabase = _existingDatabases[name];
-            ConnectedDatabase.Connect();
-
-            _chat.CheckMessage($"USE {name}");
+            var command = new UseDatabaseCommand(name);
+            ExecuteCommand(command);
         }
 
-        public string ShowDatabases()
+        public void ShowDatabases()
         {
-            _chat.CheckMessage("SHOW DATABASES");
-            return Table.Write("Databases", ExistingDatabases);
+            var command = new ShowDatabasesCommand();
+            ExecuteCommand(command);
         }
 
         #endregion
@@ -127,50 +96,26 @@ namespace SQL_Quest.Database
 
         public void CreateTable(string name, string[] columnNames, string[] columnTypes)
         {
-            if (ConnectedDatabase.Tables.ContainsKey(name))
-                DropTable(name);
-
-            var columns = new Dictionary<string, string>();
-            var columnsText = new string[columnNames.Length];
-            for (int i = 0; i < columnNames.Length; i++)
-            {
-                columns[columnNames[i]] = columnTypes[i];
-                columnsText[i] = $"{columnNames[i]} {columnTypes[i]}";
-            }
-
-            var command = $"CREATE TABLE {name}({string.Join(", ", columnsText)})";
-            ConnectedDatabase.ExecuteQueryWithoutAnswer(command);
-            ConnectedDatabase.CreateTable(name, columns);
-
-            _chat.CheckMessage(command);
+            var command = new CreateTableCommand(name, columnNames, columnTypes);
+            ExecuteCommand(command);
         }
 
         public void DropTable(string name)
         {
-            var command = $"DROP TABLE {name}";
-            ConnectedDatabase.ExecuteQueryWithoutAnswer(command);
-            ConnectedDatabase.DropTable(name);
-            _chat.CheckMessage(command);
+            var command = new DropTableCommand(name);
+            ExecuteCommand(command);
         }
 
         public void InsertInto(string tableName, string[] columns, string[] values)
         {
-            var command = $"INSERT INTO {tableName} ({string.Join(", ", columns)}) VALUES (\"{string.Join("\", \"", values)}\")";
-            ConnectedDatabase.ExecuteQueryWithoutAnswer(command);
-            _chat.CheckMessage(command);
+            var command = new InsertIntoCommand(tableName, columns, values);
+            ExecuteCommand(command);
         }
 
-        public string Select(string tableName, string selectedValue)
+        public void Select(string tableName, string selectedValue)
         {
-            var command = $"SELECT {selectedValue} FROM {tableName}";
-            var reader = ConnectedDatabase.ExecuteQueryWithReader(command);
-
-            var header = ConnectedDatabase.Tables[tableName].Columns;
-            var rows = reader.GetRows();
-
-            _chat.CheckMessage(command);
-
-            return Table.Write(header, rows);
+            var command = new SelectCommand(tableName, selectedValue);
+            ExecuteCommand(command);
         }
 
         public string[] GetTables()
@@ -179,15 +124,10 @@ namespace SQL_Quest.Database
         public string[] GetTablesColums(string name)
             => ConnectedDatabase.ShowTableColumns(name);
 
-        public string ShowTables()
+        public void ShowTables()
         {
-            if (ConnectedDatabase == null)
-                return "ERROR 1046 (3D000): No database selected";
-            else
-            {
-                _chat.CheckMessage("SHOW TABLES");
-                return Table.Write($"Tables_in_{ConnectedDatabase}", ConnectedDatabase.Tables.Keys.ToArray());
-            }
+            var command = new ShowTablesCommand();
+            ExecuteCommand(command);
         }
 
 
@@ -222,11 +162,5 @@ namespace SQL_Quest.Database
         }
 
         #endregion
-
-        public void Write(string message)
-        {
-            _output.text += message + '\n';
-            // Debug.Log(message);
-        }
     }
 }

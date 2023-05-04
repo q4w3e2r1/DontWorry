@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SQL_Quest.Creatures.Player
@@ -11,5 +9,7 @@ namespace SQL_Quest.Creatures.Player
     {
         public string Name;
         public Vector3 Position;
+        public bool InvertScale;
+        public bool InteractOnStart;
     }
 }

@@ -1,38 +1,40 @@
-using SQL_Quest.Extentions;
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SQL_Quest.Database.Commands
 {
     public class CreateDatabaseCommand : DatabaseCommand
     {
-        [SerializeField] private TMP_Dropdown _name;
+        private string _name;
 
-        private void Start()
+        public CreateDatabaseCommand(string name, bool returnMessage = true) : base(returnMessage)
         {
-            _name.SetOptions(_dbManager.AllowedDatabases);
-            _name.onValueChanged.AddListener(value => _dbManager.ExecuteCommand(this));
+            _name = name;
         }
 
         public override bool Execute()
         {
-            var name = _name.captionText.text;
-            if (name == "...")
+            Initialize();
+            var database = new Database(_name,
+                            $"{Application.dataPath}/Databases/{_dbManager.DatabasesFolder}",
+                            new Dictionary<string, Table>());
+            _dbManager.ExistingDatabases[_name] = database;
+            _dbManager.ExistingDatabases[_name].Connect();
+            _dbManager.ExistingDatabases[_name].Disconnect();
+
+            if (!_returnMessage)
                 return false;
 
             SaveBackup();
-            _dbManager.CreateDatabase(name);
+            _chat.CheckMessage($"CREATE DATABASE {_name}");
             Write("Query OK, 1 row affected");
-
             return true;
         }
 
-        public override void Undo()
+        public new void Undo()
         {
-            _dbManager.DropDatabase(_name.captionText.text);
-
-            _output.text = _backup;
-            Destroy(gameObject);
+            new DropDatabaseCommand(_name, false).Execute();
+            base.Undo();
         }
     }
 }

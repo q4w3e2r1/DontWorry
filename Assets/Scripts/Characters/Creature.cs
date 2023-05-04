@@ -16,7 +16,7 @@ namespace SQL_Quest.Creatures
 
         private static readonly int IsWalking = Animator.StringToHash("is-walking");
 
-        protected virtual void Awake()
+        protected virtual void Start()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
             Animator = GetComponent<Animator>();

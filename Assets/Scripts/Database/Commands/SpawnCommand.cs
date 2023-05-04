@@ -9,6 +9,11 @@ namespace SQL_Quest.Database.Commands
 
         private GameObject _gameObject;
 
+        private void Start()
+        {
+            _dbManager = GameObject.FindWithTag("DatabaseManager").GetComponent<DatabaseManager>();
+        }
+
         public void OnClick()
         {
             _dbManager.ExecuteCommand(this);
@@ -20,7 +25,7 @@ namespace SQL_Quest.Database.Commands
             return true;
         }
 
-        public override void Undo()
+        public new void Undo()
         {
             Destroy(_gameObject);
         }

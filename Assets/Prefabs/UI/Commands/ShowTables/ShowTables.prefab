@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 3441244984656893885}
   - component: {fileID: 3441244984656893880}
   - component: {fileID: 3441244984656893883}
-  - component: {fileID: 4211425673229657874}
   - component: {fileID: 6222793183917385204}
   - component: {fileID: 40106862874354076}
   - component: {fileID: 4439692928543040461}
+  - component: {fileID: 3051521193182494342}
   m_Layer: 5
   m_Name: ShowTables
   m_TagString: Untagged
@@ -81,18 +81,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4211425673229657874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3441244984656893884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 284dae482622d7848957ef323886b685, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6222793183917385204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +141,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &3051521193182494342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3441244984656893884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3261a5a34b031ca4baa4b286c984a22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5525644213209615072
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -234,7 +234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7366500841954209259, guid: 83407356b29c3fe4cb329cf85fa11722, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 92.935
+      value: 94.38
       objectReference: {fileID: 0}
     - target: {fileID: 7366500841954209259, guid: 83407356b29c3fe4cb329cf85fa11722, type: 3}
       propertyPath: m_AnchoredPosition.y

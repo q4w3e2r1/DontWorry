@@ -42,8 +42,11 @@ namespace SQL_Quest.Database
             return dbCommand.ExecuteReader();
         }
 
-        public void CreateTable(string name, Dictionary<string, string> colums)
-            => Tables[name] = new Table(name, colums);
+        public void CreateTable(string name, Dictionary<string, string> colums, string command)
+        {
+            Tables[name] = new Table(name, colums);
+            ExecuteQueryWithoutAnswer(command);
+        }
 
         public void DropTable(string name)
             => Tables.Remove(name);

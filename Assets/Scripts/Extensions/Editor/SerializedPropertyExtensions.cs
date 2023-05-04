@@ -15,7 +15,7 @@ namespace SQL_Quest.Extentions
                 return false;
 
             var enumName = names[property.enumValueIndex];
-            retValue = (TEnumType) Enum.Parse(typeof(TEnumType), enumName);
+            retValue = (TEnumType)Enum.Parse(typeof(TEnumType), enumName);
             return true;
         }
     }

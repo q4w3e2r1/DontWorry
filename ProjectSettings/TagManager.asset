@@ -9,6 +9,11 @@ TagManager:
   - Line
   - Interactable
   - Giyu
+  - Messages
+  - Chat
+  - SimpleDialog
+  - PersonalizedDialog
+  - Fade
   layers:
   - Default
   - TransparentFX

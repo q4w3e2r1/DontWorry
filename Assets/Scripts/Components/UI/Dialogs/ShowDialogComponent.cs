@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace SQL_Quest.Components.UI.Dialogs
@@ -13,11 +12,30 @@ namespace SQL_Quest.Components.UI.Dialogs
         private DialogBoxController _dialogBox;
 
         public void Show()
-        { 
-            if(_dialogBox == null)
-                _dialogBox = FindObjectOfType<DialogBoxController>();
-
+        {
+            _dialogBox = FindDialogController();
             _dialogBox.ShowDialog(Data);
+        }
+
+        private DialogBoxController FindDialogController()
+        {
+            if (_dialogBox != null)
+                return _dialogBox;
+
+            GameObject controllerGO;
+            switch (Data.Type)
+            {
+                case DialogType.Simple:
+                    controllerGO = GameObject.FindWithTag("SimpleDialog");
+                    break;
+                case DialogType.Personalized:
+                    controllerGO = GameObject.FindWithTag("PersonalizedDialog");
+                    break;
+                default:
+                    throw new ArgumentException("Undefined dialog type");
+            }
+
+            return controllerGO.GetComponent<DialogBoxController>();
         }
 
         public DialogData Data
@@ -37,7 +55,7 @@ namespace SQL_Quest.Components.UI.Dialogs
         }
 
         public enum Mode
-        { 
+        {
             Bound,
             External
         }

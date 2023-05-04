@@ -1,31 +1,36 @@
-using SQL_Quest.Extentions;
-using TMPro;
-using UnityEngine;
-
 namespace SQL_Quest.Database.Commands
 {
     public class UseDatabaseCommand : DatabaseCommand
     {
-        [SerializeField] private TMP_Dropdown _name;
+        private string _name;
         private Database _databaseBackup;
 
-        private void Start()
+        public UseDatabaseCommand(string name, bool returnMessage = true) : base(returnMessage)
         {
-            _name.SetOptions(_dbManager.ExistingDatabases);
-            _name.onValueChanged.AddListener(value => _dbManager.ExecuteCommand(this));
+            _name = name;
         }
 
         public override bool Execute()
         {
-            var name = _name.captionText.text;
-            if (name == "...")
+            Initialize();
+            _dbManager.ConnectedDatabase?.Disconnect();
+
+            if (_name == "")
+            {
+                _dbManager.ConnectedDatabase = null;
+            }
+            else
+            {
+                _dbManager.ConnectedDatabase = _dbManager.ExistingDatabases[_name];
+                _dbManager.ConnectedDatabase.Connect();
+            }
+
+            if (!_returnMessage)
                 return false;
 
             SaveBackup();
-
-            _dbManager.UseDatabase(name);
+            _chat.CheckMessage($"USE {_name}");
             Write("Database changed");
-
             return true;
         }
 
@@ -35,15 +40,13 @@ namespace SQL_Quest.Database.Commands
             base.SaveBackup();
         }
 
-        public override void Undo()
+        public new void Undo()
         {
             if (_databaseBackup != null)
-                _dbManager.UseDatabase(_databaseBackup.Name);
+                new UseDatabaseCommand(_databaseBackup.Name, false);
             else
-                _dbManager.UseDatabase("");
-
-            _output.text = _backup;
-            Destroy(gameObject);
+                new UseDatabaseCommand("", false);
+            base.Undo();
         }
     }
 }

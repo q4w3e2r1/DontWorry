@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 3349578372208412791}
   - component: {fileID: 168239132439038489}
   - component: {fileID: 3482918917785691584}
+  - component: {fileID: 1780264655}
+  - component: {fileID: 1780264656}
   m_Layer: 0
   m_Name: MrNormatt
-  m_TagString: Giyu
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,6 +148,51 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1780264655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2509373006347289400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1e3334345195d4e873902feb8d6e29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mode: 1
+  _bound:
+    _sentences: []
+    _type: 1
+  _external: {fileID: 11400000, guid: fef051c4daf32b84392fd7842fc65b44, type: 2}
+--- !u!114 &1780264656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2509373006347289400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae2305dce47487db8b7c84b2757bd6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1780264655}
+        m_TargetAssemblyTypeName: SQL_Quest.Components.UI.Dialogs.ShowDialogComponent,
+          Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4847040495865149013
 GameObject:
   m_ObjectHideFlags: 0

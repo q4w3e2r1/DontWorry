@@ -1,10 +1,9 @@
-using UnityEditor;
-using UnityEngine;
 using SQL_Quest.Extentions;
+using UnityEditor;
 
 namespace SQL_Quest.Components.UI.Dialogs.Editor
 {
-    [CustomEditor(typeof(ShowDialogComponent))]
+    //[CustomEditor(typeof(ShowDialogComponent))]
     public class ShowDialogComponentEditor : UnityEditor.Editor
     {
         private SerializedProperty _modeProperty;
@@ -19,8 +18,8 @@ namespace SQL_Quest.Components.UI.Dialogs.Editor
             EditorGUILayout.PropertyField(_modeProperty);
 
             if (_modeProperty.GetEnum<ShowDialogComponent.Mode>(out ShowDialogComponent.Mode mode))
-            { 
-                switch (mode) 
+            {
+                switch (mode)
                 {
                     case ShowDialogComponent.Mode.Bound:
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("_bound"));

@@ -344,7 +344,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02ef1e1bccf2c044ba153cd3b7d9efe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneName: Level1
+  _sceneToLoad: 
+  _position: {x: 0, y: 0, z: 0}
+  _invertScale: 0
+  _interactOnStart: 0
+  _playerData: {fileID: 0}
 --- !u!1 &9147986988712606662
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,7 +759,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02ef1e1bccf2c044ba153cd3b7d9efe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneName: MainMenu
+  _sceneToLoad: 
+  _position: {x: 0, y: 0, z: 0}
+  _invertScale: 0
+  _interactOnStart: 0
+  _playerData: {fileID: 0}
 --- !u!1001 &9147986987821068064
 PrefabInstance:
   m_ObjectHideFlags: 0

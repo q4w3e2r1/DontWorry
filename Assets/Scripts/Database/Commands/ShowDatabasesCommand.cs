@@ -1,31 +1,23 @@
+using System.Linq;
 
 namespace SQL_Quest.Database.Commands
 {
     public class ShowDatabasesCommand : DatabaseCommand
     {
-        public ShowDatabasesCommand(ShowDatabasesCommand command) { }
-
-        public ShowDatabasesCommand Copy(ShowDatabasesCommand command)
-            => new ShowDatabasesCommand(command);
-
-        private void Start()
+        public ShowDatabasesCommand(bool returnMessage = true) : base(returnMessage)
         {
-            _dbManager.ExecuteCommand(this);
         }
 
         public override bool Execute()
         {
+            Initialize();
+            if (!_returnMessage)
+                return false;
+
             SaveBackup();
-
-            Write(_dbManager.ShowDatabases());
-
+            Write(Table.Write("Databases", _dbManager.ExistingDatabases.Keys.ToArray()));
+            _chat.CheckMessage("SHOW DATABASES");
             return true;
-        }
-
-        public override void Undo()
-        {
-            _output.text = _backup;
-            Destroy(gameObject);
         }
     }
 }

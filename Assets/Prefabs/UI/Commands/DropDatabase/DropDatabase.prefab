@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3441244984656893883}
   - component: {fileID: 8948441460113275779}
   - component: {fileID: 6747154967160758965}
-  - component: {fileID: 3396830381908544612}
+  - component: {fileID: 6676689635899115867}
   m_Layer: 5
   m_Name: DropDatabase
   m_TagString: Untagged
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &3396830381908544612
+--- !u!114 &6676689635899115867
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3441244984656893884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27966aecb5df0ae428410660e298bc98, type: 3}
+  m_Script: {fileID: 11500000, guid: 90d3b290239d3d348b7d2f375d67f185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _name: {fileID: 6191417737501307060}
@@ -216,7 +216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7366500841954209259, guid: 83407356b29c3fe4cb329cf85fa11722, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 103.98
+      value: 101.41
       objectReference: {fileID: 0}
     - target: {fileID: 7366500841954209259, guid: 83407356b29c3fe4cb329cf85fa11722, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -322,7 +322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7366500841954209259, guid: 83407356b29c3fe4cb329cf85fa11722, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 260.50003
+      value: 259.855
       objectReference: {fileID: 0}
     - target: {fileID: 7366500841954209259, guid: 83407356b29c3fe4cb329cf85fa11722, type: 3}
       propertyPath: m_AnchoredPosition.y

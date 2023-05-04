@@ -1,54 +1,51 @@
-using SQL_Quest.Extentions;
 using System.Linq;
-using TMPro;
-using UnityEngine;
 
 namespace SQL_Quest.Database.Commands
 {
     public class DropTableCommand : DatabaseCommand
     {
-        [SerializeField] private TMP_Dropdown _name;
-
+        private string _name;
         private Table _table;
 
-        private void Start()
+        public DropTableCommand(string name, bool returnMessage = true) : base(returnMessage)
         {
-            _name.SetOptions(_dbManager.GetTables());
-            _name.onValueChanged.AddListener(value => _dbManager.ExecuteCommand(this));
+            _name = name;
         }
 
         public override bool Execute()
         {
+            Initialize();
             if (_dbManager.ConnectedDatabase == null)
             {
-                Write("ERROR 1046 (3D000): No database selected");
+                if (_returnMessage)
+                    Write("ERROR 1046 (3D000): No database selected");
                 return true;
             }
 
-            var name = _name.captionText.text;
-            if (name == "...")
-                return false;
-
             SaveBackup();
 
-            _dbManager.DropTable(name);
-            Write("Query OK, 0 row affected");
+            var command = $"DROP TABLE {_name}";
+            _dbManager.ConnectedDatabase.ExecuteQueryWithoutAnswer(command);
+            _dbManager.ConnectedDatabase.DropTable(_name);
 
+            if (!_returnMessage)
+                return false;
+
+            _chat.CheckMessage(command);
+            Write("Query OK, 0 row affected");
             return true;
         }
 
         private new void SaveBackup()
         {
-            _table = _dbManager.ConnectedDatabase.Tables[_name.captionText.text];
+            _table = _dbManager.ConnectedDatabase.Tables[_name];
             base.SaveBackup();
         }
 
-        public override void Undo()
+        public new void Undo()
         {
-            _dbManager.CreateTable(_table.Name, _table.Columns, _table.ColumsDictionary.Values.ToArray());
-
-            _output.text = _backup;
-            Destroy(gameObject);
+            new CreateTableCommand(_table.Name, _table.Columns, _table.ColumsDictionary.Values.ToArray(), false);
+            base.Undo();
         }
     }
 }
