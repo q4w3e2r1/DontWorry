@@ -593,7 +593,7 @@ MonoBehaviour:
       - m_Target: {fileID: 6315102963267861050}
         m_TargetAssemblyTypeName: SQL_Quest.Components.UI.Dialogs.DialogBoxController,
           Assembly-CSharp
-        m_MethodName: OnSkip
+        m_MethodName: OnContinue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -786,7 +786,7 @@ MonoBehaviour:
       - m_Target: {fileID: 6315102963267861050}
         m_TargetAssemblyTypeName: SQL_Quest.Components.UI.Dialogs.DialogBoxController,
           Assembly-CSharp
-        m_MethodName: OnSkip
+        m_MethodName: OnContinue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1744,7 +1744,7 @@ MonoBehaviour:
       - m_Target: {fileID: 643068824554703097}
         m_TargetAssemblyTypeName: SQL_Quest.Components.UI.Dialogs.DialogBoxController,
           Assembly-CSharp
-        m_MethodName: OnSkip
+        m_MethodName: OnContinue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1937,7 +1937,7 @@ MonoBehaviour:
       - m_Target: {fileID: 643068824554703097}
         m_TargetAssemblyTypeName: SQL_Quest.Components.UI.Dialogs.DialogBoxController,
           Assembly-CSharp
-        m_MethodName: OnSkip
+        m_MethodName: OnContinue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2265,7 +2265,7 @@ MonoBehaviour:
       - m_Target: {fileID: 643068824554703097}
         m_TargetAssemblyTypeName: SQL_Quest.Components.UI.Dialogs.DialogBoxController,
           Assembly-CSharp
-        m_MethodName: OnSkip
+        m_MethodName: OnContinue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2458,7 +2458,7 @@ MonoBehaviour:
       - m_Target: {fileID: 643068824554703097}
         m_TargetAssemblyTypeName: SQL_Quest.Components.UI.Dialogs.DialogBoxController,
           Assembly-CSharp
-        m_MethodName: OnSkip
+        m_MethodName: OnContinue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
