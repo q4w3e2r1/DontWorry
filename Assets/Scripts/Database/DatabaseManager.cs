@@ -47,7 +47,7 @@ namespace SQL_Quest.Database
         private void GetExistingDatabases()
         {
             var databaseExtension = ".sqlite";
-            var path = $"{Application.dataPath}/Databases/{DatabasesFolder}";
+            var path = $"{Application.dataPath}/StreamingAssets/Databases/{DatabasesFolder}";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -86,6 +86,8 @@ namespace SQL_Quest.Database
 
         public void ShowDatabases()
         {
+            Debug.Log("AllowedDatabases: " + string.Join(" ", AllowedDatabases.Keys.ToArray()));
+            Debug.Log("ExistingDatabases: " + string.Join(" ", ExistingDatabases.Keys.ToArray()));
             var command = new ShowDatabasesCommand();
             ExecuteCommand(command);
         }

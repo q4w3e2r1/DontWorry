@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c9c0ad5bf6438094bba08ca6353c302a
+guid: b6a01c94d6bc7df43a9c33fbb44baa2d
 timeCreated: 1481767201
 licenseType: Store
 PluginImporter:
@@ -53,9 +53,12 @@ PluginImporter:
       settings:
         CPU: AnyCPU
     Win64:
-      enabled: 0
+      enabled: 1
       settings:
-        CPU: None
+        CPU: AnyCPU
+    Xbox360:
+      enabled: 1
+      settings: {}
     iOS:
       enabled: 0
       settings:
