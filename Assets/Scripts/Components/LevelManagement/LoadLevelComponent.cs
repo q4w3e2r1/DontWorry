@@ -1,4 +1,5 @@
-﻿using SQL_Quest.Components.UI;
+﻿using Assets.Scripts.Components.LevelManagement;
+using SQL_Quest.Components.UI;
 using SQL_Quest.Creatures.Player;
 using System.Collections;
 using UnityEngine;
@@ -14,38 +15,28 @@ namespace SQL_Quest.Components.LevelManagement
         [SerializeField] private bool _interactOnStart;
         [SerializeField] private PlayerData _playerData;
 
-        private bool _isLoading;
-
         public void Load()
         {
-            if (_isLoading)
-                return;
-
             _playerData.Position = _position;
             _playerData.InvertScale = _invertScale;
             _playerData.InteractOnStart = _interactOnStart;
+
             StartCoroutine(LoadSceneRoutine());
         }
 
         private IEnumerator LoadSceneRoutine()
         {
-            _isLoading = true;
-
             var waitFading = true;
             Fader.Instance.FadeIn(() => waitFading = false);
 
-            while (waitFading)
-                yield return null;
+            yield return new WaitUntil(() => waitFading == false);
 
             SceneManager.LoadScene(_sceneToLoad);
 
             waitFading = true;
             Fader.Instance.FadeOut(() => waitFading = false);
 
-            while (waitFading)
-                yield return null;
-
-            _isLoading = false;
+            yield return new WaitUntil(() => waitFading == false);
         }
     }
 }

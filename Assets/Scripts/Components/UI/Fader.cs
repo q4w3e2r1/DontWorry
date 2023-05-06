@@ -13,6 +13,8 @@ namespace SQL_Quest.Components.UI
         private Action _fadeInCallback;
         private Action _fadeOutCallback;
 
+        private static readonly int Fade = Animator.StringToHash("Fade");
+
         public static Fader Instance
         {
             get
@@ -21,7 +23,7 @@ namespace SQL_Quest.Components.UI
                 { 
                     var prefab = Resources.Load<Fader>(FADER_PATH);
                     _instance = Instantiate(prefab);
-                    //DontDestroyOnLoad(_instance.gameObject);
+                    DontDestroyOnLoad(_instance.gameObject);
                 }
                 return _instance;
             }
@@ -36,17 +38,17 @@ namespace SQL_Quest.Components.UI
 
             IsFading = true;
             _fadeInCallback = fadeInCallback;
-            _animator.SetBool("faded", true);
+            _animator.SetBool(Fade, true);
         }
 
         public void FadeOut(Action fadedOutCallBack)
         {
-            if (!IsFading)
+            if (IsFading)
                 return;
 
             IsFading = true;
             _fadeInCallback = fadedOutCallBack;
-            _animator.SetBool("faded", false); 
+            _animator.SetBool(Fade, false); 
         }
 
         private void FadeInAnimationOver()

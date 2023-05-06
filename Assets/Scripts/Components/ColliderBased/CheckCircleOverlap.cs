@@ -7,7 +7,7 @@ namespace SQL_Quest.Components.ColliderBased
 {
     public class CheckCircleOverlap : MonoBehaviour
     {
-        [SerializeField] private float _radius = 1f;
+        [SerializeField] private CircleCollider2D _circle;
         [SerializeField] private LayerMask _mask;
         [SerializeField] private string[] _tags;
         [SerializeField] private OnOverlapEvent _onOverlap;
@@ -17,10 +17,11 @@ namespace SQL_Quest.Components.ColliderBased
         public void Check()
         {
             var size = Physics2D.OverlapCircleNonAlloc(
-                transform.position,
-                _radius,
+                _circle.transform.position,
+                _circle.radius,
                 _interactionResult,
                 _mask);
+
 
             for (var i = 0; i < size; i++)
             {
