@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 namespace SQL_Quest.Database.Commands
 {
@@ -8,20 +9,20 @@ namespace SQL_Quest.Database.Commands
         private string[] _columnNames;
         private string[] _columnTypes;
 
-        public CreateTableCommand(
-            string name, 
-            string[] columnNames, 
-            string[] columnTypes, 
-            bool returnMessage = true) : base(returnMessage)
+        public void Constructor(
+            string name,
+            string[] columnNames,
+            string[] columnTypes,
+            bool returnMessage = true)
         {
             _name = name;
             _columnNames = columnNames;
             _columnTypes = columnTypes;
+            Constructor(CommandType.Simple, returnMessage);
         }
 
         public override bool Execute()
         {
-            Initialize();
             if (_dbManager.ConnectedDatabase == null)
             {
                 Write("ERROR 1046 (3D000): No database selected");
@@ -29,7 +30,12 @@ namespace SQL_Quest.Database.Commands
             }
 
             if (_dbManager.ConnectedDatabase.Tables.ContainsKey(_name))
-                new DropTableCommand(_name, false).Execute();
+            {
+                var undoCommand = gameObject.AddComponent<DropTableCommand>();
+                undoCommand.Constructor(_name, false);
+                undoCommand.Execute();
+            }
+                
 
             var columns = new Dictionary<string, string>();
             var columnsText = new string[_columnNames.Length];
@@ -53,7 +59,9 @@ namespace SQL_Quest.Database.Commands
 
         public override void Undo()
         {
-            new DropDatabaseCommand(_name, false).Execute();
+            var undoCommand = gameObject.AddComponent<DropDatabaseCommand>();
+            undoCommand.Constructor(name, false);
+            undoCommand.Execute();
             base.Undo();
         }
     }

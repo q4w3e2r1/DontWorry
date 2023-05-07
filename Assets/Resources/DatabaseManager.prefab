@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6403768865990452050}
   - component: {fileID: 6403768865990452053}
+  - component: {fileID: 1656112368}
+  - component: {fileID: 1656112369}
+  - component: {fileID: 357943902571507792}
   m_Layer: 0
   m_Name: DatabaseManager
   m_TagString: DatabaseManager
@@ -44,13 +47,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9accc4c56d42e429029401eef036df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _databasesFolder: Level1
-  _output: {fileID: 9079497223163440097, guid: 49f3a82a930d48745b9217d93f7f8631, type: 3}
+  DatabasesFolder: Level1
+  _databasesName:
+  - work-2022
+  - work-2023
+  _tables:
+  - {fileID: 1656112369}
+  - {fileID: 1656112368}
   AllowedColumnTypes:
-  - INT
+  - INTEGER
+  - TEXT
   - DECIMAL
   - FLOAT
-  - VARCHAR(255)
-  - TEXT
   - DATE
   - TIME
+  AllowedColumnAttributes:
+  - PRIMARY KEY
+  - AUTOINCREMENT
+  - NOT NULL
+--- !u!114 &1656112368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6403768865990452052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde4ea6bb34d5ad40bd45add37b50130, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: employee
+  DatabaseName: work-2023
+  _columnsName:
+  - id
+  - name
+  _columnsType:
+  - INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL
+  - TEXT NOT NULL
+--- !u!114 &1656112369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6403768865990452052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde4ea6bb34d5ad40bd45add37b50130, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: employee
+  DatabaseName: work-2022
+  _columnsName:
+  - id
+  - name
+  _columnsType:
+  - INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL
+  - TEXT NOT NULL
+--- !u!114 &357943902571507792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6403768865990452052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3611c26aadccdc7448f53fd24bc4d49b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

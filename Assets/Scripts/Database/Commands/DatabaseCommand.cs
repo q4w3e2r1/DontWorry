@@ -14,14 +14,12 @@ namespace SQL_Quest.Database.Commands
         protected virtual int _chatBackup { get; set; }
         protected virtual string _outputBackup { get; set; }
         protected virtual bool _returnMessage { get; set; }
+        public virtual CommandType Type { get; set; }
 
-        public DatabaseCommand(bool returnMessage = true)
+        public void Constructor(CommandType type = CommandType.Simple, bool returnMessage = true)
         {
+            Type = type;
             _returnMessage = returnMessage;
-        }
-
-        protected void Initialize()
-        {
             _dbManager = GameObject.FindWithTag("DatabaseManager").GetComponent<DatabaseManager>();
             _output = GameObject.FindWithTag("Output").GetComponent<TextMeshProUGUI>();
             _chat = GameObject.FindWithTag("Chat").GetComponent<Chat>();
@@ -30,7 +28,7 @@ namespace SQL_Quest.Database.Commands
         protected virtual void SaveBackup()
         {
             _outputBackup = _output.text;
-            _chatBackup = _chat.GetComponentsInChildren<HorizontalLayoutGroup>().Length;
+            _chatBackup = _chat.SentMessagesCount;
         }
 
         public void Write(string message)
@@ -45,16 +43,16 @@ namespace SQL_Quest.Database.Commands
                 Destroy(gameObject);
 
             _output.text = _outputBackup;
-            var messages = _chat.GetComponentsInChildren<HorizontalLayoutGroup>();
-            while (messages.Length > _chatBackup)
-                Destroy(messages[^1]);
+            while (_chat.SentMessagesCount > _chatBackup)
+                _chat.DestroyLastMessage();
         }
 
         public abstract bool Execute();
+    }
 
-        public override string ToString()
-        {
-            return "Database Command";
-        }
+    public enum CommandType
+    { 
+        Simple,
+        Complex
     }
 }

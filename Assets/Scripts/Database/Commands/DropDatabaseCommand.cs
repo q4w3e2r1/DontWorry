@@ -4,14 +4,14 @@ namespace SQL_Quest.Database.Commands
     {
         private string _name;
 
-        public DropDatabaseCommand(string name, bool returnMessage = true) : base(returnMessage)
+        public void Constructor(string name, bool returnMessage = true)
         {
             _name = name;
+            Constructor(CommandType.Simple, returnMessage);
         }
 
         public override bool Execute()
         {
-            Initialize();
             if (_dbManager.ConnectedDatabase?.Name == _name)
             {
                 _dbManager.ExistingDatabases[_name].Disconnect();
@@ -30,7 +30,9 @@ namespace SQL_Quest.Database.Commands
 
         public override void Undo()
         {
-            new CreateDatabaseCommand(_name, false).Execute();
+            var undoCommand = gameObject.AddComponent<CreateDatabaseCommand>();
+            undoCommand.Constructor(_name, false);
+            undoCommand.Execute();
             base.Undo();
         }
     }

@@ -1,4 +1,5 @@
 using SQL_Quest.Extentions;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -8,9 +9,9 @@ namespace SQL_Quest.Components.UI.Chat
 {
     public class Chat : MonoBehaviour
     {
-        [SerializeField] private UnityEngine.UI.Button _helpButton;
-        [SerializeField] private UnityEngine.UI.Button _completeButton;
-        [SerializeField] private UnityEngine.UI.Button _restartButton;
+        [SerializeField] private Button _helpButton;
+        [SerializeField] private Button _completeButton;
+        [SerializeField] private Button _restartButton;
         [Space]
         [SerializeField] private GameObject _messagePrefab;
         [Space]
@@ -18,10 +19,13 @@ namespace SQL_Quest.Components.UI.Chat
         [SerializeField] private Message[] _helpMessages;
         [SerializeField] private Message[] _errorMessage;
 
+        private Stack<GameObject> _sentMessages = new();
+
+        [HideInInspector] public int SentMessagesCount => _sentMessages.Count;
 
         private void Start()
         {
-            Send(_messages[0]);
+            SendMessage(_messages[0]);
         }
 
         public void CheckMessage(string message)
@@ -31,21 +35,21 @@ namespace SQL_Quest.Components.UI.Chat
             var errorMessage = _errorMessage.Where(msg => msg.ConditionsForSending == message).FirstOrDefault();
             if (errorMessage != null)
             {
-                Send(errorMessage);
+                SendMessage(errorMessage);
                 return;
             }
             if (firstMessage.ConditionsForSending != message)
                 return;
 
-            Send(firstMessage);
+            SendMessage(firstMessage);
         }
 
         public void SendHelpMessage()
         {
-            Send(_helpMessages[0]);
+            SendMessage(_helpMessages[0]);
         }
 
-        private void Send(Message message)
+        private void SendMessage(Message message)
         {
             var messageGO = Instantiate(_messagePrefab);
             messageGO.GetComponentInChildren<TextMeshProUGUI>().text = message.Text;
@@ -56,6 +60,13 @@ namespace SQL_Quest.Components.UI.Chat
             message.IsSent = true;
 
             messageGO.GetComponentInParent<ScrollRect>().ScrollToBottom(messageGO);
+
+            _sentMessages.Push(messageGO);
+        }
+
+        public void DestroyLastMessage()
+        { 
+            Destroy(_sentMessages.Pop());
         }
 
         public void ChangeButtonToCompleteButton()

@@ -7,14 +7,14 @@ namespace SQL_Quest.Database.Commands
         private string _name;
         private Table _table;
 
-        public DropTableCommand(string name, bool returnMessage = true) : base(returnMessage)
+        public void Constructor(string name, bool returnMessage = true)
         {
             _name = name;
+            Constructor(CommandType.Simple, returnMessage);
         }
 
         public override bool Execute()
         {
-            Initialize();
             if (_dbManager.ConnectedDatabase == null)
             {
                 if (_returnMessage)
@@ -44,7 +44,9 @@ namespace SQL_Quest.Database.Commands
 
         public override void Undo()
         {
-            new CreateTableCommand(_table.Name, _table.Columns, _table.ColumsDictionary.Values.ToArray(), false);
+            var undoCommand = gameObject.AddComponent<CreateTableCommand>();
+            undoCommand.Constructor(_table.Name, _table.Columns, _table.ColumsDictionary.Values.ToArray(), false);
+            undoCommand.Execute();
             base.Undo();
         }
     }

@@ -5,27 +5,23 @@ namespace SQL_Quest.Database.Commands
 {
     public class SpawnCommand : DatabaseCommand
     {
-        [SerializeField] private SpawnComponentInTarget _spawner;
+        private SpawnComponentInTarget _spawner;
 
         private GameObject _gameObject;
 
-        private void Start()
+        public void Constructor(SpawnComponentInTarget spawner)
         {
-            _dbManager = GameObject.FindWithTag("DatabaseManager").GetComponent<DatabaseManager>();
-        }
-
-        public void OnClick()
-        {
-            _dbManager.ExecuteCommand(this);
+            Type = CommandType.Complex;
+            _spawner = spawner;
         }
 
         public override bool Execute()
         {
             _gameObject = _spawner.Spawn();
-            return false;
+            return true;
         }
 
-        public new void Undo()
+        public override void Undo()
         {
             Destroy(_gameObject);
         }

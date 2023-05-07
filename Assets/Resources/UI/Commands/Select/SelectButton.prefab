@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6526341209110384323}
   - component: {fileID: 6526341209110384322}
   - component: {fileID: 6526341209110384321}
-  - component: {fileID: 2428353020849364335}
   - component: {fileID: 1267670279190916368}
   - component: {fileID: 4770263888151817863}
   - component: {fileID: 7307916485638320396}
@@ -127,13 +126,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2428353020849364335}
-        m_TargetAssemblyTypeName: SQL_Quest.Database.Commands.SpawnCommand, Assembly-CSharp
-        m_MethodName: OnClick
-        m_Mode: 1
+      - m_Target: {fileID: 6403768865990452053, guid: 64ca04aa0d44d2d45962d62b53a198d4, type: 3}
+        m_TargetAssemblyTypeName: SQL_Quest.Database.DatabaseManager, Assembly-CSharp
+        m_MethodName: SpawnCommand
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 6526341209110384321}
+          m_ObjectArgumentAssemblyTypeName: SQL_Quest.GoBased.SpawnComponentInTarget,
+            Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -153,19 +153,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 1381987326173800090, guid: daaf373374f4f8240bbd9d20a7e9893e, type: 3}
   _prefab: {fileID: 3441244984656893884, guid: 7e451c4a53f34c441a5cebc7d4b1a58e, type: 3}
---- !u!114 &2428353020849364335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6526341209110384324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3611c26aadccdc7448f53fd24bc4d49b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawner: {fileID: 6526341209110384321}
 --- !u!114 &1267670279190916368
 MonoBehaviour:
   m_ObjectHideFlags: 0

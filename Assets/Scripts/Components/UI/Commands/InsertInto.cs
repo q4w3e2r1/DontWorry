@@ -16,7 +16,7 @@ namespace SQL_Quest.Database.Commands
         private Line _columnsLine;
         private Line _valuesLine;
 
-        private new void Start()
+        protected new void Start()
         {
             base.Start();
             var firstLine = GetComponentsInChildren<Line>()[0];

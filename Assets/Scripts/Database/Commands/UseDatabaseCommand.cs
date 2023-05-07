@@ -5,14 +5,20 @@ namespace SQL_Quest.Database.Commands
         private string _name;
         private Database _databaseBackup;
 
-        public UseDatabaseCommand(string name, bool returnMessage = true) : base(returnMessage)
+        public void Constructor(string name, bool returnMessage = true)
         {
             _name = name;
+            Constructor(CommandType.Simple, returnMessage);
+        }
+
+        protected override void SaveBackup()
+        {
+            _databaseBackup = _dbManager.ConnectedDatabase;
+            base.SaveBackup();
         }
 
         public override bool Execute()
         {
-            Initialize();
             _dbManager.ConnectedDatabase?.Disconnect();
 
             if (_name == "")
@@ -34,24 +40,21 @@ namespace SQL_Quest.Database.Commands
             return true;
         }
 
-        protected override void SaveBackup()
-        {
-            _databaseBackup = _dbManager.ConnectedDatabase;
-            base.SaveBackup();
-        }
-
         public override void Undo()
         {
             if (_databaseBackup != null)
-                new UseDatabaseCommand(_databaseBackup.Name, false);
+            {
+                var undoCommand = gameObject.AddComponent<UseDatabaseCommand>();
+                undoCommand.Constructor(_databaseBackup.Name, false);
+                undoCommand.Execute();
+            }
             else
-                new UseDatabaseCommand("", false);
+            {
+                var undoCommand = gameObject.AddComponent<UseDatabaseCommand>();
+                undoCommand.Constructor("", false);
+                undoCommand.Execute();
+            }
             base.Undo();
-        }
-
-        public override string ToString()
-        {
-            return "Use Database Command";
         }
     }
 }

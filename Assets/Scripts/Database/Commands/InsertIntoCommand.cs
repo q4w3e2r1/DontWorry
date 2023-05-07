@@ -8,16 +8,16 @@ namespace SQL_Quest.Database.Commands
         private string[] _columns;
         private string[] _values;
 
-        public InsertIntoCommand(string tableName, string[] columns, string[] values, bool returnMessage = true) : base(returnMessage)
+        public void Constructor(string tableName, string[] columns, string[] values, bool returnMessage = true)
         {
             _tableName = tableName;
             _columns = columns;
             _values = values;
+            base.Constructor(CommandType.Simple, returnMessage);
         }
 
         public override bool Execute()
         {
-            Initialize();
             if (_dbManager.ConnectedDatabase == null)
             {
                 Write("ERROR 1046 (3D000): No database selected");

@@ -7,14 +7,14 @@ namespace SQL_Quest.Database.Commands
     {
         private string _name;
 
-        public CreateDatabaseCommand(string name, bool returnMessage = true) : base(returnMessage)
+        public void Constructor(string name, bool returnMessage = true)
         {
             _name = name;
+            Constructor(CommandType.Simple, returnMessage);
         }
 
         public override bool Execute()
         {
-            Initialize();
             var database = new Database(_name,
                             $"{Application.dataPath}/Databases/{_dbManager.DatabasesFolder}",
                             new Dictionary<string, Table>());
@@ -31,9 +31,11 @@ namespace SQL_Quest.Database.Commands
             return true;
         }
 
-        public new void Undo()
+        public override void Undo()
         {
-            new DropDatabaseCommand(_name, false).Execute();
+            var undoCommand = gameObject.AddComponent<DropDatabaseCommand>();
+            undoCommand.Constructor(_name, false);
+            undoCommand.Execute();
             base.Undo();
         }
     }

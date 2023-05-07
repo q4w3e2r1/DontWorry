@@ -7,15 +7,15 @@ namespace SQL_Quest.Database.Commands
         private string _tableName;
         private string _selectedValue;
 
-        public SelectCommand(string tableName, string selectedValue, bool returnMesaage = true) : base(returnMesaage)
+        public void Constructor(string tableName, string selectedValue, bool returnMessage = true)
         {
             _tableName = tableName;
             _selectedValue = selectedValue;
+            base.Constructor(CommandType.Simple, returnMessage);
         }
 
         public override bool Execute()
         {
-            Initialize();
             var command = $"SELECT {_selectedValue} FROM {_tableName}";
             var reader = _dbManager.ConnectedDatabase.ExecuteQueryWithReader(command);
 

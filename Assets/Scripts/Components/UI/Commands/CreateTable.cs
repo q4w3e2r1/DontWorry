@@ -11,7 +11,7 @@ namespace SQL_Quest.UI.Commands
     {
         private TMP_InputField _tableName;
 
-        private new void Start()
+        protected new void Start()
         {
             base.Start();
             var startLine = GetComponentsInChildren<Line>()[0].gameObject;

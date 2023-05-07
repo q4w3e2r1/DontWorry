@@ -5,7 +5,7 @@ namespace SQL_Quest.UI.Commands
 {
     public class UICommand : MonoBehaviour
     {
-        protected DatabaseManager _dbManager;
+        protected  DatabaseManager _dbManager { get; set; }
 
         protected void Start()
         {

@@ -10,7 +10,7 @@ namespace SQL_Quest.Database.Commands
     {
         [SerializeField] private TMP_Dropdown _name;
 
-        private new void Start()
+        protected new void Start()
         {
             base.Start();
             _name.SetOptions(_dbManager.ExistingDatabases.Keys.ToArray());

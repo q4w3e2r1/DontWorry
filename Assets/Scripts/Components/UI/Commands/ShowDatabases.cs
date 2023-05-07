@@ -5,7 +5,7 @@ namespace SQL_Quest.Database.Commands
 {
     public class ShowDatabases : UICommand
     {
-        private new void Start()
+        protected new void Start()
         {
             base.Start();
             _dbManager.ShowDatabases();

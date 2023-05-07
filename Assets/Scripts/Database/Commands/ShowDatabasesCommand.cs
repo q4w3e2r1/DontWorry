@@ -5,13 +5,13 @@ namespace SQL_Quest.Database.Commands
 {
     public class ShowDatabasesCommand : DatabaseCommand
     {
-        public ShowDatabasesCommand(bool returnMessage = true) : base(returnMessage)
+        protected override void SaveBackup()
         {
+            base.SaveBackup();
         }
 
         public override bool Execute()
         {
-            Initialize();
             if (!_returnMessage)
                 return false;
 
@@ -19,6 +19,11 @@ namespace SQL_Quest.Database.Commands
             Write(Table.Write("Databases", _dbManager.ExistingDatabases.Keys.ToArray()));
             _chat.CheckMessage("SHOW DATABASES");
             return true;
+        }
+
+        public override void Undo()
+        {
+            base.Undo();
         }
     }
 }

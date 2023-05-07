@@ -4,13 +4,8 @@ namespace SQL_Quest.Database.Commands
 {
     public class ShowTablesCommand : DatabaseCommand
     {
-        public ShowTablesCommand(bool returnMessage = true) : base(returnMessage)
-        {
-        }
-
         public override bool Execute()
         {
-            Initialize();
             if (!_returnMessage)
                 return false;
 

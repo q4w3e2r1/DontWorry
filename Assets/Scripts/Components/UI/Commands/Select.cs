@@ -12,7 +12,7 @@ namespace SQL_Quest.Database.Commands
         [SerializeField] private TMP_Dropdown _tableName;
         [SerializeField] private TMP_Dropdown _selectedValue;
 
-        private new void Start()
+        protected new void Start()
         {
             base.Start();
             var columns = _dbManager.ConnectedDatabase.Tables.Keys.ToArray();

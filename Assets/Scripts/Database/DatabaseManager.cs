@@ -1,4 +1,5 @@
 using SQL_Quest.Database.Commands;
+using SQL_Quest.GoBased;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -17,8 +18,8 @@ namespace SQL_Quest.Database
         [HideInInspector] public Dictionary<string, Dictionary<string, Table>> AllowedDatabases = new();
         [HideInInspector] public Dictionary<string, Database> ExistingDatabases = new();
 
-        private Queue<DatabaseCommand> _commandHistory = new();
-        private Queue<DatabaseCommand> _cancelledCommands = new();
+        private Stack<DatabaseCommand> _commandHistory = new();
+        private Stack<DatabaseCommand> _cancelledCommands = new();
 
         public string[] AllowedColumnTypes;
         public string[] AllowedColumnAttributes;
@@ -68,25 +69,29 @@ namespace SQL_Quest.Database
 
         public void CreateDatabase(string name)
         {
-            var command = new CreateDatabaseCommand(name);
+            var command = gameObject.AddComponent<CreateDatabaseCommand>();
+            command.Constructor(name);
             ExecuteCommand(command);
         }
 
         public void DropDatabase(string name)
         {
-            var command = new DropDatabaseCommand(name);
+            var command = gameObject.AddComponent<DropDatabaseCommand>();
+            command.Constructor(name);
             ExecuteCommand(command);
         }
 
         public void UseDatabase(string name)
         {
-            var command = new UseDatabaseCommand(name);
+            var command = gameObject.AddComponent<UseDatabaseCommand>();
+            command.Constructor(name);
             ExecuteCommand(command);
         }
 
         public void ShowDatabases()
         {
-            var command = new ShowDatabasesCommand();
+            var command = gameObject.AddComponent<ShowDatabasesCommand>();
+            command.Constructor();
             ExecuteCommand(command);
         }
 
@@ -96,25 +101,29 @@ namespace SQL_Quest.Database
 
         public void CreateTable(string name, string[] columnNames, string[] columnTypes)
         {
-            var command = new CreateTableCommand(name, columnNames, columnTypes);
+            var command = gameObject.AddComponent<CreateTableCommand>();
+            command.Constructor(name, columnNames, columnTypes);
             ExecuteCommand(command);
         }
 
         public void DropTable(string name)
         {
-            var command = new DropTableCommand(name);
+            var command = gameObject.AddComponent<DropTableCommand>();
+            command.Constructor(name);
             ExecuteCommand(command);
         }
 
         public void InsertInto(string tableName, string[] columns, string[] values)
         {
-            var command = new InsertIntoCommand(tableName, columns, values);
+            var command = gameObject.AddComponent<InsertIntoCommand>();
+            command.Constructor(tableName, columns, values);
             ExecuteCommand(command);
         }
 
         public void Select(string tableName, string selectedValue)
         {
-            var command = new SelectCommand(tableName, selectedValue);
+            var command = gameObject.AddComponent<SelectCommand>();
+            command.Constructor(tableName, selectedValue);
             ExecuteCommand(command);
         }
 
@@ -126,12 +135,26 @@ namespace SQL_Quest.Database
 
         public void ShowTables()
         {
-            var command = new ShowTablesCommand();
+            var command = gameObject.AddComponent<ShowTablesCommand>();
+            command.Constructor();
             ExecuteCommand(command);
         }
 
 
         #endregion
+
+        public void SpawnCommand(SpawnComponentInTarget spawner)
+        {
+            var command = gameObject.AddComponent<SpawnCommand>();
+            command.Constructor(spawner);
+            ExecuteCommand(command);
+        }
+
+        public void DiscardChanges()
+        {
+            while (_commandHistory.Count != 0)
+                Undo();
+        }
 
         #region CommandPattern
 
@@ -140,27 +163,27 @@ namespace SQL_Quest.Database
             _cancelledCommands.Clear();
 
             if (command.Execute())
-                _commandHistory.Enqueue(command);
-
-            Debug.Log(command.ToString() + command == null);
+                _commandHistory.Push(command);
+            Debug.Log($"Add {command} {_commandHistory.Count}");
         }
 
         public void Undo()
         {
-            _commandHistory.TryDequeue(out DatabaseCommand command);
-            Debug.Log(command.ToString() + command == null);
+            _commandHistory.TryPop(out DatabaseCommand command);
             if (command == null)
                 return;
-            _cancelledCommands.Enqueue(command);
+            _cancelledCommands.Push(command);
             command.Undo();
+            if (command.Type == Commands.CommandType.Simple)
+                Undo();
         }
 
         public void Redo()
         {
-            _cancelledCommands.TryDequeue(out DatabaseCommand command);
+            _cancelledCommands.TryPop(out DatabaseCommand command);
             if (command == null)
                 return;
-            _commandHistory.Enqueue(command);
+            _commandHistory.Push(command);
             command.Execute();
         }
 
