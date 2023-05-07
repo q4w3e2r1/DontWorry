@@ -36,13 +36,13 @@ namespace SQL_Quest.Database.Commands
             return true;
         }
 
-        private new void SaveBackup()
+        protected override void SaveBackup()
         {
             _table = _dbManager.ConnectedDatabase.Tables[_name];
             base.SaveBackup();
         }
 
-        public new void Undo()
+        public override void Undo()
         {
             new CreateTableCommand(_table.Name, _table.Columns, _table.ColumsDictionary.Values.ToArray(), false);
             base.Undo();

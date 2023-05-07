@@ -8,7 +8,11 @@ namespace SQL_Quest.Database.Commands
         private string[] _columnNames;
         private string[] _columnTypes;
 
-        public CreateTableCommand(string name, string[] columnNames, string[] columnTypes, bool returnMessage = true) : base(returnMessage)
+        public CreateTableCommand(
+            string name, 
+            string[] columnNames, 
+            string[] columnTypes, 
+            bool returnMessage = true) : base(returnMessage)
         {
             _name = name;
             _columnNames = columnNames;
@@ -47,7 +51,7 @@ namespace SQL_Quest.Database.Commands
             return true;
         }
 
-        public new void Undo()
+        public override void Undo()
         {
             new DropDatabaseCommand(_name, false).Execute();
             base.Undo();

@@ -28,7 +28,7 @@ namespace SQL_Quest.Database.Commands
             return true;
         }
 
-        public new void Undo()
+        public override void Undo()
         {
             new CreateDatabaseCommand(_name, false).Execute();
             base.Undo();

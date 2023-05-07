@@ -19,10 +19,9 @@ namespace SQL_Quest.Database
             Tables = tables;
         }
 
-        public string Connect()
+        public void Connect()
         {
             _connection.Open();
-            return "Database changed";
         }
 
         public void Disconnect()

@@ -17,8 +17,8 @@ namespace SQL_Quest.Database
         [HideInInspector] public Dictionary<string, Dictionary<string, Table>> AllowedDatabases = new();
         [HideInInspector] public Dictionary<string, Database> ExistingDatabases = new();
 
-        private Stack<DatabaseCommand> _commandHistory = new();
-        private Stack<DatabaseCommand> _cancelledCommands = new();
+        private Queue<DatabaseCommand> _commandHistory = new();
+        private Queue<DatabaseCommand> _cancelledCommands = new();
 
         public string[] AllowedColumnTypes;
         public string[] AllowedColumnAttributes;
@@ -86,8 +86,6 @@ namespace SQL_Quest.Database
 
         public void ShowDatabases()
         {
-            Debug.Log("AllowedDatabases: " + string.Join(" ", AllowedDatabases.Keys.ToArray()));
-            Debug.Log("ExistingDatabases: " + string.Join(" ", ExistingDatabases.Keys.ToArray()));
             var command = new ShowDatabasesCommand();
             ExecuteCommand(command);
         }
@@ -142,24 +140,27 @@ namespace SQL_Quest.Database
             _cancelledCommands.Clear();
 
             if (command.Execute())
-                _commandHistory.Push(command);
+                _commandHistory.Enqueue(command);
+
+            Debug.Log(command.ToString() + command == null);
         }
 
         public void Undo()
         {
-            _commandHistory.TryPop(out DatabaseCommand command);
+            _commandHistory.TryDequeue(out DatabaseCommand command);
+            Debug.Log(command.ToString() + command == null);
             if (command == null)
                 return;
-            _cancelledCommands.Push(command);
+            _cancelledCommands.Enqueue(command);
             command.Undo();
         }
 
         public void Redo()
         {
-            _cancelledCommands.TryPop(out DatabaseCommand command);
+            _cancelledCommands.TryDequeue(out DatabaseCommand command);
             if (command == null)
                 return;
-            _commandHistory.Push(command);
+            _commandHistory.Enqueue(command);
             command.Execute();
         }
 

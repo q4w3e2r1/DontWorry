@@ -34,19 +34,24 @@ namespace SQL_Quest.Database.Commands
             return true;
         }
 
-        private new void SaveBackup()
+        protected override void SaveBackup()
         {
             _databaseBackup = _dbManager.ConnectedDatabase;
             base.SaveBackup();
         }
 
-        public new void Undo()
+        public override void Undo()
         {
             if (_databaseBackup != null)
                 new UseDatabaseCommand(_databaseBackup.Name, false);
             else
                 new UseDatabaseCommand("", false);
             base.Undo();
+        }
+
+        public override string ToString()
+        {
+            return "Use Database Command";
         }
     }
 }

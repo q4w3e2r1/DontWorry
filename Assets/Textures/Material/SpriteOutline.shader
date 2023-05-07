@@ -10,12 +10,12 @@ Shader "Unlit/SpriteOutline"
 	{
 		Tags { "RenderType"="Transparent" "Queue" = "Transparent" }
 		LOD 100
-
-		Blend SrcAlpha OneMinusSrcAlpha
-		Cull Off
-
 		Pass
 		{
+			Cull Off
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag

@@ -22,7 +22,7 @@ namespace SQL_Quest.Database.Commands
         public override bool Execute()
         {
             _gameObject = _spawner.Spawn();
-            return true;
+            return false;
         }
 
         public new void Undo()

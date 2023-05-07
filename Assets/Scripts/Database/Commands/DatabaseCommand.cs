@@ -8,12 +8,12 @@ namespace SQL_Quest.Database.Commands
 {
     public abstract class DatabaseCommand : MonoBehaviour
     {
-        protected DatabaseManager _dbManager;
-        protected TextMeshProUGUI _output;
-        protected Chat _chat;
-        protected int _chatBackup;
-        protected string _outputBackup;
-        protected bool _returnMessage;
+        protected virtual DatabaseManager _dbManager { get; set; }
+        protected virtual TextMeshProUGUI _output { get; set; }
+        protected virtual Chat _chat { get; set; }
+        protected virtual int _chatBackup { get; set; }
+        protected virtual string _outputBackup { get; set; }
+        protected virtual bool _returnMessage { get; set; }
 
         public DatabaseCommand(bool returnMessage = true)
         {
@@ -27,7 +27,7 @@ namespace SQL_Quest.Database.Commands
             _chat = GameObject.FindWithTag("Chat").GetComponent<Chat>();
         }
 
-        protected void SaveBackup()
+        protected virtual void SaveBackup()
         {
             _outputBackup = _output.text;
             _chatBackup = _chat.GetComponentsInChildren<HorizontalLayoutGroup>().Length;
@@ -39,7 +39,7 @@ namespace SQL_Quest.Database.Commands
             _output.GetComponentInParent<ScrollRect>().ScrollToBottom();
         }
 
-        public void Undo()
+        public virtual void Undo()
         {
             if (!_returnMessage)
                 Destroy(gameObject);
@@ -51,5 +51,10 @@ namespace SQL_Quest.Database.Commands
         }
 
         public abstract bool Execute();
+
+        public override string ToString()
+        {
+            return "Database Command";
+        }
     }
 }
