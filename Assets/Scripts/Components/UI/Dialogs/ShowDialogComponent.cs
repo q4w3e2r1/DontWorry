@@ -1,10 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SQL_Quest.Components.UI.Dialogs
 {
     public class ShowDialogComponent : MonoBehaviour
     {
+        [SerializeField] private UnityEvent _onStart;
+        [SerializeField] private UnityEvent _onFinish;
+        [Space]
         [SerializeField] private Mode _mode;
         [SerializeField] private DialogData _bound;
         [SerializeField] private DialogDef _external;
@@ -27,7 +31,7 @@ namespace SQL_Quest.Components.UI.Dialogs
         public void Show()
         {
             _dialogBox = FindDialogController();
-            _dialogBox.ShowDialog(_data);
+            _dialogBox.ShowDialog(_data, _onStart, _onFinish);
         }
 
         private DialogBoxController FindDialogController()

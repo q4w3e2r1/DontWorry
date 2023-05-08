@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SQL_Quest.Components.UI.Dialogs
 {
@@ -18,10 +19,15 @@ namespace SQL_Quest.Components.UI.Dialogs
         private int _currentSentence;
         private Coroutine _typingRoutine;
 
+        private UnityEvent _onFinishDialog;
+
         protected Sentence CurrentSentence => _data.Sentences[_currentSentence];
 
-        public void ShowDialog(DialogData data)
+        public void ShowDialog(DialogData data, UnityEvent onStart, UnityEvent onFinish)
         {
+            onStart?.Invoke();
+            _onFinishDialog = onFinish;
+
             _data = data;
             _currentSentence = 0;
             CurrentContent.Name.text = CurrentSentence.Name;
@@ -94,9 +100,9 @@ namespace SQL_Quest.Components.UI.Dialogs
             _typingRoutine = StartCoroutine(TypeDialogText());
         }
 
-        private void OnCloseAnimationComplete()
+        protected virtual void OnCloseAnimationComplete()
         {
-
+            _onFinishDialog?.Invoke();
         }
     }
 }
