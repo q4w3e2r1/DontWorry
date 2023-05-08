@@ -158,7 +158,6 @@ namespace SQL_Quest.Database
 
             if (command.Execute())
                 _commandHistory.Push(command);
-            Debug.Log($"Add {command} {_commandHistory.Count}");
         }
 
         public void Undo()

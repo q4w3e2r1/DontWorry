@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SQL_Quest.Components.Interactables
 {
@@ -13,7 +8,7 @@ namespace SQL_Quest.Components.Interactables
         [SerializeField] private Material _newMaterial;
 
         public void Change()
-        { 
+        {
             _gameObject.GetComponent<SpriteRenderer>().material = _newMaterial;
         }
     }

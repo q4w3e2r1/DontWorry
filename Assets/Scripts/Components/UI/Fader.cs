@@ -20,7 +20,7 @@ namespace SQL_Quest.Components.UI
             get
             {
                 if (_instance == null)
-                { 
+                {
                     var prefab = Resources.Load<Fader>(FADER_PATH);
                     _instance = Instantiate(prefab);
                     DontDestroyOnLoad(_instance.gameObject);
@@ -48,7 +48,7 @@ namespace SQL_Quest.Components.UI
 
             IsFading = true;
             _fadeInCallback = fadedOutCallBack;
-            _animator.SetBool(Fade, false); 
+            _animator.SetBool(Fade, false);
         }
 
         private void FadeInAnimationOver()

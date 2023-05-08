@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 namespace SQL_Quest.Database.Commands
 {
@@ -35,7 +34,7 @@ namespace SQL_Quest.Database.Commands
                 undoCommand.Constructor(_name, false);
                 undoCommand.Execute();
             }
-                
+
 
             var columns = new Dictionary<string, string>();
             var columnsText = new string[_columnNames.Length];

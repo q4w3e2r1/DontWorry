@@ -12,9 +12,7 @@ GameObject:
   - component: {fileID: 6403768865990452053}
   - component: {fileID: 1656112368}
   - component: {fileID: 1656112369}
-  - component: {fileID: 357943902571507792}
-  - component: {fileID: 4597453160920711941}
-  - component: {fileID: -7487915017154045451}
+  - component: {fileID: 5429825229605888394}
   m_Layer: 0
   m_Name: DatabaseManager
   m_TagString: DatabaseManager
@@ -107,31 +105,7 @@ MonoBehaviour:
   _columnsType:
   - INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL
   - TEXT NOT NULL
---- !u!114 &357943902571507792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6403768865990452052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3611c26aadccdc7448f53fd24bc4d49b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4597453160920711941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6403768865990452052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3611c26aadccdc7448f53fd24bc4d49b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-7487915017154045451
+--- !u!114 &5429825229605888394
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

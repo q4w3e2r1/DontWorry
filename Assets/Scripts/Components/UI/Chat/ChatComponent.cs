@@ -79,7 +79,7 @@ namespace SQL_Quest.Components.UI.Chat
         }
 
         public void DestroyLastMessage()
-        { 
+        {
             Destroy(_sentMessages.Pop());
         }
 

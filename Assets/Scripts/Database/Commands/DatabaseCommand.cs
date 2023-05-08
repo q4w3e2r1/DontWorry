@@ -51,7 +51,7 @@ namespace SQL_Quest.Database.Commands
     }
 
     public enum CommandType
-    { 
+    {
         Simple,
         Complex
     }
