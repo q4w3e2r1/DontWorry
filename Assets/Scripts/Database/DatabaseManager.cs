@@ -150,12 +150,6 @@ namespace SQL_Quest.Database
             ExecuteCommand(command);
         }
 
-        public void DiscardChanges()
-        {
-            while (_commandHistory.Count != 0)
-                Undo();
-        }
-
         #region CommandPattern
 
         public void ExecuteCommand(DatabaseCommand command)
@@ -185,6 +179,12 @@ namespace SQL_Quest.Database
                 return;
             _commandHistory.Push(command);
             command.Execute();
+        }
+
+        public void DiscardChanges()
+        {
+            while (_commandHistory.Count != 0)
+                Undo();
         }
 
         #endregion

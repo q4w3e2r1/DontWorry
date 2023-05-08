@@ -3,33 +3,32 @@ using UnityEditor;
 
 namespace SQL_Quest.Components.UI.Dialogs.Editor
 {
-    //[CustomEditor(typeof(ShowDialogComponent))]
+    [CustomEditor(typeof(ShowDialogComponent))]
     public class ShowDialogComponentEditor : UnityEditor.Editor
     {
         private SerializedProperty _modeProperty;
 
         private void OnEnable()
         {
-            _modeProperty = serializedObject.FindProperty("mode");
+            _modeProperty = serializedObject.FindProperty("_mode");
         }
 
         public override void OnInspectorGUI()
         {
             EditorGUILayout.PropertyField(_modeProperty);
 
-            if (_modeProperty.GetEnum<ShowDialogComponent.Mode>(out ShowDialogComponent.Mode mode))
+            if (_modeProperty.GetEnum(out Mode mode))
             {
                 switch (mode)
                 {
-                    case ShowDialogComponent.Mode.Bound:
+                    case Mode.Bound:
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("_bound"));
                         break;
-                    case ShowDialogComponent.Mode.External:
+                    case Mode.External:
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("_external"));
                         break;
                 }
             }
-
             serializedObject.ApplyModifiedProperties();
         }
     }

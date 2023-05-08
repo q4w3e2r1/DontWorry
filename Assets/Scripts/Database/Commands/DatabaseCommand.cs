@@ -10,7 +10,7 @@ namespace SQL_Quest.Database.Commands
     {
         protected virtual DatabaseManager _dbManager { get; set; }
         protected virtual TextMeshProUGUI _output { get; set; }
-        protected virtual Chat _chat { get; set; }
+        protected virtual ChatComponent _chat { get; set; }
         protected virtual int _chatBackup { get; set; }
         protected virtual string _outputBackup { get; set; }
         protected virtual bool _returnMessage { get; set; }
@@ -22,7 +22,7 @@ namespace SQL_Quest.Database.Commands
             _returnMessage = returnMessage;
             _dbManager = GameObject.FindWithTag("DatabaseManager").GetComponent<DatabaseManager>();
             _output = GameObject.FindWithTag("Output").GetComponent<TextMeshProUGUI>();
-            _chat = GameObject.FindWithTag("Chat").GetComponent<Chat>();
+            _chat = GameObject.FindWithTag("Chat").GetComponent<ChatComponent>();
         }
 
         protected virtual void SaveBackup()

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Assets.Scripts.Components.LevelManagement
+namespace SQL_Quest.Components.LevelManagement
 {
     public class ReloadLevelComponent : MonoBehaviour
     {

@@ -1,4 +1,5 @@
 using SQL_Quest.Extentions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 
 namespace SQL_Quest.Components.UI.Chat
 {
-    public class Chat : MonoBehaviour
+    public class ChatComponent : MonoBehaviour
     {
         [SerializeField] private Button _helpButton;
         [SerializeField] private Button _completeButton;
@@ -15,30 +16,43 @@ namespace SQL_Quest.Components.UI.Chat
         [Space]
         [SerializeField] private GameObject _messagePrefab;
         [Space]
-        [SerializeField] private Message[] _messages;
-        [SerializeField] private Message[] _helpMessages;
-        [SerializeField] private Message[] _errorMessage;
+        [SerializeField] private Mode _mode;
+        [SerializeField] private ChatData _bound;
+        [SerializeField] private ChatDef _external;
 
         private Stack<GameObject> _sentMessages = new();
+
+        private ChatData _data
+        {
+            get
+            {
+                return _mode switch
+                {
+                    Mode.Bound => _bound,
+                    Mode.External => _external.Data,
+                    _ => throw new ArgumentOutOfRangeException(),
+                };
+            }
+        }
 
         [HideInInspector] public int SentMessagesCount => _sentMessages.Count;
 
         private void Start()
         {
-            SendMessage(_messages[0]);
+            SendMessage(_data.Messages[0]);
         }
 
         public void CheckMessage(string message)
         {
             Debug.Log(message);
-            var firstMessage = _messages.Where(msg => !msg.IsSent).First();
-            var errorMessage = _errorMessage.Where(msg => msg.ConditionsForSending == message).FirstOrDefault();
+            var firstMessage = _data.Messages.Where(msg => !msg.IsSent).First();
+            var errorMessage = _data.ErrorMessages.Where(msg => msg.AnswerTo == message).FirstOrDefault();
             if (errorMessage != null)
             {
                 SendMessage(errorMessage);
                 return;
             }
-            if (firstMessage.ConditionsForSending != message)
+            if (firstMessage.AnswerTo != message)
                 return;
 
             SendMessage(firstMessage);
@@ -46,10 +60,10 @@ namespace SQL_Quest.Components.UI.Chat
 
         public void SendHelpMessage()
         {
-            SendMessage(_helpMessages[0]);
+            SendMessage(_data.HelpMessages[0]);
         }
 
-        private void SendMessage(Message message)
+        private void SendMessage(MessageData message)
         {
             var messageGO = Instantiate(_messagePrefab);
             messageGO.GetComponentInChildren<TextMeshProUGUI>().text = message.Text;

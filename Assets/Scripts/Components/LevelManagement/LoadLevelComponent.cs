@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Components.LevelManagement;
-using SQL_Quest.Components.UI;
+﻿using SQL_Quest.Components.UI;
 using SQL_Quest.Creatures.Player;
 using System.Collections;
 using UnityEngine;
