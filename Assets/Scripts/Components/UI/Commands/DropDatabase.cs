@@ -21,7 +21,7 @@ namespace SQL_Quest.UI.Commands
             var name = _name.captionText.text;
             if (name == "...")
                 return;
-            _dbManager.DropDatabase(name);
+            _dbManager.DropDatabase(gameObject, name);
         }
     }
 }

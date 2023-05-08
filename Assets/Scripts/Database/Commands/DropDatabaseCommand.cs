@@ -3,16 +3,21 @@ namespace SQL_Quest.Database.Commands
     public class DropDatabaseCommand : DatabaseCommand
     {
         private string _name;
+        private bool _isDatabaseConnected;
 
         public void Constructor(string name, bool returnMessage = true)
         {
             _name = name;
             Constructor(CommandType.Simple, returnMessage);
+            _isDatabaseConnected = _dbManager.ConnectedDatabase?.Name == _name;
         }
 
         public override bool Execute()
         {
-            if (_dbManager.ConnectedDatabase?.Name == _name)
+            base.Execute();
+            SaveBackup();
+
+            if (_isDatabaseConnected)
             {
                 _dbManager.ExistingDatabases[_name].Disconnect();
                 _dbManager.ConnectedDatabase = null;
@@ -22,7 +27,6 @@ namespace SQL_Quest.Database.Commands
             if (!_returnMessage)
                 return false;
 
-            SaveBackup();
             _chat.CheckMessage($"DROP DATABASE {_name}");
             Write("Query OK, 0 row affected");
             return true;
@@ -33,6 +37,14 @@ namespace SQL_Quest.Database.Commands
             var undoCommand = gameObject.AddComponent<CreateDatabaseCommand>();
             undoCommand.Constructor(_name, false);
             undoCommand.Execute();
+            Destroy(undoCommand);
+            if (_isDatabaseConnected)
+            {
+                var useCommand = gameObject.AddComponent<UseDatabaseCommand>();
+                useCommand.Constructor(_name, false);
+                useCommand.Execute();
+                Destroy(useCommand);
+            }
             base.Undo();
         }
     }

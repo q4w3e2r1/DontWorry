@@ -22,7 +22,7 @@ namespace SQL_Quest.Database.Commands
             var name = _name.captionText.text;
             if (name == "...")
                 return;
-            _dbManager.UseDatabase(name);
+            _dbManager.UseDatabase(gameObject, name);
         }
     }
 }

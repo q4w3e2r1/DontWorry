@@ -22,6 +22,9 @@ namespace SQL_Quest.Database.Commands
 
         public override bool Execute()
         {
+            base.Execute();
+            SaveBackup();
+
             if (_dbManager.ConnectedDatabase == null)
             {
                 Write("ERROR 1046 (3D000): No database selected");
@@ -34,7 +37,6 @@ namespace SQL_Quest.Database.Commands
                 undoCommand.Constructor(_name, false);
                 undoCommand.Execute();
             }
-
 
             var columns = new Dictionary<string, string>();
             var columnsText = new string[_columnNames.Length];
@@ -50,7 +52,7 @@ namespace SQL_Quest.Database.Commands
             if (!_returnMessage)
                 return false;
 
-            SaveBackup();
+            
             _chat.CheckMessage(command);
             Write("Query OK, 0 row affected");
             return true;
@@ -61,6 +63,7 @@ namespace SQL_Quest.Database.Commands
             var undoCommand = gameObject.AddComponent<DropDatabaseCommand>();
             undoCommand.Constructor(name, false);
             undoCommand.Execute();
+            Destroy(undoCommand);
             base.Undo();
         }
     }

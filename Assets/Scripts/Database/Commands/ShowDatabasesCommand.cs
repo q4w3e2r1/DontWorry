@@ -4,17 +4,14 @@ namespace SQL_Quest.Database.Commands
 {
     public class ShowDatabasesCommand : DatabaseCommand
     {
-        protected override void SaveBackup()
-        {
-            base.SaveBackup();
-        }
-
         public override bool Execute()
         {
+            base.Execute();
+            SaveBackup();
+
             if (!_returnMessage)
                 return false;
-
-            SaveBackup();
+                        
             Write(Table.Write("Databases", _dbManager.ExistingDatabases.Keys.ToArray()));
             _chat.CheckMessage("SHOW DATABASES");
             return true;

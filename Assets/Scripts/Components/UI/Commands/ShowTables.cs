@@ -7,7 +7,7 @@ namespace SQL_Quest.Database.Commands
         protected new void Start()
         {
             base.Start();
-            _dbManager.ShowTables();
+            _dbManager.ShowTables(gameObject);
         }
     }
 }

@@ -15,8 +15,15 @@ namespace SQL_Quest.Database.Commands
         protected new void Start()
         {
             base.Start();
+            if (_dbManager.ConnectedDatabase == null)
+            {
+                _dbManager.Select(gameObject, "", "");
+                return;
+            }
+                
             var columns = _dbManager.ConnectedDatabase.Tables.Keys.ToArray();
             _tableName.SetOptions(columns);
+            _tableName.onValueChanged.AddListener(value => UpdateSelectedValue()); 
             _tableName.onValueChanged.AddListener(value => Execute());
 
             var selectedValueOptions = new string[] { "*" };
@@ -30,10 +37,12 @@ namespace SQL_Quest.Database.Commands
                 return;
 
             var columns = _dbManager.ConnectedDatabase.Tables[_tableName.captionText.text].ColumsDictionary.Keys.ToArray();
+            var selectedValue = _selectedValue.captionText.text;
             var selectedValueOptions = new List<string> { "*" };
             foreach (var column in columns)
                 selectedValueOptions.Add(column);
             _selectedValue.SetOptions(selectedValueOptions.ToArray());
+            _selectedValue.captionText.text = selectedValue;
         }
 
         public void Execute()
@@ -44,7 +53,7 @@ namespace SQL_Quest.Database.Commands
             if (tableName == "..." || selectedValue == "...")
                 return;
 
-            _dbManager.Select(tableName, selectedValue);
+            _dbManager.Select(gameObject, tableName, selectedValue);
         }
     }
 }

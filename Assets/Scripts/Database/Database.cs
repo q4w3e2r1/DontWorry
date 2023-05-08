@@ -21,6 +21,7 @@ namespace SQL_Quest.Database
 
         public void Connect()
         {
+            Disconnect();
             _connection.Open();
         }
 

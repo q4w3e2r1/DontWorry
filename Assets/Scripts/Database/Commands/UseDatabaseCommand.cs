@@ -11,15 +11,10 @@ namespace SQL_Quest.Database.Commands
             Constructor(CommandType.Simple, returnMessage);
         }
 
-        protected override void SaveBackup()
-        {
-            _databaseBackup = _dbManager.ConnectedDatabase;
-            base.SaveBackup();
-        }
-
         public override bool Execute()
         {
-            _dbManager.ConnectedDatabase?.Disconnect();
+            base.Execute();
+            SaveBackup();
 
             if (_name == "")
             {
@@ -30,11 +25,11 @@ namespace SQL_Quest.Database.Commands
                 _dbManager.ConnectedDatabase = _dbManager.ExistingDatabases[_name];
                 _dbManager.ConnectedDatabase.Connect();
             }
+            _databaseBackup = _dbManager.ConnectedDatabase;
 
             if (!_returnMessage)
                 return false;
 
-            SaveBackup();
             _chat.CheckMessage($"USE {_name}");
             Write("Database changed");
             return true;
@@ -42,18 +37,13 @@ namespace SQL_Quest.Database.Commands
 
         public override void Undo()
         {
+            var undoCommand = gameObject.AddComponent<UseDatabaseCommand>();
             if (_databaseBackup != null)
-            {
-                var undoCommand = gameObject.AddComponent<UseDatabaseCommand>();
                 undoCommand.Constructor(_databaseBackup.Name, false);
-                undoCommand.Execute();
-            }
             else
-            {
-                var undoCommand = gameObject.AddComponent<UseDatabaseCommand>();
                 undoCommand.Constructor("", false);
-                undoCommand.Execute();
-            }
+            undoCommand.Execute();
+            Destroy(undoCommand);
             base.Undo();
         }
     }

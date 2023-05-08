@@ -16,6 +16,15 @@ namespace SQL_Quest.Database.Commands
 
         public override bool Execute()
         {
+            base.Execute();
+            SaveBackup();
+
+            if (_dbManager.ConnectedDatabase == null)
+            {
+                Write("ERROR 1046 (3D000): No database selected");
+                return true;
+            }
+
             var command = $"SELECT {_selectedValue} FROM {_tableName}";
             var reader = _dbManager.ConnectedDatabase.ExecuteQueryWithReader(command);
 
@@ -25,7 +34,6 @@ namespace SQL_Quest.Database.Commands
             if (!_returnMessage)
                 return false;
 
-            SaveBackup();
             _chat.CheckMessage(command);
             Write(Table.Write(header, rows));
             return true;

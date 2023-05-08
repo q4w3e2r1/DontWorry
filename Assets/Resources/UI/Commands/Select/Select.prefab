@@ -271,7 +271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2543567717761886074, guid: 9a7b3736df3f76d4c9b86854b5899105, type: 3}
       propertyPath: m_Name
-      value: CreateDropdown
+      value: SelectedValue
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a7b3736df3f76d4c9b86854b5899105, type: 3}

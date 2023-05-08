@@ -126,14 +126,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6403768865990452053, guid: 64ca04aa0d44d2d45962d62b53a198d4, type: 3}
-        m_TargetAssemblyTypeName: SQL_Quest.Database.DatabaseManager, Assembly-CSharp
-        m_MethodName: SpawnCommand
-        m_Mode: 2
+      - m_Target: {fileID: 4765619172720532840}
+        m_TargetAssemblyTypeName: SQL_Quest.GoBased.SpawnComponentInTarget, Assembly-CSharp
+        m_MethodName: Spawn
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 4765619172720532840}
-          m_ObjectArgumentAssemblyTypeName: SQL_Quest.GoBased.SpawnComponentInTarget,
-            Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

@@ -39,15 +39,20 @@ namespace SQL_Quest.Database.Commands
 
         public virtual void Undo()
         {
-            if (!_returnMessage)
-                Destroy(gameObject);
-
             _output.text = _outputBackup;
             while (_chat.SentMessagesCount > _chatBackup)
                 _chat.DestroyLastMessage();
+
+            if (_returnMessage)
+                gameObject.SetActive(false);
         }
 
-        public abstract bool Execute();
+        public virtual bool Execute()
+        {
+            if (_returnMessage)
+                gameObject.SetActive(true);
+            return false;
+        }
     }
 
     public enum CommandType

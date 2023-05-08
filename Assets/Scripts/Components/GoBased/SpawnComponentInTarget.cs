@@ -8,9 +8,9 @@ namespace SQL_Quest.GoBased
         [SerializeField] private GameObject _prefab;
 
         [ContextMenu("Spawn")]
-        public GameObject Spawn()
+        public void Spawn()
         {
-            return Instantiate(_prefab, _target.transform);
+            Instantiate(_prefab, _target.transform);
         }
     }
 }

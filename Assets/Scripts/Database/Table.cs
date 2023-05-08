@@ -66,6 +66,8 @@ namespace SQL_Quest.Database
             {
                 var columnRows = rows.Select(row => row[i]).ToArray();
                 columns[i] = Write(header[i], columnRows).Split('\n');
+                if (columns[i][0] == "Empty set")
+                    return "Empty set";
             }
 
             var result = new string[columns[0].Length];

@@ -14,6 +14,9 @@ namespace SQL_Quest.Database
         [Space]
         [SerializeField] private string[] _databasesName;
         [SerializeField] private List<Table> _tables = new();
+        [Space]
+        [SerializeField] public string[] AllowedColumnTypes;
+        [SerializeField] public string[] AllowedColumnAttributes;
 
         [HideInInspector] public Dictionary<string, Dictionary<string, Table>> AllowedDatabases = new();
         [HideInInspector] public Dictionary<string, Database> ExistingDatabases = new();
@@ -21,9 +24,7 @@ namespace SQL_Quest.Database
         private Stack<DatabaseCommand> _commandHistory = new();
         private Stack<DatabaseCommand> _cancelledCommands = new();
 
-        public string[] AllowedColumnTypes;
-        public string[] AllowedColumnAttributes;
-        [HideInInspector] public Database ConnectedDatabase;
+        [HideInInspector] public Database ConnectedDatabase { get; set; }
 
         private void Awake()
         {
@@ -67,28 +68,28 @@ namespace SQL_Quest.Database
 
         #region Database
 
-        public void CreateDatabase(string name)
+        public void CreateDatabase(GameObject gameObject, string name)
         {
             var command = gameObject.AddComponent<CreateDatabaseCommand>();
             command.Constructor(name);
             ExecuteCommand(command);
         }
 
-        public void DropDatabase(string name)
+        public void DropDatabase(GameObject gameObject, string name)
         {
             var command = gameObject.AddComponent<DropDatabaseCommand>();
             command.Constructor(name);
             ExecuteCommand(command);
         }
 
-        public void UseDatabase(string name)
+        public void UseDatabase(GameObject gameObject, string name)
         {
             var command = gameObject.AddComponent<UseDatabaseCommand>();
             command.Constructor(name);
             ExecuteCommand(command);
         }
 
-        public void ShowDatabases()
+        public void ShowDatabases(GameObject gameObject)
         {
             var command = gameObject.AddComponent<ShowDatabasesCommand>();
             command.Constructor();
@@ -99,31 +100,38 @@ namespace SQL_Quest.Database
 
         #region Table
 
-        public void CreateTable(string name, string[] columnNames, string[] columnTypes)
+        public void CreateTable(GameObject gameObject, string name, string[] columnNames, string[] columnTypes)
         {
             var command = gameObject.AddComponent<CreateTableCommand>();
             command.Constructor(name, columnNames, columnTypes);
             ExecuteCommand(command);
         }
 
-        public void DropTable(string name)
+        public void DropTable(GameObject gameObject, string name)
         {
             var command = gameObject.AddComponent<DropTableCommand>();
             command.Constructor(name);
             ExecuteCommand(command);
         }
 
-        public void InsertInto(string tableName, string[] columns, string[] values)
+        public void InsertInto(GameObject gameObject, string tableName, string[] columns, string[] values)
         {
             var command = gameObject.AddComponent<InsertIntoCommand>();
             command.Constructor(tableName, columns, values);
             ExecuteCommand(command);
         }
 
-        public void Select(string tableName, string selectedValue)
+        public void Select(GameObject gameObject, string tableName, string selectedValue)
         {
             var command = gameObject.AddComponent<SelectCommand>();
             command.Constructor(tableName, selectedValue);
+            ExecuteCommand(command);
+        }
+
+        public void ShowTables(GameObject gameObject)
+        {
+            var command = gameObject.AddComponent<ShowTablesCommand>();
+            command.Constructor();
             ExecuteCommand(command);
         }
 
@@ -133,22 +141,7 @@ namespace SQL_Quest.Database
         public string[] GetTablesColums(string name)
             => ConnectedDatabase.ShowTableColumns(name);
 
-        public void ShowTables()
-        {
-            var command = gameObject.AddComponent<ShowTablesCommand>();
-            command.Constructor();
-            ExecuteCommand(command);
-        }
-
-
         #endregion
-
-        public void SpawnCommand(SpawnComponentInTarget spawner)
-        {
-            var command = gameObject.AddComponent<SpawnCommand>();
-            command.Constructor(spawner);
-            ExecuteCommand(command);
-        }
 
         #region CommandPattern
 
@@ -167,8 +160,6 @@ namespace SQL_Quest.Database
                 return;
             _cancelledCommands.Push(command);
             command.Undo();
-            if (command.Type == Commands.CommandType.Simple)
-                Undo();
         }
 
         public void Redo()

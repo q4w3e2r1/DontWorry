@@ -79,7 +79,7 @@ namespace SQL_Quest.UI.Commands
                 columnNames[i] = columnName;
                 columnTypes[i] = string.Join(" ", columnType);
             }
-            _dbManager.CreateTable(_tableName.text, columnNames, columnTypes);
+            _dbManager.CreateTable(gameObject, _tableName.text, columnNames, columnTypes);
         }
     }
 }

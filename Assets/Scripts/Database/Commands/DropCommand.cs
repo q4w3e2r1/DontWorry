@@ -1,8 +1,9 @@
-using System.Linq;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace SQL_Quest.Database.Commands
 {
-    public class InsertIntoCommand : DatabaseCommand
+    public class DropCommand : DatabaseCommand
     {
         private string _tableName;
         private string[] _columns;
@@ -13,7 +14,7 @@ namespace SQL_Quest.Database.Commands
             _tableName = tableName;
             _columns = columns;
             _values = values;
-            base.Constructor(CommandType.Simple, returnMessage);
+            Constructor(CommandType.Simple, returnMessage);
         }
 
         public override bool Execute()
@@ -27,17 +28,11 @@ namespace SQL_Quest.Database.Commands
                 return true;
             }
 
-            var columsDuplicates = _columns
-                .GroupBy(column => column)
-                .Where(column => column.Count() > 1)
-                .Select(column => column.Key);
-            foreach (var column in columsDuplicates)
-            {
-                Write($"ERROR 1110 (42000): Column '{column}' specified twice");
-                return true;
-            }
-
-            var command = $"INSERT INTO {_tableName} ({string.Join(", ", _columns)}) VALUES (\"{string.Join("\", \"", _values)}\")";
+            var subcommands = new string[_columns.Length];
+            for (int i = 0; i < subcommands.Length; i++)
+                subcommands[i] = $"{_columns[i]} == \"{_values[i]}\"";
+            var command = $"DELETE FROM {_tableName} WHERE {string.Join(" AND ", subcommands)}";
+            Debug.Log(command);
             _dbManager.ConnectedDatabase.ExecuteQueryWithoutAnswer(command);
 
             if (!_returnMessage)
@@ -50,9 +45,10 @@ namespace SQL_Quest.Database.Commands
 
         public override void Undo()
         {
-            var undoCommand = gameObject.AddComponent<DropCommand>();
+            var undoCommand = gameObject.AddComponent<InsertIntoCommand>();
             undoCommand.Constructor(_tableName, _columns, _values, false);
             undoCommand.Execute();
+            Destroy(undoCommand);
             base.Undo();
         }
     }

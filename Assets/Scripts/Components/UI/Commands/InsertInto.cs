@@ -19,6 +19,12 @@ namespace SQL_Quest.Database.Commands
         protected new void Start()
         {
             base.Start();
+            if (_dbManager.ConnectedDatabase == null)
+            {
+                _dbManager.Select(gameObject, "", "");
+                return;
+            }
+
             var firstLine = GetComponentsInChildren<Line>()[0];
             _tableName = firstLine.GetComponentInChildren<TMP_Dropdown>();
             _tableName.SetOptions(_dbManager.ConnectedDatabase.Tables.Keys.ToArray());
@@ -93,7 +99,7 @@ namespace SQL_Quest.Database.Commands
             if (values.Contains(""))
                 return;
 
-            _dbManager.InsertInto(tableName, columns, values);
+            _dbManager.InsertInto(gameObject, tableName, columns, values);
         }
     }
 }
