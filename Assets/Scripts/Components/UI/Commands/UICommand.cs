@@ -7,7 +7,7 @@ namespace SQL_Quest.UI.Commands
     {
         protected DatabaseManager _dbManager { get; set; }
 
-        protected void Start()
+        protected virtual void Start()
         {
             _dbManager = GameObject.FindWithTag("DatabaseManager").GetComponent<DatabaseManager>();
         }

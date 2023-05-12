@@ -6,17 +6,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SQL_Quest.Database.Commands
+namespace SQL_Quest.UI.Commands
 {
     public class InsertInto : UICommand
     {
-        [SerializeField] private GameObject _textPrefab;
         private TMP_Dropdown _tableName;
         private GameObject _separator;
         private Line _columnsLine;
         private Line _valuesLine;
 
-        protected new void Start()
+        protected override void Start()
         {
             base.Start();
             if (_dbManager.ConnectedDatabase == null)
@@ -30,7 +29,7 @@ namespace SQL_Quest.Database.Commands
             _tableName.SetOptions(_dbManager.ConnectedDatabase.Tables.Keys.ToArray());
             _tableName.onValueChanged.AddListener(value => SetColumnTypesDropdowns());
 
-            _separator = _textPrefab;
+            _separator = Resources.Load<GameObject>("UI/Text");
             _separator.GetComponent<TextMeshProUGUI>().text = ",";
 
             _columnsLine = GetComponentsInChildren<Line>()[1];
@@ -55,7 +54,7 @@ namespace SQL_Quest.Database.Commands
 
         public void CreateColumnTypeDropdown()
         {
-            var dropdownPrefab = _columnsLine.GetComponentInChildren<TMP_Dropdown>().gameObject;
+            var dropdownPrefab = Resources.Load<GameObject>("UI/Commands/Dropdowns/EditDropdown");
             var buttons = _columnsLine.GetComponentsInChildren<Button>();
 
             Instantiate(_separator, _columnsLine.transform);
@@ -68,7 +67,8 @@ namespace SQL_Quest.Database.Commands
             _columnsLine.GetComponentsInChildren<TextMeshProUGUI>()[^5].transform.SetAsLastSibling();
 
             Instantiate(_separator, _valuesLine.transform);
-            var inputFieldPrefab = _valuesLine.GetComponentInChildren<TMP_InputField>().gameObject;
+
+            var inputFieldPrefab = Resources.Load<GameObject>("UI/Commands/InputFields/EditInputField");
             var inputField = Instantiate(inputFieldPrefab, _valuesLine.transform).GetComponent<TMP_InputField>();
             inputField.onEndEdit.AddListener(value => Execute());
             _valuesLine.GetComponentsInChildren<TextMeshProUGUI>()[^4].transform.SetAsLastSibling();

@@ -6,12 +6,14 @@ namespace SQL_Quest.Database.Commands
     {
         private string _tableName;
         private string _selectedValue;
+        private bool _writeManyColumns;
 
-        public void Constructor(string tableName, string selectedValue, bool returnMessage = true)
+        public void Constructor(string tableName, string selectedValue, bool writeManyColumns, bool returnMessage = true)
         {
             _tableName = tableName;
             _selectedValue = selectedValue;
-            base.Constructor(CommandType.Simple, returnMessage);
+            _writeManyColumns = writeManyColumns;
+            Constructor(CommandType.Simple, returnMessage);
         }
 
         public override bool Execute()
@@ -26,16 +28,27 @@ namespace SQL_Quest.Database.Commands
             }
 
             var command = $"SELECT {_selectedValue} FROM {_tableName}";
-            var reader = _dbManager.ConnectedDatabase.ExecuteQueryWithReader(command);
 
-            var header = _dbManager.ConnectedDatabase.Tables[_tableName].Columns;
-            var rows = reader.GetRows();
+
+            if (_writeManyColumns)
+            {
+                var reader = _dbManager.ConnectedDatabase.ExecuteQueryWithReader(command);
+
+                var header = _dbManager.ConnectedDatabase.Tables[_tableName].Columns;
+                var rows = reader.GetRows();
+                Write(Table.Write(header, rows));
+            }
+            else
+            {
+                var header = _selectedValue;
+                var row = new string[] { _dbManager.ConnectedDatabase.ExecuteQueryWithAnswer(command) };                
+                Write(Table.Write(header, row));
+            }
 
             if (!_returnMessage)
                 return false;
 
             _chat.CheckMessage(command);
-            Write(Table.Write(header, rows));
             return true;
         }
     }

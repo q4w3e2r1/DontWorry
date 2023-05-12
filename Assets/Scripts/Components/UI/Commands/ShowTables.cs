@@ -1,10 +1,8 @@
-using SQL_Quest.UI.Commands;
-
-namespace SQL_Quest.Database.Commands
+namespace SQL_Quest.UI.Commands
 {
     public class ShowTables : UICommand
     {
-        protected new void Start()
+        protected override void Start()
         {
             base.Start();
             _dbManager.ShowTables(gameObject);

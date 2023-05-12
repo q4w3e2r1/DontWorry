@@ -1,16 +1,15 @@
 using SQL_Quest.Extentions;
-using SQL_Quest.UI.Commands;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace SQL_Quest.Database.Commands
+namespace SQL_Quest.UI.Commands
 {
     public class UseDatabase : UICommand
     {
         [SerializeField] private TMP_Dropdown _name;
 
-        protected new void Start()
+        protected override void Start()
         {
             base.Start();
             _name.SetOptions(_dbManager.ExistingDatabases.Keys.ToArray());

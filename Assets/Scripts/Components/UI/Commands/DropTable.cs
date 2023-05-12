@@ -3,13 +3,13 @@ using SQL_Quest.UI.Commands;
 using TMPro;
 using UnityEngine;
 
-namespace SQL_Quest.Database.Commands
+namespace SQL_Quest.UI.Commands
 {
     public class DropTable : UICommand
     {
         [SerializeField] private TMP_Dropdown _name;
 
-        protected new void Start()
+        protected override void Start()
         {
             base.Start();
             _name.SetOptions(_dbManager.GetTables());

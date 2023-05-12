@@ -12,14 +12,14 @@ namespace SQL_Quest.Database
         [SerializeField] private List<string> _columnsName;
         [SerializeField] private List<string> _columnsType;
 
-        public Dictionary<string, string> ColumsDictionary;
+        public Dictionary<string, string> ColumnsDictionary;
 
-        public string[] Columns => ColumsDictionary.Keys.ToArray();
+        public string[] Columns => ColumnsDictionary.Keys.ToArray();
 
         public Table(string name, Dictionary<string, string> colums)
         {
             Name = name;
-            ColumsDictionary = colums;
+            ColumnsDictionary = colums;
         }
 
         public void Start()
@@ -27,9 +27,9 @@ namespace SQL_Quest.Database
             if (_columnsName.Count == 0)
                 return;
 
-            ColumsDictionary = new();
+            ColumnsDictionary = new();
             for (int i = 0; i < _columnsName.Count; i++)
-                ColumsDictionary[_columnsName[i]] = _columnsType[i];
+                ColumnsDictionary[_columnsName[i]] = _columnsType[i];
         }
 
         public static string Write(string header, string[] rows)

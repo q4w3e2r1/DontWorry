@@ -15,7 +15,7 @@ namespace SQL_Quest.Components.UI.Line
         {
             var text = GetComponentsInChildren<TextMeshProUGUI>()[^1].gameObject;
 
-            var line = Instantiate(_linePrefab, transform);
+            Instantiate(_linePrefab, transform);
             _onCreateLine?.Invoke();
 
             text.transform.SetAsLastSibling();

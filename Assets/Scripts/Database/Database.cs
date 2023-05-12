@@ -35,6 +35,14 @@ namespace SQL_Quest.Database
             dbCommand.ExecuteNonQuery();
         }
 
+        public string ExecuteQueryWithAnswer(string query)
+        {
+            IDbCommand dbCommand = _connection.CreateCommand();
+            dbCommand.CommandText = query;
+            var answer = dbCommand.ExecuteScalar();
+            return answer.ToString();
+        }
+
         public IDataReader ExecuteQueryWithReader(string query)
         {
             IDbCommand dbCommand = _connection.CreateCommand();
