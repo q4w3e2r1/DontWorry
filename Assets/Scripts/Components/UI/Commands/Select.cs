@@ -7,6 +7,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 using static UnityEngine.ParticleSystem;
 
@@ -23,18 +24,20 @@ namespace SQL_Quest.UI.Commands
 
         private GameObject _textPrefab;
         private GameObject _dropdownPrefab;
+        private GameObject _inputFieldPrefab;
 
         protected override void Start()
         {
             base.Start();
             if (_dbManager.ConnectedDatabase == null)
             {
-                _dbManager.Select(gameObject, "", "");
+                _dbManager.Select(gameObject, "", "", "");
                 return;
             }
 
             _textPrefab = Resources.Load<GameObject>("UI/Text");
             _dropdownPrefab = Resources.Load<GameObject>("UI/Commands/Dropdowns/CreateDropdown");
+            _inputFieldPrefab = Resources.Load<GameObject>("UI/Commands/InputFields/CreateInputField");
 
             _firstLine = GetComponentInChildren<Line>();
 
@@ -165,28 +168,134 @@ namespace SQL_Quest.UI.Commands
             _selectedValues.RemoveAt(_selectedValues.Count - 1);
         }
 
-        public void Execute()
+
+        #region AdditionalLine
+        public void SetLine()
         {
-            var dropdowns = _firstLine.GetComponentsInChildren<TMP_Dropdown>()
-                .Select(dropdown => dropdown.captionText.text)
-                .ToArray();
-            if (dropdowns.Any(dropdownText => dropdownText == "..."))
+            var line = GetComponentsInChildren<Line>()[^1];
+            var dropdown = line.GetComponentInChildren<TMP_Dropdown>();
+            dropdown.SetOptions(new string[] { "WHERE", "ORDER BY" });
+            dropdown.AddListeners(value => UpdateLine(), value => Execute());
+        }
+
+        public void UpdateLine()
+        {
+            var line = GetComponentsInChildren<Line>()[^1];
+            var dropdowns = line.GetComponentsInChildren<TMP_Dropdown>();
+            var inputFields = line.GetComponentsInChildren<TMP_InputField>();
+
+            switch (dropdowns[0].Text())
+            {
+                case "...":
+                    UpdateDefaultLine(dropdowns, inputFields);
+                    break;
+                case "WHERE":
+                    UpdateWhereLine(line, dropdowns, inputFields);
+                    break;
+                case "ORDER BY":
+                    UpdateOrderByLine(line, dropdowns, inputFields);
+                    break;
+            }
+        }
+
+        private void UpdateDefaultLine(TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
+        {
+            if (dropdowns.Length == 1 && inputFields.Length == 0)
+                return;
+            CleanLine(dropdowns, inputFields);
+            return;
+        }
+
+        private void UpdateWhereLine(Line line, TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
+        {
+            if (dropdowns.Length == 3 && inputFields.Length == 1)
                 return;
 
-            var tableName = dropdowns[^1];
+            CleanLine(dropdowns, inputFields);
+
+            var columnTypeDropdown = Instantiate(_dropdownPrefab, line.transform).GetComponent<TMP_Dropdown>();
+            SetColumnsOption(columnTypeDropdown, false);
+            columnTypeDropdown.AddListeners(value => UpdateLine(), value => Execute());
+
+            var expressionDropdown = Instantiate(_dropdownPrefab, line.transform).GetComponent<TMP_Dropdown>();
+            expressionDropdown.SetOptions(new string[] { "=", "!=", "<", "<=", ">", ">=" });
+            expressionDropdown.AddListeners(value => Execute());
+
+            var inputField = Instantiate(_inputFieldPrefab, line.transform).GetComponent<TMP_InputField>();
+            inputField.onEndEdit.AddListener(value => Execute());
+        }
+
+        private void UpdateOrderByLine(Line line, TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
+        {
+            if (dropdowns.Length == 2 && inputFields.Length == 0)
+                return;
+
+            CleanLine(dropdowns, inputFields);
+
+            var columnTypeDropdown = Instantiate(_dropdownPrefab, line.transform).GetComponent<TMP_Dropdown>();
+            SetColumnsOption(columnTypeDropdown, false);
+            columnTypeDropdown.AddListeners(value => Execute());
+        }
+
+        private void CleanLine(TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
+        {
+            for (int i = dropdowns.Length - 1; i > 0; i--)
+                Destroy(dropdowns[i].gameObject);
+
+            for (int i = inputFields.Length - 1; i >= 0; i--)
+                Destroy(inputFields[i].gameObject);
+        }
+
+        #endregion
+
+        public void Execute()
+        {
+            var firstLineDropdowns = _firstLine.GetComponentsInChildren<TMP_Dropdown>()
+                .Select(dropdown => dropdown.captionText.text)
+                .ToArray();
+            if (firstLineDropdowns.Any(dropdownText => dropdownText == "..."))
+                return;
+
+            var tableName = firstLineDropdowns[^1];
 
             var selectedValue = _selectedValues[0].Text();
-            if (_additionalSelectionData == null)
+            if (_additionalSelectionData != null)
             {
-                _dbManager.Select(gameObject, tableName, selectedValue);
+                selectedValue = _additionalSelectionData.HaveBrackets ?
+                    $"{_selectedValues[0].Text()}({_selectedValues[1].Text()})" :
+                    $"{_selectedValues[0].Text()} {_selectedValues[1].Text()}";
+            }
+
+            if (GetComponentsInChildren<Line>().Length == 1)
+            {
+                _dbManager.Select(gameObject, tableName, selectedValue, "",
+                    _additionalSelectionData == null || _additionalSelectionData.WriteManyColumns);
                 return;
             }
 
-            selectedValue = _additionalSelectionData.HaveBrackets ?
-                    $"{_selectedValues[0].Text()}({_selectedValues[1].Text()})" :
-                    $"{_selectedValues[0].Text()} {_selectedValues[1].Text()}";
+            var secondLine = GetComponentsInChildren<Line>()[1];
+            var secondLineDropdowns = secondLine.GetComponentsInChildren<TMP_Dropdown>()
+                .Select(dropdown => dropdown.captionText.text)
+                .ToArray();
+            if (secondLineDropdowns.Any(dropdownText => dropdownText == "..."))
+                return;
 
-            _dbManager.Select(gameObject, tableName, selectedValue, _additionalSelectionData.WriteManyColumns);
+            string filter = "";
+            switch (secondLineDropdowns[0])
+            {
+                case "WHERE":
+                    var inputField = secondLine.GetComponentInChildren<TMP_InputField>().text;
+                    if (inputField == "")
+                        return;
+
+                    filter = $" {string.Join(" ", secondLineDropdowns)} \"{inputField}\"";
+                    break;
+                case "ORDER BY":
+                    filter = $" {string.Join(" ", secondLineDropdowns)}";
+                    break;
+            }
+            _dbManager.Select(gameObject, tableName, selectedValue, filter,
+                    _additionalSelectionData == null || _additionalSelectionData.WriteManyColumns);
         }
     }
 

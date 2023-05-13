@@ -243,7 +243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ea9b2daab9b994e9e8961827a538f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _linesCount: {fileID: 1938053380586188140}
   _linePrefab: {fileID: 8159698515703158657, guid: c6cbfd3a53a8b5c4eaa608ad64241735, type: 3}
   _onCreateLine:
     m_PersistentCalls:
@@ -263,6 +262,7 @@ MonoBehaviour:
   _onDestroyLine:
     m_PersistentCalls:
       m_Calls: []
+  _maxLines: 2147483647
 --- !u!114 &7425602380642609386
 MonoBehaviour:
   m_ObjectHideFlags: 0

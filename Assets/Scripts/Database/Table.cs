@@ -60,6 +60,9 @@ namespace SQL_Quest.Database
 
         public static string Write(string[] header, string[][] rows)
         {
+            if(header.Length == 1)
+                Write(header[0], rows[0]);
+
             var columns = new string[header.Length][];
 
             for (int i = 0; i < header.Length; i++)

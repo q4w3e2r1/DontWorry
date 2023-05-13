@@ -1,6 +1,7 @@
 using SQL_Quest.Components.UI.Line;
 using SQL_Quest.Extentions;
 using SQL_Quest.UI.Commands;
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace SQL_Quest.UI.Commands
             base.Start();
             if (_dbManager.ConnectedDatabase == null)
             {
-                _dbManager.Select(gameObject, "", "");
+                _dbManager.InsertInto(gameObject, "", Array.Empty<string>(), Array.Empty<string>());
                 return;
             }
 

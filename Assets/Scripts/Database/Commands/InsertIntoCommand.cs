@@ -50,7 +50,7 @@ namespace SQL_Quest.Database.Commands
 
         public override void Undo()
         {
-            var undoCommand = gameObject.AddComponent<DropCommand>();
+            var undoCommand = gameObject.AddComponent<DeleteCommand>();
             undoCommand.Constructor(_tableName, _columns, _values, false);
             undoCommand.Execute();
             base.Undo();

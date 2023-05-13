@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SQL_Quest.Database.Commands
 {
-    public class DropCommand : DatabaseCommand
+    public class DeleteCommand : DatabaseCommand
     {
         private string _tableName;
         private string[] _columns;

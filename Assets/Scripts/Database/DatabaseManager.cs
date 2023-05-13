@@ -121,10 +121,12 @@ namespace SQL_Quest.Database
             ExecuteCommand(command);
         }
 
-        public void Select(GameObject gameObject, string tableName, string selectedValue, bool writeManyColumns = true)
+        public void Select(
+            GameObject gameObject, string tableName, string selectedValue, 
+            string filter, bool writeManyColumns = true)
         {
             var command = gameObject.AddComponent<SelectCommand>();
-            command.Constructor(tableName, selectedValue, writeManyColumns);
+            command.Constructor(tableName, selectedValue, filter, writeManyColumns);
             ExecuteCommand(command);
         }
 

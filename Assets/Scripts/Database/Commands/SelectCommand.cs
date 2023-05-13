@@ -1,4 +1,5 @@
 using SQL_Quest.Extentions;
+using System.Linq;
 
 namespace SQL_Quest.Database.Commands
 {
@@ -6,12 +7,14 @@ namespace SQL_Quest.Database.Commands
     {
         private string _tableName;
         private string _selectedValue;
+        private string _filter;
         private bool _writeManyColumns;
 
-        public void Constructor(string tableName, string selectedValue, bool writeManyColumns, bool returnMessage = true)
+        public void Constructor(string tableName, string selectedValue, string filter, bool writeManyColumns, bool returnMessage = true)
         {
             _tableName = tableName;
             _selectedValue = selectedValue;
+            _filter = filter;
             _writeManyColumns = writeManyColumns;
             Constructor(CommandType.Simple, returnMessage);
         }
@@ -27,7 +30,7 @@ namespace SQL_Quest.Database.Commands
                 return true;
             }
 
-            var command = $"SELECT {_selectedValue} FROM {_tableName}";
+            var command = $"SELECT {_selectedValue} FROM {_tableName}{_filter}";
 
 
             if (_writeManyColumns)
@@ -36,7 +39,13 @@ namespace SQL_Quest.Database.Commands
 
                 var header = _dbManager.ConnectedDatabase.Tables[_tableName].Columns;
                 var rows = reader.GetRows();
-                Write(Table.Write(header, rows));
+                if (!header.Contains(_selectedValue))
+                    Write(Table.Write(header, rows));
+                else
+                {
+                    var row = rows.Select(row => row[0]).ToArray();
+                    Write(Table.Write(_selectedValue, row));
+                }
             }
             else
             {

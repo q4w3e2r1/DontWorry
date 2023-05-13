@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6747154967160758965}
   - component: {fileID: 4842803637343447973}
   - component: {fileID: 2825634656332692451}
+  - component: {fileID: 73182615492711470}
   m_Layer: 5
   m_Name: Select
   m_TagString: Untagged
@@ -133,6 +134,38 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &73182615492711470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3441244984656893884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54ea9b2daab9b994e9e8961827a538f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _linePrefab: {fileID: 8764138016743969763, guid: 288b530524392c14385853d024dbf71f, type: 3}
+  _onCreateLine:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4842803637343447973}
+        m_TargetAssemblyTypeName: SQL_Quest.UI.Commands.Select, Assembly-CSharp
+        m_MethodName: SetLine
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onDestroyLine:
+    m_PersistentCalls:
+      m_Calls: []
+  _maxLines: 1
 --- !u!1 &8947693129084984629
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1080,18 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4264114080473221572, guid: def91961ec47f7e44ac1ebedd8948169, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 73182615492711470}
+    - target: {fileID: 4264114080473221572, guid: def91961ec47f7e44ac1ebedd8948169, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CreateLine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4264114080473221572, guid: def91961ec47f7e44ac1ebedd8948169, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SQL_Quest.Components.UI.Line.LineController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5558092212931686748, guid: def91961ec47f7e44ac1ebedd8948169, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -1054,6 +1099,18 @@ PrefabInstance:
     - target: {fileID: 5558092212931686748, guid: def91961ec47f7e44ac1ebedd8948169, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178898989188279649, guid: def91961ec47f7e44ac1ebedd8948169, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 73182615492711470}
+    - target: {fileID: 6178898989188279649, guid: def91961ec47f7e44ac1ebedd8948169, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DestroyLine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178898989188279649, guid: def91961ec47f7e44ac1ebedd8948169, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SQL_Quest.Components.UI.Line.LineController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6822236254022331830, guid: def91961ec47f7e44ac1ebedd8948169, type: 3}
       propertyPath: m_AnchorMax.y
