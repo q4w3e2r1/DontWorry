@@ -5,7 +5,7 @@ namespace SQL_Quest.Creatures.Player
 {
     public class PlayerInputReader : MonoBehaviour
     {
-        [SerializeField] private Player _hero;
+        [SerializeField] private PlayerComponent _hero;
 
         private bool _active = true;
 

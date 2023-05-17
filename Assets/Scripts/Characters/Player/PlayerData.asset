@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   Name: Giyu
+  LevelNumber: 1
   Position: {x: 0, y: -2.58, z: 0}
+  InvertScale: 0
+  InteractOnStart: 0

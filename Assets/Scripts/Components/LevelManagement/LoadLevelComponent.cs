@@ -13,6 +13,7 @@ namespace SQL_Quest.Components.LevelManagement
         [SerializeField] private UnityEvent _onLoad;
         [Space]
         [SerializeField] private PlayerData _playerData;
+        [SerializeField] private bool _isNextLevel;
         [SerializeField] private Vector3 _position;
         [SerializeField] private bool _invertScale;
         [SerializeField] private bool _interactOnStart;
@@ -24,6 +25,8 @@ namespace SQL_Quest.Components.LevelManagement
             _playerData.Position = _position;
             _playerData.InvertScale = _invertScale;
             _playerData.InteractOnStart = _interactOnStart;
+            if (_isNextLevel)
+                _playerData.LevelNumber++;
 
             StartCoroutine(LoadSceneRoutine());
         }

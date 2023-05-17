@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3028472495704825080}
   - component: {fileID: 1780264656}
   - component: {fileID: 1780264655}
+  - component: {fileID: 561575463}
   m_Layer: 0
   m_Name: MrNormatt
   m_TagString: Interactable
@@ -163,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7665d5a602741d5488d9c490d09010bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tag: Giyu
+  _tag: Player
   _layer:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -266,10 +267,9 @@ MonoBehaviour:
   _action:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1780264655}
-        m_TargetAssemblyTypeName: SQL_Quest.Components.UI.Dialogs.ShowDialogComponent,
-          Assembly-CSharp
-        m_MethodName: Show
+      - m_Target: {fileID: 561575463}
+        m_TargetAssemblyTypeName: SQL_Quest.Creatures.CharacterComponent, Assembly-CSharp
+        m_MethodName: ShowDialog
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -376,6 +376,23 @@ MonoBehaviour:
     _sentences: []
     _type: 1
   _external: {fileID: 11400000, guid: fef051c4daf32b84392fd7842fc65b44, type: 2}
+--- !u!114 &561575463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2509373006347289400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea483676844ed74c9f6ff8cb989c88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _invertScale: 0
+  _speed: 0
+  _dialogs:
+  - {fileID: 11400000, guid: fef051c4daf32b84392fd7842fc65b44, type: 2}
+  - {fileID: 11400000, guid: 8d7c5860d7cbb004fa14b5bb37cfff74, type: 2}
 --- !u!1 &4847040495865149013
 GameObject:
   m_ObjectHideFlags: 0

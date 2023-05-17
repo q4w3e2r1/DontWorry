@@ -709,10 +709,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 506227071, guid: c490c158a369061418b9d7e4e8d41565, type: 3}
-      propertyPath: m_Radius
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 3976797868916770996, guid: c490c158a369061418b9d7e4e8d41565, type: 3}
       propertyPath: m_Name
       value: Giyu
@@ -761,6 +757,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4194437053901801262, guid: c490c158a369061418b9d7e4e8d41565, type: 3}
+      propertyPath: Data
+      value: 
+      objectReference: {fileID: 11400000, guid: b242168268490ed4c8882be39deae8d9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c490c158a369061418b9d7e4e8d41565, type: 3}
 --- !u!114 &3976797870546761802 stripped

@@ -34,6 +34,12 @@ namespace SQL_Quest.Components.UI.Dialogs
             _dialogBox.ShowDialog(_data, _onStart, _onFinish);
         }
 
+        public void Show(DialogDef data)
+        {
+            _dialogBox = FindDialogController();
+            _dialogBox.ShowDialog(data.Data, _onStart, _onFinish);
+        }
+
         private DialogBoxController FindDialogController()
         {
             if (_dialogBox != null)

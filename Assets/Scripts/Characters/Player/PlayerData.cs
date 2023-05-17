@@ -8,12 +8,9 @@ namespace SQL_Quest.Creatures.Player
     public class PlayerData : ScriptableObject
     {
         public string Name;
+        public int LevelNumber;
         public Vector3 Position;
         public bool InvertScale;
         public bool InteractOnStart;
-        [Space]
-        public bool FirstLevelCompleted;
-        public bool SecondLevelCompleted;
-        public bool ThirdLevelCompleted;
     }
 }

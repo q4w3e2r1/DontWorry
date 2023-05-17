@@ -3,18 +3,18 @@ using UnityEngine;
 
 namespace SQL_Quest.Creatures.Player
 {
-    public class Player : Creature
+    public class PlayerComponent : CharacterComponent
     {
-        [SerializeField] private PlayerData _data;
+        public PlayerData Data;
         [SerializeField] private CheckCircleOverlap _interactionCheck;
 
         protected override void Start()
         {
             base.Start();
-            transform.position = _data.Position;
-            UpdateSpriteDirection(new Vector2(_data.InvertScale == true ? -1 : 1, 0));
+            transform.position = Data.Position;
+            UpdateSpriteDirection(new Vector2(Data.InvertScale == true ? -1 : 1, 0));
 
-            if (_data.InteractOnStart)
+            if (Data.InteractOnStart)
                 Interact();
         }
 
