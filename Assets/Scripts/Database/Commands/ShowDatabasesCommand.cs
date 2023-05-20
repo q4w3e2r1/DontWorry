@@ -11,7 +11,7 @@ namespace SQL_Quest.Database.Commands
 
             if (!_returnMessage)
                 return false;
-                        
+
             Write(Table.Write("Databases", _dbManager.ExistingDatabases.Keys.ToArray()));
             _chat.CheckMessage("SHOW DATABASES");
             return true;

@@ -37,7 +37,7 @@ namespace SQL_Quest.Database.Commands
             {
                 var reader = _dbManager.ConnectedDatabase.ExecuteQueryWithReader(command);
 
-                var header = _dbManager.ConnectedDatabase.Tables[_tableName].Columns;
+                var header = _dbManager.ConnectedDatabase.Tables[_tableName].ColumnsNames;
                 var rows = reader.GetRows();
                 if (!header.Contains(_selectedValue))
                     Write(Table.Write(header, rows));
@@ -50,7 +50,7 @@ namespace SQL_Quest.Database.Commands
             else
             {
                 var header = _selectedValue;
-                var row = new string[] { _dbManager.ConnectedDatabase.ExecuteQueryWithAnswer(command) };                
+                var row = new string[] { _dbManager.ConnectedDatabase.ExecuteQueryWithAnswer(command) };
                 Write(Table.Write(header, row));
             }
 

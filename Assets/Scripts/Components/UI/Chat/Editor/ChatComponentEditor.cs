@@ -45,6 +45,8 @@ namespace SQL_Quest.Components.UI.Chat.Editor
                     case Mode.External:
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("_external"));
                         break;
+                    case Mode.Level:
+                        break;
                 }
             }
             serializedObject.ApplyModifiedProperties();

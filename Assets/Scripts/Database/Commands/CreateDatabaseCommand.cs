@@ -22,7 +22,7 @@ namespace SQL_Quest.Database.Commands
                             $"{Application.dataPath}/Databases/{_dbManager.DatabasesFolder}",
                             new Dictionary<string, Table>());
             _dbManager.ExistingDatabases[_name] = database;
-            
+
             if (!_returnMessage)
                 return false;
 

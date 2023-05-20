@@ -6,12 +6,12 @@ namespace SQL_Quest.Components.UI.Chat
     [Serializable]
     public class ChatData
     {
-        [SerializeField] private MessageData[] _messages;
-        [SerializeField] private MessageData[] _helpMessages;
-        [SerializeField] private MessageData[] _errorMessage;
+        [SerializeField] private Message[] _messages;
+        [SerializeField] private Message[] _helpMessages;
+        [SerializeField] private Message[] _errorMessage;
 
-        public MessageData[] Messages => _messages;
-        public MessageData[] HelpMessages => _helpMessages;
-        public MessageData[] ErrorMessages => _errorMessage;
+        public Message[] Messages => _messages;
+        public Message[] HelpMessages => _helpMessages;
+        public Message[] ErrorMessages => _errorMessage;
     }
 }

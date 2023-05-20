@@ -1,6 +1,4 @@
-﻿using SQL_Quest.Components.UI.Dialogs;
-using SQL_Quest.Creatures.Player;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SQL_Quest.Creatures
 {
@@ -11,7 +9,6 @@ namespace SQL_Quest.Creatures
         [Header("Params")]
         [SerializeField] private bool _invertScale;
         [SerializeField] private float _speed;
-        [SerializeField] private DialogDef[] _dialogs;
 
         protected Rigidbody2D Rigidbody;
         protected Vector2 Direction;
@@ -19,7 +16,7 @@ namespace SQL_Quest.Creatures
 
         private static readonly int IsWalking = Animator.StringToHash("is-walking");
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
             Animator = GetComponent<Animator>();
@@ -28,12 +25,6 @@ namespace SQL_Quest.Creatures
         public void SetDirection(Vector2 direction)
         {
             Direction = direction;
-        }
-
-        public void ShowDialog()
-        {
-            var levelNumber = GameObject.FindWithTag("Player").GetComponent<PlayerComponent>().Data.LevelNumber;
-            GetComponent<ShowDialogComponent>().Show(_dialogs[levelNumber - 1]);
         }
 
         protected virtual void FixedUpdate()

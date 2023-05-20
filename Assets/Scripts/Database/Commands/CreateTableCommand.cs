@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace SQL_Quest.Database.Commands
 {
     public class CreateTableCommand : DatabaseCommand
@@ -38,21 +36,17 @@ namespace SQL_Quest.Database.Commands
                 undoCommand.Execute();
             }
 
-            var columns = new Dictionary<string, string>();
             var columnsText = new string[_columnNames.Length];
             for (int i = 0; i < _columnNames.Length; i++)
-            {
-                columns[_columnNames[i]] = _columnTypes[i];
                 columnsText[i] = $"{_columnNames[i]} {_columnTypes[i]}";
-            }
 
             var command = $"CREATE TABLE {_name}({string.Join(", ", columnsText)})";
-            _dbManager.ConnectedDatabase.CreateTable(_name, columns, command);
+            _dbManager.ConnectedDatabase.CreateTable(_name, _columnNames, _columnTypes, command);
 
             if (!_returnMessage)
                 return false;
 
-            
+
             _chat.CheckMessage(command);
             Write("Query OK, 0 row affected");
             return true;

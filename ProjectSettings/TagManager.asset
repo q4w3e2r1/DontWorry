@@ -11,10 +11,11 @@ TagManager:
   - Giyu
   - Messages
   - Chat
-  - SimpleDialog
-  - PersonalizedDialog
   - Fade
   - LevelLoader
+  - PersonalizedDialog
+  - SimpleDialog
+  - PlayerData
   layers:
   - Default
   - TransparentFX

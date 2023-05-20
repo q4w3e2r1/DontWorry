@@ -1,3 +1,4 @@
+using SQL_Quest.Creatures.Player;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,12 +20,18 @@ namespace SQL_Quest.Components.UI.Dialogs
         {
             get
             {
-                return _mode switch
+                switch (_mode)
                 {
-                    Mode.Bound => _bound,
-                    Mode.External => _external.Data,
-                    _ => throw new ArgumentOutOfRangeException(),
-                };
+                    case Mode.Bound:
+                        return _bound;
+                    case Mode.External:
+                        return _external.Data;
+                    case Mode.Level:
+                        var playerData = PlayerDataHandler.PlayerData;
+                        return Resources.Load<DialogDef>($"Levels/Level{playerData.LevelNumber}/Dialogs/{gameObject.name}").Data;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -34,22 +41,19 @@ namespace SQL_Quest.Components.UI.Dialogs
             _dialogBox.ShowDialog(_data, _onStart, _onFinish);
         }
 
-        public void Show(DialogDef data)
-        {
-            _dialogBox = FindDialogController();
-            _dialogBox.ShowDialog(data.Data, _onStart, _onFinish);
-        }
-
         private DialogBoxController FindDialogController()
         {
             if (_dialogBox != null)
                 return _dialogBox;
-            GameObject controllerGO = _data.Type switch
+
+            /*GameObject controllerGO = _data.Type switch
             {
                 DialogType.Simple => GameObject.FindWithTag("SimpleDialog"),
                 DialogType.Personalized => GameObject.FindWithTag("PersonalizedDialog"),
                 _ => throw new ArgumentException("Undefined dialog type"),
-            };
+            };*/
+
+            var controllerGO = GameObject.FindWithTag("SimpleDialog");
             return controllerGO.GetComponent<DialogBoxController>();
         }
     }

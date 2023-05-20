@@ -1,4 +1,5 @@
 using SQL_Quest.Components.UI.Chat;
+using SQL_Quest.Database.Manager;
 using SQL_Quest.Extentions;
 using TMPro;
 using UnityEngine;

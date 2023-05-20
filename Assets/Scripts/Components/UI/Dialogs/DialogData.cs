@@ -7,9 +7,7 @@ namespace SQL_Quest.Components.UI.Dialogs
     public class DialogData
     {
         [SerializeField] private Sentence[] _sentences;
-        [SerializeField] private DialogType _type;
         public Sentence[] Sentences => _sentences;
-        public DialogType Type => _type;
     }
 
     [Serializable]
@@ -30,11 +28,5 @@ namespace SQL_Quest.Components.UI.Dialogs
     {
         Left,
         Right
-    }
-
-    public enum DialogType
-    {
-        Simple,
-        Personalized
     }
 }

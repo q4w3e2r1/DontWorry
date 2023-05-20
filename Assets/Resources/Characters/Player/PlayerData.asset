@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a632fa26e5f0b54495274d1a1d95652, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  Name: Giyu
-  LevelNumber: 1
-  Position: {x: 0, y: -2.58, z: 0}
+  Name: 
+  LevelNumber: 0
+  Position: {x: 0, y: 0, z: 0}
   InvertScale: 0
   InteractOnStart: 0

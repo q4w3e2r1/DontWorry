@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3597957675603891750}
   - component: {fileID: 3976797868916771145}
   m_Layer: 0
-  m_Name: Giyu
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,8 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _invertScale: 0
   _speed: 5
-  _dialogs: []
-  Data: {fileID: 0}
+  Data: {fileID: 11400000, guid: b242168268490ed4c8882be39deae8d9, type: 2}
   _interactionCheck: {fileID: 3976797869166172708}
 --- !u!114 &3597957675603891750
 MonoBehaviour:
@@ -178,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1529957284b384cacf3188a27f4b95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hero: {fileID: 4194437053901801262}
+  _player: {fileID: 4194437053901801262}
 --- !u!114 &3976797868916771145
 MonoBehaviour:
   m_ObjectHideFlags: 0

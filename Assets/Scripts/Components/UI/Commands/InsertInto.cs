@@ -1,6 +1,5 @@
 using SQL_Quest.Components.UI.Line;
 using SQL_Quest.Extentions;
-using SQL_Quest.UI.Commands;
 using System;
 using System.Linq;
 using TMPro;
@@ -44,7 +43,7 @@ namespace SQL_Quest.UI.Commands
         {
             var dropdowns = _columnsLine.GetComponentsInChildren<TMP_Dropdown>();
             var dropdownOptions = _tableName.captionText.text == "..." ? new string[] { "NO TABLE SELECTED" } :
-                _dbManager.ConnectedDatabase.Tables[_tableName.captionText.text].Columns;
+                _dbManager.ConnectedDatabase.Tables[_tableName.captionText.text].ColumnsNames;
 
             foreach (var dropdown in dropdowns)
             {

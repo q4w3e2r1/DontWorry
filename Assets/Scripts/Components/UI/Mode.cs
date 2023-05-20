@@ -3,6 +3,7 @@
     public enum Mode
     {
         Bound,
-        External
+        External,
+        Level
     }
 }

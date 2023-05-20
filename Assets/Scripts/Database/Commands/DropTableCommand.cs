@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace SQL_Quest.Database.Commands
 {
     public class DropTableCommand : DatabaseCommand
@@ -45,7 +43,7 @@ namespace SQL_Quest.Database.Commands
         public override void Undo()
         {
             var undoCommand = gameObject.AddComponent<CreateTableCommand>();
-            undoCommand.Constructor(_table.Name, _table.Columns, _table.ColumnsDictionary.Values.ToArray(), false);
+            undoCommand.Constructor(_table.Name, _table.ColumnsNames, _table.ColumnTypes, false);
             undoCommand.Execute();
             Destroy(undoCommand);
             base.Undo();

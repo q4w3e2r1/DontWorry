@@ -1,21 +1,27 @@
 using SQL_Quest.Components.ColliderBased;
+using System.Collections;
 using UnityEngine;
 
 namespace SQL_Quest.Creatures.Player
 {
     public class PlayerComponent : CharacterComponent
     {
-        public PlayerData Data;
         [SerializeField] private CheckCircleOverlap _interactionCheck;
 
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
-            transform.position = Data.Position;
-            UpdateSpriteDirection(new Vector2(Data.InvertScale == true ? -1 : 1, 0));
+            var data = PlayerDataHandler.PlayerData;
+            transform.position = data.Position;
+            UpdateSpriteDirection(new Vector2(data.InvertScale == true ? -1 : 1, 0));
 
-            if (Data.InteractOnStart)
-                Interact();
+            if (data.InteractOnStart)
+                StartCoroutine(InteractOnStart());
+        }
+
+        private IEnumerator InteractOnStart()
+        {
+            yield return new WaitForSeconds(1);
+            Interact();
         }
 
         public void Interact()

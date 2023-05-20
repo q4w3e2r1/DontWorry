@@ -1,48 +1,68 @@
+using SQL_Quest.Components.UI;
+using SQL_Quest.Creatures.Player;
 using SQL_Quest.Database.Commands;
-using SQL_Quest.GoBased;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace SQL_Quest.Database
+namespace SQL_Quest.Database.Manager
 {
     public class DatabaseManager : MonoBehaviour
     {
-        [SerializeField] public string DatabasesFolder;
-        [Space]
-        [SerializeField] private string[] _databasesName;
-        [SerializeField] private List<Table> _tables = new();
-        [Space]
-        [SerializeField] public string[] AllowedColumnTypes;
-        [SerializeField] public string[] AllowedColumnAttributes;
+        [SerializeField] private Mode _mode;
+        [SerializeField] private DatabaseManagerData _bound;
+        [SerializeField] private DatabaseManagerDef _external;
 
+        public string DatabasesFolder => _data.DatabaseFolder;
+        public string[] AllowedColumnTypes => _data.AllowedColumnTypes;
+        public string[] AllowedColumnAttributes => _data.AllowedColumnAttributes;
+
+        [HideInInspector] public Database ConnectedDatabase { get; set; }
         [HideInInspector] public Dictionary<string, Dictionary<string, Table>> AllowedDatabases = new();
         [HideInInspector] public Dictionary<string, Database> ExistingDatabases = new();
 
         private Stack<DatabaseCommand> _commandHistory = new();
         private Stack<DatabaseCommand> _cancelledCommands = new();
 
-        [HideInInspector] public Database ConnectedDatabase { get; set; }
+        private DatabaseManagerData _data
+        {
+            get
+            {
+                switch (_mode)
+                {
+                    case Mode.Bound:
+                        return _bound;
+                    case Mode.External:
+                        return _external.Data;
+                    case Mode.Level:
+                        var levelNumber = PlayerDataHandler.PlayerData.LevelNumber;
+                        return Resources.Load<DatabaseManagerDef>($"Levels/Level{levelNumber}/DatabaseManager").Data;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+
 
         private void Awake()
         {
+            Cursor.visible = true;
             GetAllowedDatabases();
             GetExistingDatabases();
         }
 
         private void GetAllowedDatabases()
         {
-            foreach (var databaseName in _databasesName)
-                AllowedDatabases[databaseName] = new();
-
-            for (int i = 0; i < _tables.Count; i++)
+            for (int i = 0; i < _data.Tables.Length; i++)
             {
-                var databaseName = _tables[i].DatabaseName;
+                var databaseName = _data.Tables[i].DatabaseName;
                 if (!AllowedDatabases.ContainsKey(databaseName))
                     AllowedDatabases[databaseName] = new();
-                AllowedDatabases[databaseName][_tables[i].Name] = _tables[i];
+                AllowedDatabases[databaseName][_data.Tables[i].Name] = _data.Tables[i];
             }
         }
 
@@ -121,9 +141,8 @@ namespace SQL_Quest.Database
             ExecuteCommand(command);
         }
 
-        public void Select(
-            GameObject gameObject, string tableName, string selectedValue, 
-            string filter, bool writeManyColumns = true)
+        public void Select(GameObject gameObject, string tableName, string selectedValue,
+                           string filter, bool writeManyColumns = true)
         {
             var command = gameObject.AddComponent<SelectCommand>();
             command.Constructor(tableName, selectedValue, filter, writeManyColumns);
@@ -177,6 +196,7 @@ namespace SQL_Quest.Database
         {
             while (_commandHistory.Count != 0)
                 Undo();
+            Cursor.visible = false;
         }
 
         #endregion

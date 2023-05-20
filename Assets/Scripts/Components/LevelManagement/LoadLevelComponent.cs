@@ -12,7 +12,6 @@ namespace SQL_Quest.Components.LevelManagement
         [SerializeField] private string _sceneToLoad;
         [SerializeField] private UnityEvent _onLoad;
         [Space]
-        [SerializeField] private PlayerData _playerData;
         [SerializeField] private bool _isNextLevel;
         [SerializeField] private Vector3 _position;
         [SerializeField] private bool _invertScale;
@@ -20,14 +19,6 @@ namespace SQL_Quest.Components.LevelManagement
 
         public void Load()
         {
-            _onLoad?.Invoke();
-
-            _playerData.Position = _position;
-            _playerData.InvertScale = _invertScale;
-            _playerData.InteractOnStart = _interactOnStart;
-            if (_isNextLevel)
-                _playerData.LevelNumber++;
-
             StartCoroutine(LoadSceneRoutine());
         }
 
@@ -37,6 +28,14 @@ namespace SQL_Quest.Components.LevelManagement
             Fader.Instance.FadeIn(() => waitFading = false);
 
             yield return new WaitUntil(() => waitFading == false);
+
+            _onLoad?.Invoke();
+            var playerData = PlayerDataHandler.PlayerData;
+            playerData.Position = _position;
+            playerData.InvertScale = _invertScale;
+            playerData.InteractOnStart = _interactOnStart;
+            if (_isNextLevel)
+                playerData.LevelNumber++;
 
             SceneManager.LoadScene(_sceneToLoad);
 

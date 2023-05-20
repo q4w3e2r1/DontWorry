@@ -16,6 +16,7 @@ namespace SQL_Quest.Components.UI
         public void SwitchState()
         {
             _pauseWindows.SetActive(!_pauseWindows.activeSelf);
+            Cursor.visible = _pauseWindows.activeSelf;
         }
     }
 }

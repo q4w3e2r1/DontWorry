@@ -51,7 +51,7 @@ MonoBehaviour:
         \u043A\u043E\u043D\u0435\u0446."
       _icon: {fileID: 21300000, guid: 6a7462bba6e66eb4ab624d44f9825aee, type: 3}
       _side: 0
-    - _name: "\u0413\u0438\u044E"
+    - _name: '%PlayerName%'
       _value: "\u041F\u043E\u043D\u044F\u043B, \u0431\u0443\u0434\u0435\u0442 \u0441\u0434\u0435\u043B\u0430\u043D\u043E"
       _icon: {fileID: 21300000, guid: c3e5c1b4fe333a947961288d4c018414, type: 3}
       _side: 1

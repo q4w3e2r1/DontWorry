@@ -52,7 +52,7 @@ namespace SQL_Quest.Extentions
 
         public static void AddListeners(this TMP_Dropdown dropdown, params UnityAction<int>[] listeners)
         {
-            foreach(var listener in listeners)
+            foreach (var listener in listeners)
                 dropdown.onValueChanged.AddListener(listener);
         }
     }

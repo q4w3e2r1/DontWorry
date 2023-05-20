@@ -26,7 +26,7 @@ namespace SQL_Quest.Components.UI.Line
 
         public void DestroyLine()
         {
-            if(GetComponentsInChildren<Line>().Length == 1)
+            if (GetComponentsInChildren<Line>().Length == 1)
                 return;
 
             Destroy(GetComponentsInChildren<Line>()[^1].gameObject);

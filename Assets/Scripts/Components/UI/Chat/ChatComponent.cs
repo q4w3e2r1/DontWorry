@@ -1,3 +1,4 @@
+using SQL_Quest.Creatures.Player;
 using SQL_Quest.Extentions;
 using System;
 using System.Collections.Generic;
@@ -20,18 +21,25 @@ namespace SQL_Quest.Components.UI.Chat
         [SerializeField] private ChatData _bound;
         [SerializeField] private ChatDef _external;
 
+        private Button _activeButton;
         private Stack<GameObject> _sentMessages = new();
 
         private ChatData _data
         {
             get
             {
-                return _mode switch
+                switch (_mode)
                 {
-                    Mode.Bound => _bound,
-                    Mode.External => _external.Data,
-                    _ => throw new ArgumentOutOfRangeException(),
-                };
+                    case Mode.Bound:
+                        return _bound;
+                    case Mode.External:
+                        return _external.Data;
+                    case Mode.Level:
+                        var playerData = PlayerDataHandler.PlayerData;
+                        return Resources.Load<ChatDef>($"Levels/Level{playerData.LevelNumber}/Chat").Data;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -39,13 +47,14 @@ namespace SQL_Quest.Components.UI.Chat
 
         private void Start()
         {
+            _activeButton = _helpButton;
             SendMessage(_data.Messages[0]);
         }
 
         public void CheckMessage(string message)
         {
             Debug.Log(message);
-            var firstMessage = _data.Messages.Where(msg => !msg.IsSent).First();
+            var firstMessage = _data.Messages[_sentMessages.Count];
             var errorMessage = _data.ErrorMessages.Where(msg => msg.AnswerTo == message).FirstOrDefault();
             if (errorMessage != null)
             {
@@ -63,15 +72,17 @@ namespace SQL_Quest.Components.UI.Chat
             SendMessage(_data.HelpMessages[0]);
         }
 
-        private void SendMessage(MessageData message)
+        private void SendMessage(Message message)
         {
             var messageGO = Instantiate(_messagePrefab);
             messageGO.GetComponentInChildren<TextMeshProUGUI>().text = message.Text;
             messageGO.transform.SetParent(GetComponentInChildren<VerticalLayoutGroup>().transform);
             messageGO.transform.localScale = Vector3.one;
 
-            message.OnSending?.Invoke();
-            message.IsSent = true;
+            if (message.ChangeButtonToComplete)
+                ChangeButtonToCompleteButton();
+            else if (message.ChangeButtonToRestart)
+                ChangeButtonToRestartButton();
 
             messageGO.GetComponentInParent<ScrollRect>().ScrollToBottom(messageGO);
 
@@ -83,16 +94,25 @@ namespace SQL_Quest.Components.UI.Chat
             Destroy(_sentMessages.Pop());
         }
 
+        public void ChangeButtonToHelpButton()
+        {
+            _activeButton.gameObject.SetActive(false);
+            _helpButton.gameObject.SetActive(true);
+            _activeButton = _helpButton;
+        }
+
         public void ChangeButtonToCompleteButton()
         {
-            _helpButton.gameObject.SetActive(false);
+            _activeButton.gameObject.SetActive(false);
             _completeButton.gameObject.SetActive(true);
+            _activeButton = _completeButton;
         }
 
         public void ChangeButtonToRestartButton()
         {
-            _helpButton.gameObject.SetActive(false);
+            _activeButton.gameObject.SetActive(false);
             _restartButton.gameObject.SetActive(true);
+            _activeButton = _restartButton;
         }
     }
 }

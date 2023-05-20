@@ -1,35 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
 namespace SQL_Quest.Database
 {
-    public class Table : MonoBehaviour
+    [Serializable]
+    public class Table
     {
         public string Name;
         public string DatabaseName;
-        [SerializeField] private List<string> _columnsName;
-        [SerializeField] private List<string> _columnsType;
+        [SerializeField] private string[] _columnsNames;
+        [SerializeField] private string[] _columnsTypes;
 
-        public Dictionary<string, string> ColumnsDictionary;
+        public string[] ColumnsNames => _columnsNames;
+        public string[] ColumnTypes => _columnsTypes;
 
-        public string[] Columns => ColumnsDictionary.Keys.ToArray();
-
-        public Table(string name, Dictionary<string, string> colums)
+        public Table(string name, string[] columnsNames, string[] columnsTypes)
         {
             Name = name;
-            ColumnsDictionary = colums;
-        }
-
-        public void Start()
-        {
-            if (_columnsName.Count == 0)
-                return;
-
-            ColumnsDictionary = new();
-            for (int i = 0; i < _columnsName.Count; i++)
-                ColumnsDictionary[_columnsName[i]] = _columnsType[i];
+            _columnsNames = columnsNames;
+            _columnsTypes = columnsTypes;
         }
 
         public static string Write(string header, string[] rows)
@@ -60,7 +51,7 @@ namespace SQL_Quest.Database
 
         public static string Write(string[] header, string[][] rows)
         {
-            if(header.Length == 1)
+            if (header.Length == 1)
                 Write(header[0], rows[0]);
 
             var columns = new string[header.Length][];

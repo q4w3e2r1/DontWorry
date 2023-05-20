@@ -50,9 +50,9 @@ namespace SQL_Quest.Database
             return dbCommand.ExecuteReader();
         }
 
-        public void CreateTable(string name, Dictionary<string, string> colums, string command)
+        public void CreateTable(string name, string[] columnsNames, string[] columnsTypes, string command)
         {
-            Tables[name] = new Table(name, colums);
+            Tables[name] = new Table(name, columnsNames, columnsTypes);
             ExecuteQueryWithoutAnswer(command);
         }
 
@@ -60,6 +60,6 @@ namespace SQL_Quest.Database
             => Tables.Remove(name);
 
         public string[] ShowTableColumns(string name)
-            => Tables[name].Columns;
+            => Tables[name].ColumnsNames;
     }
 }

@@ -1,4 +1,4 @@
-using SQL_Quest.Database;
+using SQL_Quest.Database.Manager;
 using UnityEngine;
 
 namespace SQL_Quest.UI.Commands

@@ -160,10 +160,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseWindow, Assembly-CSharp
-        m_MethodName: SwitchState
-        m_Mode: 1
+      - m_Target: {fileID: 9147986987933992462}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -184,8 +184,7 @@ GameObject:
   - component: {fileID: 9147986988500225663}
   - component: {fileID: 9147986988500225660}
   - component: {fileID: 9147986988500225661}
-  - component: {fileID: 9147986988500225601}
-  - component: {fileID: 9147986988500225662}
+  - component: {fileID: 4661388913647665626}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -296,9 +295,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9147986988500225601}
-        m_TargetAssemblyTypeName: CleanDatabase, Assembly-CSharp
-        m_MethodName: Clean
+      - m_Target: {fileID: 4661388913647665626}
+        m_TargetAssemblyTypeName: SQL_Quest.Components.LevelManagement.ReloadLevelComponent,
+          Assembly-CSharp
+        m_MethodName: Reload
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -308,19 +308,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 9147986988500225662}
-        m_TargetAssemblyTypeName: LoadLevelComponent, Assembly-CSharp
-        m_MethodName: Load
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &9147986988500225601
+--- !u!114 &4661388913647665626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,26 +317,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9147986988500225659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8d509705e292444b83a6621bf7a6013, type: 3}
+  m_Script: {fileID: 11500000, guid: 78a165694f1154d469d3b675b7ab7e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9147986988500225662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9147986988500225659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f02ef1e1bccf2c044ba153cd3b7d9efe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sceneToLoad: 
-  _position: {x: 0, y: 0, z: 0}
-  _invertScale: 0
-  _interactOnStart: 0
-  _playerData: {fileID: 0}
 --- !u!1 &9147986988712606662
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +570,6 @@ GameObject:
   - component: {fileID: 9147986989864758331}
   - component: {fileID: 9147986989864758328}
   - component: {fileID: 9147986989864758329}
-  - component: {fileID: 9147986989864758333}
   - component: {fileID: 9147986989864758330}
   m_Layer: 5
   m_Name: ExitButton
@@ -711,18 +681,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9147986989864758333}
-        m_TargetAssemblyTypeName: CleanDatabase, Assembly-CSharp
-        m_MethodName: Clean
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 9147986989864758330}
         m_TargetAssemblyTypeName: LoadLevelComponent, Assembly-CSharp
         m_MethodName: Load
@@ -735,18 +693,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &9147986989864758333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9147986989864758327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8d509705e292444b83a6621bf7a6013, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9147986989864758330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,11 +705,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02ef1e1bccf2c044ba153cd3b7d9efe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneToLoad: 
+  _sceneToLoad: MainMenu
+  _onLoad:
+    m_PersistentCalls:
+      m_Calls: []
+  _isNextLevel: 0
   _position: {x: 0, y: 0, z: 0}
   _invertScale: 0
   _interactOnStart: 0
-  _playerData: {fileID: 0}
 --- !u!1001 &9147986987821068064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -865,7 +814,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7366500841954209259, guid: 83407356b29c3fe4cb329cf85fa11722, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -62.190002
+      value: -62.19
       objectReference: {fileID: 0}
     - target: {fileID: 7366500841954209259, guid: 83407356b29c3fe4cb329cf85fa11722, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

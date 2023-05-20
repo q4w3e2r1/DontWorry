@@ -5,11 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
-using static UnityEngine.ParticleSystem;
 
 namespace SQL_Quest.UI.Commands
 {
@@ -59,13 +55,13 @@ namespace SQL_Quest.UI.Commands
 
             var capturedText = _selectedValues.Select(dropdown => dropdown.Text()).ToArray();
 
-            var columns = _dbManager.ConnectedDatabase.Tables[_tableName.Text()].Columns;
+            var columns = _dbManager.ConnectedDatabase.Tables[_tableName.Text()].ColumnsNames;
             _selectedValues[0].SetOptions(columns.Concat(AdditionalSelection.Values.Keys).ToArray(), true);
             _selectedValues[0].captionText.text = capturedText[0];
 
             if (_additionalSelectionData == null)
                 return;
-            
+
             _selectedValues[1].SetOptions(columns, _additionalSelectionData.HaveAllOption);
             _selectedValues[1].captionText.text = capturedText[1];
         }
@@ -88,7 +84,7 @@ namespace SQL_Quest.UI.Commands
                 CreateAdditionalSelection(additionalSelectionData);
                 return;
             }
-                
+
             if (additionalSelectionData == _additionalSelectionData)
                 return;
 
@@ -141,9 +137,9 @@ namespace SQL_Quest.UI.Commands
         {
             if (_tableName.IsEmpty())
                 dropdown.SetOptions(Array.Empty<string>(), haveAllOption);
-            else 
+            else
             {
-                var columns = _dbManager.ConnectedDatabase.Tables[_tableName.Text()].Columns;
+                var columns = _dbManager.ConnectedDatabase.Tables[_tableName.Text()].ColumnsNames;
                 dropdown.SetOptions(columns, haveAllOption);
             }
         }

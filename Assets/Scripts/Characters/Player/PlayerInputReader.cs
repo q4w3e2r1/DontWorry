@@ -5,7 +5,7 @@ namespace SQL_Quest.Creatures.Player
 {
     public class PlayerInputReader : MonoBehaviour
     {
-        [SerializeField] private PlayerComponent _hero;
+        [SerializeField] private PlayerComponent _player;
 
         private bool _active = true;
 
@@ -14,15 +14,15 @@ namespace SQL_Quest.Creatures.Player
             if (!_active)
                 return;
             var direction = context.ReadValue<Vector2>();
-            _hero.SetDirection(direction);
+            _player.SetDirection(direction);
         }
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if(!_active) 
+            if (!_active)
                 return;
             if (context.canceled)
-                _hero.Interact();
+                _player.Interact();
         }
 
         private void OnEnable()
