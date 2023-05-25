@@ -32,7 +32,6 @@ namespace SQL_Quest.Database.Commands
 
             var command = $"SELECT {_selectedValue} FROM {_tableName}{_filter}";
 
-
             if (_writeManyColumns)
             {
                 var reader = _dbManager.ConnectedDatabase.ExecuteQueryWithReader(command);

@@ -165,7 +165,7 @@ MonoBehaviour:
   _onDestroyLine:
     m_PersistentCalls:
       m_Calls: []
-  _maxLines: 1
+  _maxLines: 2
 --- !u!1 &8947693129084984629
 GameObject:
   m_ObjectHideFlags: 0

@@ -1534,8 +1534,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SQL_Quest.Database.DatabaseManager, Assembly-CSharp
+      - m_Target: {fileID: 1053228805}
+        m_TargetAssemblyTypeName: SQL_Quest.Database.Manager.DatabaseManager, Assembly-CSharp
         m_MethodName: Redo
         m_Mode: 1
         m_Arguments:
@@ -2439,8 +2439,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SQL_Quest.Database.DatabaseManager, Assembly-CSharp
+      - m_Target: {fileID: 1053228805}
+        m_TargetAssemblyTypeName: SQL_Quest.Database.Manager.DatabaseManager, Assembly-CSharp
         m_MethodName: Undo
         m_Mode: 1
         m_Arguments:
@@ -4143,8 +4143,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

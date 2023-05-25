@@ -221,7 +221,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1392161800616171664, guid: 83407356b29c3fe4cb329cf85fa11722, type: 3}
       propertyPath: m_text
-      value: CREATE Table ... (... ...);
+      value: CREATE TABLE ... (... ...);
       objectReference: {fileID: 0}
     - target: {fileID: 2130740135514062402, guid: 83407356b29c3fe4cb329cf85fa11722, type: 3}
       propertyPath: m_Name

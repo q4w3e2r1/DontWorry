@@ -4,6 +4,7 @@ using SQL_Quest.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TMPro;
 using UnityEngine;
 
@@ -32,8 +33,8 @@ namespace SQL_Quest.UI.Commands
             }
 
             _textPrefab = Resources.Load<GameObject>("UI/Text");
-            _dropdownPrefab = Resources.Load<GameObject>("UI/Commands/Dropdowns/CreateDropdown");
-            _inputFieldPrefab = Resources.Load<GameObject>("UI/Commands/InputFields/CreateInputField");
+            _dropdownPrefab = Resources.Load<GameObject>("UI/Shell/Commands/Dropdowns/CreateDropdown");
+            _inputFieldPrefab = Resources.Load<GameObject>("UI/Shell/Commands/InputFields/CreateInputField");
 
             _firstLine = GetComponentInChildren<Line>();
 
@@ -269,28 +270,32 @@ namespace SQL_Quest.UI.Commands
                 return;
             }
 
-            var secondLine = GetComponentsInChildren<Line>()[1];
-            var secondLineDropdowns = secondLine.GetComponentsInChildren<TMP_Dropdown>()
-                .Select(dropdown => dropdown.captionText.text)
-                .ToArray();
-            if (secondLineDropdowns.Any(dropdownText => dropdownText == "..."))
-                return;
-
-            string filter = "";
-            switch (secondLineDropdowns[0])
+            var filter = new StringBuilder();
+            for (int i = 1; i < GetComponentsInChildren<Line>().Length; i++)
             {
-                case "WHERE":
-                    var inputField = secondLine.GetComponentInChildren<TMP_InputField>().text;
-                    if (inputField == "")
-                        return;
+                var secondLine = GetComponentsInChildren<Line>()[i];
+                var secondLineDropdowns = secondLine.GetComponentsInChildren<TMP_Dropdown>()
+                    .Select(dropdown => dropdown.captionText.text)
+                    .ToArray();
+                if (secondLineDropdowns.Any(dropdownText => dropdownText == "..."))
+                    return;
 
-                    filter = $" {string.Join(" ", secondLineDropdowns)} \"{inputField}\"";
-                    break;
-                case "ORDER BY":
-                    filter = $" {string.Join(" ", secondLineDropdowns)}";
-                    break;
+
+                switch (secondLineDropdowns[0])
+                {
+                    case "WHERE":
+                        var inputField = secondLine.GetComponentInChildren<TMP_InputField>().text;
+                        if (inputField == "")
+                            return;
+                        filter.Append($" {string.Join(" ", secondLineDropdowns)} \"{inputField}\"");
+                        break;
+                    case "ORDER BY":
+                        filter.Append($" {string.Join(" ", secondLineDropdowns)}");
+                        break;
+                }
             }
-            _dbManager.Select(gameObject, tableName, selectedValue, filter,
+            
+            _dbManager.Select(gameObject, tableName, selectedValue, filter.ToString(),
                     _additionalSelectionData == null || _additionalSelectionData.WriteManyColumns);
         }
     }
@@ -342,7 +347,7 @@ namespace SQL_Quest.UI.Commands
             ["MAX"] = new(true, false, true, false),
             ["MIN"] = new(true, false, true, false),
             ["DISTINCT"] = new(false, true, false, true),
-            ["COUNT"] = new(true, false, true, false)
+            ["COUNT"] = new(true, true, true, false)
         };
     }
 }

@@ -15,5 +15,13 @@ namespace SQL_Quest.Components.UI.Chat
         public string AnswerTo => _answerTo;
         public bool ChangeButtonToComplete => _changeButtonToComplete;
         public bool ChangeButtonToRestart => _changeButtonToRestart;
+
+        public Message(string text)
+        {
+            _text = text;
+            _answerTo = string.Empty;
+            _changeButtonToComplete = false;
+            _changeButtonToRestart = false;
+        }
     }
 }

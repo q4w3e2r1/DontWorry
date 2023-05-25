@@ -48,7 +48,7 @@ namespace SQL_Quest.Components.UI.Chat
         private void Start()
         {
             _activeButton = _helpButton;
-            SendMessage(_data.Messages[0]);
+            SendMessage(_data.Messages[0], true);
         }
 
         public void CheckMessage(string message)
@@ -58,21 +58,21 @@ namespace SQL_Quest.Components.UI.Chat
             var errorMessage = _data.ErrorMessages.Where(msg => msg.AnswerTo == message).FirstOrDefault();
             if (errorMessage != null)
             {
-                SendMessage(errorMessage);
+                SendMessage(errorMessage, true);
                 return;
             }
             if (firstMessage.AnswerTo != message)
                 return;
 
-            SendMessage(firstMessage);
+            SendMessage(firstMessage, true);
         }
 
         public void SendHelpMessage()
         {
-            SendMessage(_data.HelpMessages[0]);
+            SendMessage(new Message(_data.Messages[_sentMessages.Count].AnswerTo), false);
         }
 
-        private void SendMessage(Message message)
+        private void SendMessage(Message message, bool pushInStack)
         {
             var messageGO = Instantiate(_messagePrefab);
             messageGO.GetComponentInChildren<TextMeshProUGUI>().text = message.Text;
@@ -86,7 +86,8 @@ namespace SQL_Quest.Components.UI.Chat
 
             messageGO.GetComponentInParent<ScrollRect>().ScrollToBottom(messageGO);
 
-            _sentMessages.Push(messageGO);
+            if(pushInStack)
+                _sentMessages.Push(messageGO);
         }
 
         public void DestroyLastMessage()
