@@ -29,10 +29,12 @@ namespace SQL_Quest.Components.UI.Dialogs
 
         private UnityEvent _onFinishDialog;
 
-        
+
 
         private void Start()
-        => _playerName = PlayerDataHandler.PlayerData.Name;
+        {
+            _playerName = PlayerPrefs.GetString("Name");
+        }
 
         public void ShowDialog(DialogData data, UnityEvent onStart, UnityEvent onFinish)
         {

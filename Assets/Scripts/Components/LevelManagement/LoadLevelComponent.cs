@@ -1,5 +1,6 @@
 ﻿using SQL_Quest.Components.UI;
 using SQL_Quest.Creatures.Player;
+using SQL_Quest.Extensions;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,12 +31,7 @@ namespace SQL_Quest.Components.LevelManagement
             yield return new WaitUntil(() => waitFading == false);
 
             _onLoad?.Invoke();
-            var playerData = PlayerDataHandler.PlayerData;
-            playerData.Position = _position;
-            playerData.InvertScale = _invertScale;
-            playerData.InteractOnStart = _interactOnStart;
-            if (_isNextLevel)
-                playerData.LevelNumber++;
+            SetPlayerPrefs();
 
             SceneManager.LoadScene(_sceneToLoad);
 
@@ -43,6 +39,15 @@ namespace SQL_Quest.Components.LevelManagement
             Fader.Instance.FadeOut(() => waitFading = false);
 
             yield return new WaitUntil(() => waitFading == false);
+        }
+
+        private void SetPlayerPrefs()
+        {
+            PlayerPrefsExtensions.SetVector3("Position", _position);
+            PlayerPrefsExtensions.SetBool("InvertScale", _invertScale);
+            PlayerPrefsExtensions.SetBool("InteractOnStart", _interactOnStart);
+            if (_isNextLevel)
+                PlayerPrefs.SetInt("LevelNumber", PlayerPrefs.GetInt("LevelNumber") + 1);
         }
     }
 }

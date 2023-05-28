@@ -1,4 +1,5 @@
 using SQL_Quest.Components.ColliderBased;
+using SQL_Quest.Extensions;
 using System.Collections;
 using UnityEngine;
 
@@ -10,11 +11,10 @@ namespace SQL_Quest.Creatures.Player
 
         private void Start()
         {
-            var data = PlayerDataHandler.PlayerData;
-            transform.position = data.Position;
-            UpdateSpriteDirection(new Vector2(data.InvertScale == true ? -1 : 1, 0));
+            transform.position = PlayerPrefsExtensions.GetVector3("Position");
+            UpdateSpriteDirection(new Vector2(PlayerPrefsExtensions.GetBool("InvertScale") ? -1 : 1, 0));
 
-            if (data.InteractOnStart)
+            if (PlayerPrefsExtensions.GetBool("InteractOnStart"))
                 StartCoroutine(InteractOnStart());
         }
 

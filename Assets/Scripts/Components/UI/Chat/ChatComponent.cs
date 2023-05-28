@@ -35,8 +35,8 @@ namespace SQL_Quest.Components.UI.Chat
                     case Mode.External:
                         return _external.Data;
                     case Mode.Level:
-                        var playerData = PlayerDataHandler.PlayerData;
-                        return Resources.Load<ChatDef>($"Levels/Level{playerData.LevelNumber}/Chat").Data;
+                        var levelNumber = PlayerPrefs.GetInt("LevelNumber");
+                        return Resources.Load<ChatDef>($"Levels/Level{levelNumber}/Chat").Data;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

@@ -27,8 +27,8 @@ namespace SQL_Quest.Components.UI.Dialogs
                     case Mode.External:
                         return _external.Data;
                     case Mode.Level:
-                        var playerData = PlayerDataHandler.PlayerData;
-                        return Resources.Load<DialogDef>($"Levels/Level{playerData.LevelNumber}/Dialogs/{gameObject.name}").Data;
+                        var levelNumber = PlayerPrefs.GetInt("LevelNumber");
+                        return Resources.Load<DialogDef>($"Levels/Level{levelNumber}/Dialogs/{gameObject.name}").Data;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

@@ -1,5 +1,4 @@
-﻿using SQL_Quest.Creatures.Player;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace SQL_Quest.Components.UI
@@ -9,19 +8,16 @@ namespace SQL_Quest.Components.UI
         [SerializeField] private GameObject _continueButton;
         [SerializeField] private TMP_InputField _nameInputField;
 
-        private PlayerData _playerData;
-
         private void Start()
         {
             Cursor.visible = true;
-            _playerData = PlayerDataHandler.PlayerData;
-            _continueButton.SetActive(_playerData.Name != "");
+            _continueButton.SetActive(PlayerPrefs.HasKey("Name"));
         }
 
         public void StartNewGame()
         {
-            _playerData.Name = _nameInputField.text;
-            _playerData.LevelNumber = 1;
+            PlayerPrefs.SetString("Name", _nameInputField.textComponent.text);
+            PlayerPrefs.SetInt("LevelNumber", 1);
             Cursor.visible = false;
         }
     }

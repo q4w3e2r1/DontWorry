@@ -21,7 +21,7 @@ namespace SQL_Quest.Components.UI
 
         private void Start()
         {
-            var levelNumber = PlayerDataHandler.PlayerData.LevelNumber;
+            var levelNumber = PlayerPrefs.GetInt("LevelNumber");
 
             var shellData = Resources.Load<ShellData>($"Levels/Level{levelNumber}/ShellData");
             shellData.Initialize();
