@@ -1,4 +1,5 @@
-﻿using SQL_Quest.Extensions;
+﻿using SQL_Quest.Components.UI;
+using SQL_Quest.Extensions;
 using SQL_Quest.Extentions;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,11 @@ namespace Assets.Scripts.Components.UI
         [Space]
         [SerializeField] private TMP_Dropdown _windowResolutionDropdown;
         [SerializeField] private Toggle _windowfullScreenToggle;
+        [SerializeField] private Toggle _windowDarkThemeToggle;
 
         private int _resolutionIndex;
         private bool _isFullScreen;
+        private bool _isDarkTheme;
 
         private Resolution[] resolutions;
 
@@ -37,6 +40,9 @@ namespace Assets.Scripts.Components.UI
             _windowResolutionDropdown.value = _resolutionIndex;
 
             _windowfullScreenToggle.isOn = Screen.fullScreen;
+
+            //if (PlayerPrefs.HasKey("DarkTheme"))
+            //    _windowDarkThemeToggle.isOn = PlayerPrefsExtensions.GetBool("DarkTheme");
         }
 
         public void SetResolution(int resolutionIndex)
@@ -49,10 +55,16 @@ namespace Assets.Scripts.Components.UI
             _isFullScreen = isFullScreen;
         }
 
+        public void SetDarkTheme(bool isDarkTheme)
+        {
+            _isDarkTheme = isDarkTheme;
+        }
+
         public void SaveSettings()
         {
             PlayerPrefs.SetInt("ResolutionPreference", _resolutionIndex);
             PlayerPrefsExtensions.SetBool("FullScreenPreference", _isFullScreen);
+            PlayerPrefsExtensions.SetBool("DarkTheme", _isDarkTheme);
 
             LoadSettings();
         }
