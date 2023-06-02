@@ -1,7 +1,7 @@
 ﻿using SQL_Quest.Extentions;
 using UnityEditor;
 
-namespace SQL_Quest.Components.UI.Chat.Editor
+namespace SQL_Quest.Components.UI.Shell.Chat.Editor
 {
     [CustomEditor(typeof(ChatComponent))]
     public class ChatComponentEditor : UnityEditor.Editor

@@ -17,10 +17,9 @@ namespace SQL_Quest.UI.Commands
 
         private void Execute()
         {
-            var name = _name.captionText.text;
-            if (name == "...")
+            if (_name.IsEmpty())
                 return;
-            _dbManager.DropTable(gameObject, name);
+            _dbManager.DropTable(gameObject, _name.Text());
         }
     }
 }

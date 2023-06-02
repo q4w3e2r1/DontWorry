@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace SQL_Quest.Components.UI
+namespace SQL_Quest.Components.UI.Shell
 {
     public class Counter : MonoBehaviour
     {

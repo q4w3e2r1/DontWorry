@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace SQL_Quest.Components.UI
+namespace SQL_Quest.Components.UI.Shell
 {
     public class ShellController : MonoBehaviour
     {
@@ -23,7 +23,7 @@ namespace SQL_Quest.Components.UI
         {
             var levelNumber = PlayerPrefs.GetInt("LevelNumber");
 
-            var shellData = Resources.Load<ShellData>($"Levels/Level{levelNumber}/ShellData");
+            var shellData = Resources.Load<ShellData>($"Levels/Level{levelNumber}/Shell/ShellData");
             shellData.Initialize();
             _levelName.text = shellData.LevelName;
             _output.text = "Welcome to the MySQL monitor.  Commands end with ; or \\g.\r\n" +

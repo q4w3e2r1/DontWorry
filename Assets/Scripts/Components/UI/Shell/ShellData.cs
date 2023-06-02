@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SQL_Quest.Components.UI
+namespace SQL_Quest.Components.UI.Shell
 {
     [CreateAssetMenu]
     [Serializable]

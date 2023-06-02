@@ -1,5 +1,6 @@
 using SQL_Quest.Components.UI;
 using SQL_Quest.Components.UI.Line;
+using SQL_Quest.Components.UI.Shell;
 using SQL_Quest.Extentions;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace SQL_Quest.UI.Commands
         private GameObject _dropdownPrefab;
         private GameObject _inputFieldPrefab;
 
+        private bool _createAdditionalColumnType;
+
         protected override void Start()
         {
             base.Start();
@@ -33,8 +36,8 @@ namespace SQL_Quest.UI.Commands
             }
 
             _textPrefab = Resources.Load<GameObject>("UI/Text");
-            _dropdownPrefab = Resources.Load<GameObject>("UI/Shell/Commands/Dropdowns/CreateDropdown");
-            _inputFieldPrefab = Resources.Load<GameObject>("UI/Shell/Commands/InputFields/CreateInputField");
+            _dropdownPrefab = Resources.Load<GameObject>("UI/Shell/Dropdowns/CreateDropdown");
+            _inputFieldPrefab = Resources.Load<GameObject>("UI/Shell/InputFields/CreateInputField");
 
             _firstLine = GetComponentInChildren<Line>();
 
@@ -147,6 +150,9 @@ namespace SQL_Quest.UI.Commands
 
         public void CreateColumnType()
         {
+            if (_createAdditionalColumnType)
+                return;
+
             var separator = Instantiate(_textPrefab, _firstLine.transform).GetComponent<TextMeshProUGUI>();
             separator.text = ",";
             separator.transform.SetSiblingIndex(_selectedValues.Count * 2);
@@ -156,13 +162,18 @@ namespace SQL_Quest.UI.Commands
             columnTypeDropdown.AddListeners(value => UpdateSelectedValue(), value => Execute());
             _selectedValues.Add(columnTypeDropdown);
             columnTypeDropdown.transform.SetSiblingIndex(_selectedValues.Count * 2 - 1);
+            _createAdditionalColumnType = true;
         }
 
         public void DestroyColumnType()
         {
+            if (!_createAdditionalColumnType)
+                return;
+
             Destroy(_firstLine.transform.GetChild(_selectedValues.Count * 2 - 1).gameObject);
             Destroy(_firstLine.transform.GetChild((_selectedValues.Count - 1) * 2).gameObject);
             _selectedValues.RemoveAt(_selectedValues.Count - 1);
+            _createAdditionalColumnType = false;
         }
 
 

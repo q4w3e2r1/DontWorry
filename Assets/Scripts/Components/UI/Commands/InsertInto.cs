@@ -42,8 +42,8 @@ namespace SQL_Quest.UI.Commands
         public void SetColumnTypesDropdowns()
         {
             var dropdowns = _columnsLine.GetComponentsInChildren<TMP_Dropdown>();
-            var dropdownOptions = _tableName.captionText.text == "..." ? new string[] { "NO TABLE SELECTED" } :
-                _dbManager.ConnectedDatabase.Tables[_tableName.captionText.text].ColumnsNames;
+            var dropdownOptions = _tableName.IsEmpty() ? new string[] { "NO TABLE SELECTED" } :
+                _dbManager.ConnectedDatabase.Tables[_tableName.Text()].ColumnsNames;
 
             foreach (var dropdown in dropdowns)
             {
@@ -54,7 +54,7 @@ namespace SQL_Quest.UI.Commands
 
         public void CreateColumnTypeDropdown()
         {
-            var dropdownPrefab = Resources.Load<GameObject>("UI/Commands/Dropdowns/EditDropdown");
+            var dropdownPrefab = Resources.Load<GameObject>("UI/Shell/Dropdowns/EditDropdown");
             var buttons = _columnsLine.GetComponentsInChildren<Button>();
 
             Instantiate(_separator, _columnsLine.transform);
@@ -68,7 +68,7 @@ namespace SQL_Quest.UI.Commands
 
             Instantiate(_separator, _valuesLine.transform);
 
-            var inputFieldPrefab = Resources.Load<GameObject>("UI/Commands/InputFields/EditInputField");
+            var inputFieldPrefab = Resources.Load<GameObject>("UI/Shell/InputFields/EditInputField");
             var inputField = Instantiate(inputFieldPrefab, _valuesLine.transform).GetComponent<TMP_InputField>();
             inputField.onEndEdit.AddListener(value => Execute());
             _valuesLine.GetComponentsInChildren<TextMeshProUGUI>()[^4].transform.SetAsLastSibling();
@@ -90,16 +90,16 @@ namespace SQL_Quest.UI.Commands
         {
             var lines = GetComponentsInChildren<Line>();
 
-            var tableName = lines[0].GetComponentInChildren<TMP_Dropdown>().captionText.text;
-            var columns = _columnsLine.GetComponentsInChildren<TMP_Dropdown>().Select(dropdown => dropdown.captionText.text).ToArray();
-            if (tableName == "..." || columns.Contains("..."))
+            var tableNameDropdown = lines[0].GetComponentInChildren<TMP_Dropdown>();
+            var columns = _columnsLine.GetComponentsInChildren<TMP_Dropdown>().Select(dropdown => dropdown.Text()).ToArray();
+            if (tableNameDropdown.IsEmpty() || columns.Contains("..."))
                 return;
 
             var values = lines[^1].GetComponentsInChildren<TMP_InputField>().Select(inputField => inputField.text).ToArray();
             if (values.Contains(""))
                 return;
 
-            _dbManager.InsertInto(gameObject, tableName, columns, values);
+            _dbManager.InsertInto(gameObject, tableNameDropdown.Text(), columns, values);
         }
     }
 }

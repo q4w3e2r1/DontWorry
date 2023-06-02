@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SQL_Quest.Components.UI.Chat
+namespace SQL_Quest.Components.UI.Shell.Chat
 {
     [Serializable]
     public class ChatData

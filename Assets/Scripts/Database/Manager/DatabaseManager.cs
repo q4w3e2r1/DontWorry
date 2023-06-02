@@ -39,7 +39,7 @@ namespace SQL_Quest.Database.Manager
                         return _external.Data;
                     case Mode.Level:
                         var levelNumber = PlayerPrefs.GetInt("LevelNumber");
-                        return Resources.Load<DatabaseManagerDef>($"Levels/Level{levelNumber}/DatabaseManager").Data;
+                        return Resources.Load<DatabaseManagerDef>($"Levels/Level{levelNumber}/Shell/DatabaseManager").Data;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

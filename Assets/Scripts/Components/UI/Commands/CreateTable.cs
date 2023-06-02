@@ -1,5 +1,6 @@
 using SQL_Quest.Components.UI;
 using SQL_Quest.Components.UI.Line;
+using SQL_Quest.Components.UI.Shell;
 using SQL_Quest.Extentions;
 using System.Linq;
 using TMPro;
@@ -66,7 +67,7 @@ namespace SQL_Quest.UI.Commands
 
         public void Execute()
         {
-            if (_tableName.text == "...")
+            if (_tableName.text == "")
                 return;
 
             var lines = GetComponentsInChildren<Line>();
@@ -77,7 +78,7 @@ namespace SQL_Quest.UI.Commands
             {
                 var columnName = lines[i].GetComponentInChildren<TMP_InputField>().text;
                 var columnType = lines[i].GetComponentsInChildren<TMP_Dropdown>()
-                                         .Select(dropdown => dropdown.captionText.text)
+                                         .Select(dropdown => dropdown.Text())
                                          .ToHashSet();
                 if (columnName == "" || columnType.Contains("..."))
                     return;

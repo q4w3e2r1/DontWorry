@@ -949,7 +949,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1028347345048734436}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9720}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4951,6 +4951,7 @@ MonoBehaviour:
   _musicVolumeSlider: {fileID: 3497559160272748863}
   _windowResolutionDropdown: {fileID: 6330988013142526277}
   _windowfullScreenToggle: {fileID: 4611551747098315691}
+  _windowDarkThemeToggle: {fileID: 0}
 --- !u!1 &6415081266822947787
 GameObject:
   m_ObjectHideFlags: 0
@@ -5809,7 +5810,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 122.38501, y: -117.5}
+  m_AnchoredPosition: {x: 122.385, y: -117.5}
   m_SizeDelta: {x: 244.77, y: 235}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4874824800190007609

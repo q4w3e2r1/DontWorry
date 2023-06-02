@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SQL_Quest.Components.UI.Chat
+namespace SQL_Quest.Components.UI.Shell.Chat
 {
     public class ChatComponent : MonoBehaviour
     {
@@ -36,7 +36,7 @@ namespace SQL_Quest.Components.UI.Chat
                         return _external.Data;
                     case Mode.Level:
                         var levelNumber = PlayerPrefs.GetInt("LevelNumber");
-                        return Resources.Load<ChatDef>($"Levels/Level{levelNumber}/Chat").Data;
+                        return Resources.Load<ChatDef>($"Levels/Level{levelNumber}/Shell/Chat").Data;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

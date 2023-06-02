@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace SQL_Quest.Components.UI
+namespace SQL_Quest.Components.UI.Shell
 {
     public class Modifier : MonoBehaviour
     {

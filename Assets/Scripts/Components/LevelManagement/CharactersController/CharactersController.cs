@@ -1,5 +1,4 @@
 ﻿using SQL_Quest.Components.UI;
-using SQL_Quest.Components.UI.Chat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +32,8 @@ namespace SQL_Quest.Components.LevelManagement.CharactersController
                     case Mode.Level:
                         var levelNumber = PlayerPrefs.GetInt("LevelNumber");
                         return Resources.Load<CharactersControllerDef>
-                            ($"Levels/Level{levelNumber}/{SceneManager.GetActiveScene().name}CharactersController").Data;
+                            ($"Levels/Level{levelNumber}/CharactersControlers/" +
+                            $"{SceneManager.GetActiveScene().name}CharactersController").Data;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

@@ -18,10 +18,9 @@ namespace SQL_Quest.UI.Commands
 
         public void Execute()
         {
-            var name = _name.captionText.text;
-            if (name == "...")
+            if (_name.IsEmpty())
                 return;
-            _dbManager.UseDatabase(gameObject, name);
+            _dbManager.UseDatabase(gameObject, _name.Text());
         }
     }
 }
