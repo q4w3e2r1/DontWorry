@@ -33,7 +33,10 @@ namespace SQL_Quest.Components.LevelManagement
             _onLoad?.Invoke();
             SetPlayerPrefs();
 
-            SceneManager.LoadScene(_sceneToLoad);
+            if(PlayerPrefs.GetInt("LevelNumber") <= 5)
+                SceneManager.LoadScene(_sceneToLoad);
+            else
+                SceneManager.LoadScene("MainMenu");
 
             waitFading = true;
             Fader.Instance.FadeOut(() => waitFading = false);

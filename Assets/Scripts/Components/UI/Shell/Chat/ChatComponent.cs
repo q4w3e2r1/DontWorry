@@ -55,21 +55,24 @@ namespace SQL_Quest.Components.UI.Shell.Chat
         {
             Debug.Log(message);
             var firstMessage = _data.Messages[_sentMessages.Count];
-            var errorMessage = _data.ErrorMessages.Where(msg => msg.AnswerTo == message).FirstOrDefault();
+            var errorMessage = _data.ErrorMessages.Where(msg => msg.AnswerTo.Contains(message)).FirstOrDefault();
             if (errorMessage != null)
             {
                 SendMessage(errorMessage, true);
                 return;
             }
-            if (firstMessage.AnswerTo != message)
-                return;
 
-            SendMessage(firstMessage, true);
+            if (firstMessage.AnswerTo.Contains(message))
+                SendMessage(firstMessage, true);
+
+            foreach(var answer in firstMessage.AnswerTo)
+                if (answer[^1] == '*' && message.Contains(answer[..^2]))
+                    SendMessage(firstMessage, true);
         }
 
         public void SendHelpMessage()
         {
-            SendMessage(new Message(_data.Messages[_sentMessages.Count].AnswerTo), false);
+            SendMessage(new Message(_data.Messages[_sentMessages.Count].AnswerTo[0]), false);
         }
 
         private void SendMessage(Message message, bool pushInStack)

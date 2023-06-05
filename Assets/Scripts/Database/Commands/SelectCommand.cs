@@ -1,4 +1,5 @@
 using SQL_Quest.Extentions;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SQL_Quest.Database.Commands
@@ -31,6 +32,7 @@ namespace SQL_Quest.Database.Commands
             }
 
             var command = $"SELECT {_selectedValue} FROM {_tableName}{_filter}";
+            UnityEngine.Debug.Log(command);
 
             if (!_returnMessage)
                 return false;

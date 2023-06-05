@@ -181,7 +181,7 @@ namespace SQL_Quest.Components.UI.Commands
         {
             var line = GetComponentsInChildren<LineComponent>()[^1];
             var dropdown = line.GetComponentInChildren<TMP_Dropdown>();
-            dropdown.SetOptions(new string[] { "WHERE", "ORDER BY" });
+            dropdown.SetOptions(new string[] { "WHERE", "ORDER BY", "LEFT OUTER JOIN" });
             dropdown.AddListeners(value => UpdateLine(), value => Execute());
         }
 
@@ -201,6 +201,9 @@ namespace SQL_Quest.Components.UI.Commands
                     break;
                 case "ORDER BY":
                     UpdateOrderByLine(line, dropdowns, inputFields);
+                    break;
+                case "LEFT OUTER JOIN":
+                    UpdateInnerJoinLine(line, dropdowns, inputFields);
                     break;
             }
         }
@@ -242,6 +245,42 @@ namespace SQL_Quest.Components.UI.Commands
             var columnTypeDropdown = Instantiate(_dropdownPrefab, line.transform).GetComponent<TMP_Dropdown>();
             SetColumnsOption(columnTypeDropdown, false);
             columnTypeDropdown.AddListeners(value => Execute());
+        }
+
+        private void UpdateInnerJoinLine(LineComponent line, TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
+        { 
+            if(dropdowns.Length == 4 && inputFields.Length == 0)
+                return;
+
+            CleanLine(dropdowns, inputFields);
+
+            var secondTable = Instantiate(_dropdownPrefab, line.transform).GetComponent<TMP_Dropdown>();
+            secondTable.SetOptions(_dbManager.ConnectedDatabase.Tables.Keys
+                       .Where(tableName => tableName != _tableName.GetText())
+                       .ToArray());
+            secondTable.AddListeners(value => UpdateSecondTableColumnJoinLine(line), value => Execute());
+
+            var onText = Instantiate(_textPrefab, line.transform).GetComponent<TextMeshProUGUI>();
+            onText.text = "ON";
+
+            var firstTableColumns = Instantiate(_dropdownPrefab, line.transform).GetComponent<TMP_Dropdown>();
+            firstTableColumns.SetOptions(_dbManager.ConnectedDatabase.Tables[_tableName.GetText()].ColumnsNames
+                             .Select(columnName => $"{_tableName.GetText()}.{columnName}").ToArray());
+            firstTableColumns.AddListeners(value => Execute());
+
+            var equalText = Instantiate(_textPrefab, line.transform).GetComponent<TextMeshProUGUI>();
+            equalText.text = "=";
+
+            var secondTableColumns = Instantiate(_dropdownPrefab, line.transform).GetComponent<TMP_Dropdown>();
+            firstTableColumns.AddListeners(value => Execute());
+        }
+
+        private void UpdateSecondTableColumnJoinLine(LineComponent line)
+        {
+            var secondTable = line.transform.GetChild(1).GetComponent<TMP_Dropdown>();
+            var secondTableColumns = line.transform.GetChild(line.transform.childCount - 1).GetComponent<TMP_Dropdown>();
+            secondTableColumns.SetOptions(_dbManager.ConnectedDatabase.Tables[secondTable.GetText()].ColumnsNames
+                             .Select(columnName => $"{secondTable.GetText()}.{columnName}").ToArray());
         }
 
         private void CleanLine(TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
@@ -301,6 +340,10 @@ namespace SQL_Quest.Components.UI.Commands
                         break;
                     case "ORDER BY":
                         filter.Append($" {string.Join(" ", secondLineDropdowns)}");
+                        break;
+                    case "LEFT OUTER JOIN":
+                        filter.Append($" {secondLineDropdowns[0]} {secondLineDropdowns[1]} ON " +
+                            $"{secondLineDropdowns[2]} = {secondLineDropdowns[3]}");
                         break;
                 }
             }

@@ -23,7 +23,7 @@ MonoBehaviour:
         - date
         _columnsTypes:
         - TEXT NOT NULL
-      - Name: meeting
+      - Name: timetable
         _columnsNames:
         - meeting
         - date

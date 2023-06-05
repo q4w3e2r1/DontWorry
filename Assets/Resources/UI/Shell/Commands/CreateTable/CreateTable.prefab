@@ -97,7 +97,6 @@ GameObject:
   - component: {fileID: 7607549255102378348}
   - component: {fileID: 6090498713061448482}
   - component: {fileID: 4195146099343705281}
-  - component: {fileID: 7425602380642609386}
   m_Layer: 5
   m_Name: CreateTable
   m_TagString: Untagged
@@ -251,21 +250,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _maxLines: 2147483647
---- !u!114 &7425602380642609386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3441244984656893884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb105a9d445b98408ec5d1055d54deb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parent: {fileID: 3441244984656893885}
-  childs:
-  - {fileID: 585323368208114922}
 --- !u!1001 &6805628827269516
 PrefabInstance:
   m_ObjectHideFlags: 0
