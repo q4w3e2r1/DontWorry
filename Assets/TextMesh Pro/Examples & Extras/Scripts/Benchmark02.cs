@@ -40,7 +40,7 @@ namespace TMPro.Examples
                     textMeshPro.text = "!";
                     textMeshPro.isTextObjectScaleStatic = IsTextObjectScaleStatic;
 
-                    // Spawn Floating Text
+                    // Spawn Floating GetText
                     floatingText_Script = go.AddComponent<TextMeshProFloatingText>();
                     floatingText_Script.SpawnType = 0;
                     floatingText_Script.IsTextObjectScaleStatic = IsTextObjectScaleStatic;
@@ -61,7 +61,7 @@ namespace TMPro.Examples
                     textMesh.color = new Color32(255, 255, 0, 255);
                     textMesh.text = "!";
 
-                    // Spawn Floating Text
+                    // Spawn Floating GetText
                     floatingText_Script = go.AddComponent<TextMeshProFloatingText>();
                     floatingText_Script.SpawnType = 1;
                 }
@@ -83,7 +83,7 @@ namespace TMPro.Examples
                     textObject.fontSize = 96;
                     textObject.text = "!";
 
-                    // Spawn Floating Text
+                    // Spawn Floating GetText
                     floatingText_Script = go.AddComponent<TextMeshProFloatingText>();
                     floatingText_Script.SpawnType = 0;
                 }

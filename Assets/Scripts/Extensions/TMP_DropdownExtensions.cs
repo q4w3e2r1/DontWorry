@@ -8,11 +8,11 @@ namespace SQL_Quest.Extentions
 {
     public static class TMP_DropdownExtensions
     {
-        public static string Text(this TMP_Dropdown dropdown)
+        public static string GetText(this TMP_Dropdown dropdown)
             => dropdown.captionText.text;
 
         public static bool IsEmpty(this TMP_Dropdown dropdown)
-            => dropdown.Text() == "...";
+            => dropdown.GetText() == "...";
 
         public static void SetOptions(this TMP_Dropdown dropdown, string[] strings, bool haveAllOption = false)
         {

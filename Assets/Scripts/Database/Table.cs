@@ -9,7 +9,6 @@ namespace SQL_Quest.Database
     public class Table
     {
         public string Name;
-        public string DatabaseName;
         [SerializeField] private string[] _columnsNames;
         [SerializeField] private string[] _columnsTypes;
 

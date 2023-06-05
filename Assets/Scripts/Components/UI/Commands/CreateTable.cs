@@ -6,29 +6,28 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace SQL_Quest.UI.Commands
+namespace SQL_Quest.Components.UI.Commands
 {
     public class CreateTable : UICommand
     {
-        private TMP_InputField _tableName;
+        [SerializeField] private TMP_InputField _tableName;
 
         protected override void Start()
         {
             base.Start();
-            var startLine = GetComponentsInChildren<Line>()[0].gameObject;
-            _tableName = startLine.GetComponentsInChildren<TMP_InputField>()[0];
+            _tableName.onEndEdit.AddListener(value => Execute());
             SetLine();
         }
 
         public void SetLine()
         {
-            var line = GetComponentsInChildren<Line>()[^1].gameObject;
+            var line = GetComponentsInChildren<LineComponent>()[^1].gameObject;
 
             var columnTypesDropdown = line.GetComponentInChildren<TMP_Dropdown>();
             columnTypesDropdown.SetOptions(_dbManager.AllowedColumnTypes);
             columnTypesDropdown.onValueChanged.AddListener(value => Execute());
 
-            var tableNameInputField = line.GetComponentsInChildren<TMP_InputField>()[^1];
+            var tableNameInputField = line.GetComponentInChildren<TMP_InputField>();
             tableNameInputField.onEndEdit.AddListener(value => Execute());
 
             var modifier = line.GetComponentInChildren<Modifier>();
@@ -37,31 +36,24 @@ namespace SQL_Quest.UI.Commands
 
         private void CreateColumnAttributeDropdown(GameObject line)
         {
-            var dropdownPrefab = Resources.Load<GameObject>("UI/Commands/Dropdowns/CreateDropdown");
-            var columnTypesDropdown = Instantiate(dropdownPrefab, line.transform).GetComponent<TMP_Dropdown>();
-            columnTypesDropdown.SetOptions(_dbManager.AllowedColumnAttributes);
-            columnTypesDropdown.onValueChanged.AddListener(value => Execute());
+            var dropdownPrefab = Resources.Load<GameObject>("UI/Shell/Dropdowns/CreateDropdown");
 
-            var textPrefab = Resources.Load<GameObject>("UI/Text");
-            var separator = Instantiate(textPrefab, line.transform).GetComponent<TextMeshProUGUI>();
-            separator.text = ",";
+            var separator = line.GetComponentsInChildren<TextMeshProUGUI>()[^1];
 
-            var modifier = line.GetComponentInChildren<Modifier>();
+            var columnAttributeDropdown = Instantiate(dropdownPrefab, line.transform).GetComponent<TMP_Dropdown>();
+            columnAttributeDropdown.SetOptions(_dbManager.AllowedColumnAttributes);
+            columnAttributeDropdown.onValueChanged.AddListener(value => Execute());
 
-            SetAsLastSiblings(modifier.gameObject, separator.gameObject);
-        }
-
-        private static void SetAsLastSiblings(params GameObject[] gameObjects)
-        {
-            foreach (var gameObject in gameObjects)
-                gameObject.transform.SetAsLastSibling();
+            line.GetComponentInChildren<Modifier>().transform.SetAsLastSibling();
+            separator.transform.SetAsLastSibling();
         }
 
         private void DestoyColumnAttributeDropdown(GameObject line)
         {
             var dropdowns = line.GetComponentsInChildren<TMP_Dropdown>();
-            if (dropdowns.Length < 2)
+            if (dropdowns.Length == 1)
                 return;
+
             Destroy(dropdowns[^1].gameObject);
         }
 
@@ -70,7 +62,7 @@ namespace SQL_Quest.UI.Commands
             if (_tableName.text == "")
                 return;
 
-            var lines = GetComponentsInChildren<Line>();
+            var lines = GetComponentsInChildren<LineComponent>();
 
             var columnNames = new string[lines.Length];
             var columnTypes = new string[lines.Length];
@@ -78,7 +70,7 @@ namespace SQL_Quest.UI.Commands
             {
                 var columnName = lines[i].GetComponentInChildren<TMP_InputField>().text;
                 var columnType = lines[i].GetComponentsInChildren<TMP_Dropdown>()
-                                         .Select(dropdown => dropdown.Text())
+                                         .Select(dropdown => dropdown.GetText())
                                          .ToHashSet();
                 if (columnName == "" || columnType.Contains("..."))
                     return;
@@ -86,7 +78,7 @@ namespace SQL_Quest.UI.Commands
                 columnNames[i] = columnName;
                 columnTypes[i] = string.Join(" ", columnType);
             }
-            _dbManager.CreateTable(gameObject, _tableName.text, columnNames, columnTypes);
+            _dbManager.CreateTableCommand(gameObject, _tableName.text, columnNames, columnTypes);
         }
     }
 }

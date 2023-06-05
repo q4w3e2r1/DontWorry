@@ -1,4 +1,3 @@
-using SQL_Quest.Components.UI;
 using SQL_Quest.Components.UI.Line;
 using SQL_Quest.Components.UI.Shell;
 using SQL_Quest.Extentions;
@@ -9,13 +8,13 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 
-namespace SQL_Quest.UI.Commands
+namespace SQL_Quest.Components.UI.Commands
 {
     public class Select : UICommand
     {
         [SerializeField] private TMP_Dropdown _tableName;
 
-        private Line _firstLine;
+        private LineComponent _firstLine;
         private List<TMP_Dropdown> _selectedValues;
         private List<GameObject> _additionalSelection;
         private AdditionalSelectionData _additionalSelectionData;
@@ -31,7 +30,7 @@ namespace SQL_Quest.UI.Commands
             base.Start();
             if (_dbManager.ConnectedDatabase == null)
             {
-                _dbManager.Select(gameObject, "", "", "");
+                _dbManager.SelectCommand(gameObject, "", "", "");
                 return;
             }
 
@@ -39,7 +38,7 @@ namespace SQL_Quest.UI.Commands
             _dropdownPrefab = Resources.Load<GameObject>("UI/Shell/Dropdowns/CreateDropdown");
             _inputFieldPrefab = Resources.Load<GameObject>("UI/Shell/InputFields/CreateInputField");
 
-            _firstLine = GetComponentInChildren<Line>();
+            _firstLine = GetComponentInChildren<LineComponent>();
 
             var columns = _dbManager.ConnectedDatabase.Tables.Keys.ToArray();
             _tableName.SetOptions(columns);
@@ -54,12 +53,12 @@ namespace SQL_Quest.UI.Commands
         {
             CheckFirstValue();
 
-            if (_tableName.captionText.text == "...")
+            if (_tableName.IsEmpty())
                 return;
 
-            var capturedText = _selectedValues.Select(dropdown => dropdown.Text()).ToArray();
+            var capturedText = _selectedValues.Select(dropdown => dropdown.GetText()).ToArray();
 
-            var columns = _dbManager.ConnectedDatabase.Tables[_tableName.Text()].ColumnsNames;
+            var columns = _dbManager.ConnectedDatabase.Tables[_tableName.GetText()].ColumnsNames;
             _selectedValues[0].SetOptions(columns.Concat(AdditionalSelection.Values.Keys).ToArray(), true);
             _selectedValues[0].captionText.text = capturedText[0];
 
@@ -72,7 +71,7 @@ namespace SQL_Quest.UI.Commands
 
         private void CheckFirstValue()
         {
-            var firstValue = _selectedValues[0].Text();
+            var firstValue = _selectedValues[0].GetText();
             if (!AdditionalSelection.Values.ContainsKey(firstValue) && _additionalSelection == null)
                 return;
 
@@ -143,7 +142,7 @@ namespace SQL_Quest.UI.Commands
                 dropdown.SetOptions(Array.Empty<string>(), haveAllOption);
             else
             {
-                var columns = _dbManager.ConnectedDatabase.Tables[_tableName.Text()].ColumnsNames;
+                var columns = _dbManager.ConnectedDatabase.Tables[_tableName.GetText()].ColumnsNames;
                 dropdown.SetOptions(columns, haveAllOption);
             }
         }
@@ -180,7 +179,7 @@ namespace SQL_Quest.UI.Commands
         #region AdditionalLine
         public void SetLine()
         {
-            var line = GetComponentsInChildren<Line>()[^1];
+            var line = GetComponentsInChildren<LineComponent>()[^1];
             var dropdown = line.GetComponentInChildren<TMP_Dropdown>();
             dropdown.SetOptions(new string[] { "WHERE", "ORDER BY" });
             dropdown.AddListeners(value => UpdateLine(), value => Execute());
@@ -188,11 +187,11 @@ namespace SQL_Quest.UI.Commands
 
         public void UpdateLine()
         {
-            var line = GetComponentsInChildren<Line>()[^1];
+            var line = GetComponentsInChildren<LineComponent>()[^1];
             var dropdowns = line.GetComponentsInChildren<TMP_Dropdown>();
             var inputFields = line.GetComponentsInChildren<TMP_InputField>();
 
-            switch (dropdowns[0].Text())
+            switch (dropdowns[0].GetText())
             {
                 case "...":
                     UpdateDefaultLine(dropdowns, inputFields);
@@ -214,7 +213,7 @@ namespace SQL_Quest.UI.Commands
             return;
         }
 
-        private void UpdateWhereLine(Line line, TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
+        private void UpdateWhereLine(LineComponent line, TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
         {
             if (dropdowns.Length == 3 && inputFields.Length == 1)
                 return;
@@ -233,7 +232,7 @@ namespace SQL_Quest.UI.Commands
             inputField.onEndEdit.AddListener(value => Execute());
         }
 
-        private void UpdateOrderByLine(Line line, TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
+        private void UpdateOrderByLine(LineComponent line, TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
         {
             if (dropdowns.Length == 2 && inputFields.Length == 0)
                 return;
@@ -266,25 +265,25 @@ namespace SQL_Quest.UI.Commands
 
             var tableName = firstLineDropdowns[^1];
 
-            var selectedValue = _selectedValues[0].Text();
+            var selectedValue = _selectedValues[0].GetText();
             if (_additionalSelectionData != null)
             {
                 selectedValue = _additionalSelectionData.HaveBrackets ?
-                    $"{_selectedValues[0].Text()}({_selectedValues[1].Text()})" :
-                    $"{_selectedValues[0].Text()} {_selectedValues[1].Text()}";
+                    $"{_selectedValues[0].GetText()}({_selectedValues[1].GetText()})" :
+                    $"{_selectedValues[0].GetText()} {_selectedValues[1].GetText()}";
             }
 
-            if (GetComponentsInChildren<Line>().Length == 1)
+            if (GetComponentsInChildren<LineComponent>().Length == 1)
             {
-                _dbManager.Select(gameObject, tableName, selectedValue, "",
+                _dbManager.SelectCommand(gameObject, tableName, selectedValue, "",
                     _additionalSelectionData == null || _additionalSelectionData.WriteManyColumns);
                 return;
             }
 
             var filter = new StringBuilder();
-            for (int i = 1; i < GetComponentsInChildren<Line>().Length; i++)
+            for (int i = 1; i < GetComponentsInChildren<LineComponent>().Length; i++)
             {
-                var secondLine = GetComponentsInChildren<Line>()[i];
+                var secondLine = GetComponentsInChildren<LineComponent>()[i];
                 var secondLineDropdowns = secondLine.GetComponentsInChildren<TMP_Dropdown>()
                     .Select(dropdown => dropdown.captionText.text)
                     .ToArray();
@@ -306,7 +305,7 @@ namespace SQL_Quest.UI.Commands
                 }
             }
             
-            _dbManager.Select(gameObject, tableName, selectedValue, filter.ToString(),
+            _dbManager.SelectCommand(gameObject, tableName, selectedValue, filter.ToString(),
                     _additionalSelectionData == null || _additionalSelectionData.WriteManyColumns);
         }
     }

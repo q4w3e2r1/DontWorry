@@ -6,25 +6,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SQL_Quest.UI.Commands
+namespace SQL_Quest.Components.UI.Commands
 {
     public class InsertInto : UICommand
     {
         private TMP_Dropdown _tableName;
         private GameObject _separator;
-        private Line _columnsLine;
-        private Line _valuesLine;
+        private LineComponent _columnsLine;
+        private LineComponent _valuesLine;
 
         protected override void Start()
         {
             base.Start();
             if (_dbManager.ConnectedDatabase == null)
             {
-                _dbManager.InsertInto(gameObject, "", Array.Empty<string>(), Array.Empty<string>());
+                _dbManager.InsertIntoCommand(gameObject, "", Array.Empty<string>(), Array.Empty<string>());
                 return;
             }
 
-            var firstLine = GetComponentsInChildren<Line>()[0];
+            var firstLine = GetComponentsInChildren<LineComponent>()[0];
             _tableName = firstLine.GetComponentInChildren<TMP_Dropdown>();
             _tableName.SetOptions(_dbManager.ConnectedDatabase.Tables.Keys.ToArray());
             _tableName.onValueChanged.AddListener(value => SetColumnTypesDropdowns());
@@ -32,10 +32,10 @@ namespace SQL_Quest.UI.Commands
             _separator = Resources.Load<GameObject>("UI/Text");
             _separator.GetComponent<TextMeshProUGUI>().text = ",";
 
-            _columnsLine = GetComponentsInChildren<Line>()[1];
+            _columnsLine = GetComponentsInChildren<LineComponent>()[1];
             SetColumnTypesDropdowns();
 
-            _valuesLine = GetComponentsInChildren<Line>()[^1];
+            _valuesLine = GetComponentsInChildren<LineComponent>()[^1];
             _valuesLine.GetComponentInChildren<TMP_InputField>().onEndEdit.AddListener(value => Execute());
         }
 
@@ -43,7 +43,7 @@ namespace SQL_Quest.UI.Commands
         {
             var dropdowns = _columnsLine.GetComponentsInChildren<TMP_Dropdown>();
             var dropdownOptions = _tableName.IsEmpty() ? new string[] { "NO TABLE SELECTED" } :
-                _dbManager.ConnectedDatabase.Tables[_tableName.Text()].ColumnsNames;
+                _dbManager.ConnectedDatabase.Tables[_tableName.GetText()].ColumnsNames;
 
             foreach (var dropdown in dropdowns)
             {
@@ -88,10 +88,10 @@ namespace SQL_Quest.UI.Commands
 
         public void Execute()
         {
-            var lines = GetComponentsInChildren<Line>();
+            var lines = GetComponentsInChildren<LineComponent>();
 
             var tableNameDropdown = lines[0].GetComponentInChildren<TMP_Dropdown>();
-            var columns = _columnsLine.GetComponentsInChildren<TMP_Dropdown>().Select(dropdown => dropdown.Text()).ToArray();
+            var columns = _columnsLine.GetComponentsInChildren<TMP_Dropdown>().Select(dropdown => dropdown.GetText()).ToArray();
             if (tableNameDropdown.IsEmpty() || columns.Contains("..."))
                 return;
 
@@ -99,7 +99,7 @@ namespace SQL_Quest.UI.Commands
             if (values.Contains(""))
                 return;
 
-            _dbManager.InsertInto(gameObject, tableNameDropdown.Text(), columns, values);
+            _dbManager.InsertIntoCommand(gameObject, tableNameDropdown.GetText(), columns, values);
         }
     }
 }

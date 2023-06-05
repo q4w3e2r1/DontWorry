@@ -46,70 +46,53 @@ namespace SQL_Quest.Database.Manager
             }
         }
 
-
-
         private void Awake()
         {
             Cursor.visible = true;
-            GetAllowedDatabases();
-            GetExistingDatabases();
-        }
 
-        private void GetAllowedDatabases()
-        {
-            for (int i = 0; i < _data.Tables.Length; i++)
+            foreach(var database in _data.Databases) 
             {
-                var databaseName = _data.Tables[i].DatabaseName;
-                if (!AllowedDatabases.ContainsKey(databaseName))
-                    AllowedDatabases[databaseName] = new();
-                AllowedDatabases[databaseName][_data.Tables[i].Name] = _data.Tables[i];
-            }
-        }
+                var tableDictionary = new Dictionary<string, Table>();
+                foreach (var table in database.Tables)
+                    tableDictionary[table.Name] = table;
 
-        private void GetExistingDatabases()
-        {
-            var databaseExtension = ".sqlite";
-            var path = $"{Application.dataPath}/StreamingAssets/Databases/{DatabasesFolder}";
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-                return;
-            }
-
-            var files = Directory.GetFiles(path, $"*{databaseExtension}").Select(file =>
-                file.Substring(path.Length + 1, file.Length - databaseExtension.Length - 1 - path.Length));
-            foreach (var file in files)
-            {
-                if (!AllowedDatabases.ContainsKey(file))
-                    continue;
-                ExistingDatabases[file] = new Database(file, path, AllowedDatabases[file]);
+                switch (database.Type)
+                {
+                    case DatabaseInspectorType.Allowed:
+                        AllowedDatabases[database.Name] = tableDictionary;
+                        break;
+                    case DatabaseInspectorType.Existing:
+                        var path = $"{Application.dataPath}/StreamingAssets/Databases/{DatabasesFolder}";
+                        ExistingDatabases[database.Name] = new Database(database.Name, path, tableDictionary);
+                        break;
+                }
             }
         }
 
         #region Database
 
-        public void CreateDatabase(GameObject gameObject, string name)
+        public void CreateDatabaseCommand(GameObject gameObject, string name)
         {
             var command = gameObject.AddComponent<CreateDatabaseCommand>();
             command.Constructor(name);
             ExecuteCommand(command);
         }
 
-        public void DropDatabase(GameObject gameObject, string name)
+        public void DropDatabaseCommand(GameObject gameObject, string name)
         {
             var command = gameObject.AddComponent<DropDatabaseCommand>();
-            command.Constructor(name);
+            command.Constructor(name, false);
             ExecuteCommand(command);
         }
 
-        public void UseDatabase(GameObject gameObject, string name)
+        public void UseDatabaseCommand(GameObject gameObject, string name)
         {
             var command = gameObject.AddComponent<UseDatabaseCommand>();
             command.Constructor(name);
             ExecuteCommand(command);
         }
 
-        public void ShowDatabases(GameObject gameObject)
+        public void ShowDatabasesCommand(GameObject gameObject)
         {
             var command = gameObject.AddComponent<ShowDatabasesCommand>();
             command.Constructor();
@@ -120,28 +103,28 @@ namespace SQL_Quest.Database.Manager
 
         #region Table
 
-        public void CreateTable(GameObject gameObject, string name, string[] columnNames, string[] columnTypes)
+        public void CreateTableCommand(GameObject gameObject, string name, string[] columnNames, string[] columnTypes)
         {
             var command = gameObject.AddComponent<CreateTableCommand>();
             command.Constructor(name, columnNames, columnTypes);
             ExecuteCommand(command);
         }
 
-        public void DropTable(GameObject gameObject, string name)
+        public void DropTableCommand(GameObject gameObject, string name)
         {
             var command = gameObject.AddComponent<DropTableCommand>();
             command.Constructor(name);
             ExecuteCommand(command);
         }
 
-        public void InsertInto(GameObject gameObject, string tableName, string[] columns, string[] values)
+        public void InsertIntoCommand(GameObject gameObject, string tableName, string[] columns, string[] values)
         {
             var command = gameObject.AddComponent<InsertIntoCommand>();
             command.Constructor(tableName, columns, values);
             ExecuteCommand(command);
         }
 
-        public void Select(GameObject gameObject, string tableName, string selectedValue,
+        public void SelectCommand(GameObject gameObject, string tableName, string selectedValue,
                            string filter, bool writeManyColumns = true)
         {
             var command = gameObject.AddComponent<SelectCommand>();
@@ -149,7 +132,14 @@ namespace SQL_Quest.Database.Manager
             ExecuteCommand(command);
         }
 
-        public void ShowTables(GameObject gameObject)
+        public void UpdateCommand(GameObject gameObject, string tableName, string setLine, string filter)
+        {
+            var command = gameObject.AddComponent<UpdateCommand>();
+            command.Constructor(tableName, setLine, filter);
+            ExecuteCommand(command);
+        }
+
+        public void ShowTablesCommand(GameObject gameObject)
         {
             var command = gameObject.AddComponent<ShowTablesCommand>();
             command.Constructor();

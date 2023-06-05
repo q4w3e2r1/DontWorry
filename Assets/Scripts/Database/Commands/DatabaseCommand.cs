@@ -15,11 +15,9 @@ namespace SQL_Quest.Database.Commands
         protected virtual int _chatBackup { get; set; }
         protected virtual string _outputBackup { get; set; }
         protected virtual bool _returnMessage { get; set; }
-        public virtual CommandType Type { get; set; }
 
-        public void Constructor(CommandType type = CommandType.Simple, bool returnMessage = true)
+        public void Constructor(bool returnMessage = true)
         {
-            Type = type;
             _returnMessage = returnMessage;
             _dbManager = GameObject.FindWithTag("DatabaseManager").GetComponent<DatabaseManager>();
             _output = GameObject.FindWithTag("Output").GetComponent<TextMeshProUGUI>();
@@ -54,11 +52,5 @@ namespace SQL_Quest.Database.Commands
                 gameObject.SetActive(true);
             return false;
         }
-    }
-
-    public enum CommandType
-    {
-        Simple,
-        Complex
     }
 }

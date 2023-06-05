@@ -13,7 +13,7 @@ namespace SQL_Quest.Database.Commands
             _tableName = tableName;
             _columns = columns;
             _values = values;
-            base.Constructor(CommandType.Simple, returnMessage);
+            base.Constructor(returnMessage);
         }
 
         public override bool Execute()

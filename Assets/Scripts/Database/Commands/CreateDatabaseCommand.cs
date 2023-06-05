@@ -10,7 +10,7 @@ namespace SQL_Quest.Database.Commands
         public void Constructor(string name, bool returnMessage = true)
         {
             _name = name;
-            Constructor(CommandType.Simple, returnMessage);
+            Constructor(returnMessage);
         }
 
         public override bool Execute()
@@ -19,8 +19,8 @@ namespace SQL_Quest.Database.Commands
             SaveBackup();
 
             var database = new Database(_name,
-                            $"{Application.dataPath}/Databases/{_dbManager.DatabasesFolder}",
-                            new Dictionary<string, Table>());
+                $"{Application.dataPath}/StreamingAssets/Databases/Level{PlayerPrefs.GetInt("LevelNumber")}",
+                new Dictionary<string, Table>());
             _dbManager.ExistingDatabases[_name] = database;
 
             if (!_returnMessage)
@@ -37,7 +37,7 @@ namespace SQL_Quest.Database.Commands
         public override void Undo()
         {
             var undoCommand = gameObject.AddComponent<DropDatabaseCommand>();
-            undoCommand.Constructor(_name, false);
+            undoCommand.Constructor(_name, true, false);
             undoCommand.Execute();
             Destroy(undoCommand);
             base.Undo();

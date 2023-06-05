@@ -8,7 +8,7 @@ namespace SQL_Quest.Database.Commands
         public void Constructor(string name, bool returnMessage = true)
         {
             _name = name;
-            Constructor(CommandType.Simple, returnMessage);
+            Constructor(returnMessage);
         }
 
         public override bool Execute()

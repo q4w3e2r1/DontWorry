@@ -32,7 +32,7 @@ namespace SQL_Quest.Components.LevelManagement.CharactersController
                     case Mode.Level:
                         var levelNumber = PlayerPrefs.GetInt("LevelNumber");
                         return Resources.Load<CharactersControllerDef>
-                            ($"Levels/Level{levelNumber}/CharactersControlers/" +
+                            ($"Levels/Level{levelNumber}/CharactersControllers/" +
                             $"{SceneManager.GetActiveScene().name}CharactersController").Data;
                     default:
                         throw new ArgumentOutOfRangeException();

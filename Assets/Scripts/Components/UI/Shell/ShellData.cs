@@ -18,6 +18,7 @@ namespace SQL_Quest.Components.UI.Shell
         [SerializeField] private bool _showTables;
         [SerializeField] private bool _selectTable;
         [SerializeField] private bool _insertInto;
+        [SerializeField] private bool _update;
         [SerializeField] private bool _dropTable;
 
         public string LevelName => _levelName;
@@ -27,8 +28,9 @@ namespace SQL_Quest.Components.UI.Shell
         public void Initialize()
         {
             Command = new bool[]
-            { _createDatabase, _showDatabases, _useDatabases, _dropDatabases,
-              _createTable, _showTables, _selectTable, _insertInto, _dropTable
+            {
+                _createDatabase, _showDatabases, _useDatabases, _dropDatabases,
+                _createTable, _showTables, _selectTable, _insertInto, _insertInto, _update, _dropTable
             };
         }
     }

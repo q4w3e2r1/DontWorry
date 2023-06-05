@@ -1,6 +1,7 @@
 ﻿using Mono.Data.Sqlite;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 
 namespace SQL_Quest.Database
 {
@@ -8,6 +9,7 @@ namespace SQL_Quest.Database
     {
         public string Name;
 
+        private string _path;
         private IDbConnection _connection;
 
         public Dictionary<string, Table> Tables = new();
@@ -15,7 +17,8 @@ namespace SQL_Quest.Database
         public Database(string name, string path, Dictionary<string, Table> tables)
         {
             Name = name;
-            _connection = new SqliteConnection($"URI=file:{path}/{Name}.sqlite");
+            _path = $"{path}/{Name}.sqlite";
+            _connection = new SqliteConnection($"URI=file:{_path}");
             Tables = tables;
         }
 
@@ -27,6 +30,11 @@ namespace SQL_Quest.Database
 
         public void Disconnect()
             => _connection?.Close();
+
+        public void Drop()
+        {
+            File.Delete(_path);
+        }
 
         public void ExecuteQueryWithoutAnswer(string query)
         {

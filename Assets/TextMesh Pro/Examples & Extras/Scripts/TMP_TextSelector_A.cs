@@ -82,7 +82,7 @@ namespace TMPro.Examples
                     TMP_LinkInfo linkInfo = m_TextMeshPro.textInfo.linkInfo[linkIndex];
 
                     // The following provides an example of how to access the link properties.
-                    //Debug.Log("Link ID: \"" + linkInfo.GetLinkID() + "\"   Link Text: \"" + linkInfo.GetLinkText() + "\""); // Example of how to retrieve the Link ID and Link Text.
+                    //Debug.Log("Link ID: \"" + linkInfo.GetLinkID() + "\"   Link GetText: \"" + linkInfo.GetLinkText() + "\""); // Example of how to retrieve the Link ID and Link GetText.
 
                     Vector3 worldPointInRectangle;
 

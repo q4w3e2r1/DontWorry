@@ -1,7 +1,7 @@
 using SQL_Quest.Database.Manager;
 using UnityEngine;
 
-namespace SQL_Quest.UI.Commands
+namespace SQL_Quest.Components.UI.Commands
 {
     public class UICommand : MonoBehaviour
     {

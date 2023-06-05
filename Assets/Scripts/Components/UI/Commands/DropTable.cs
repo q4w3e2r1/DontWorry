@@ -2,7 +2,7 @@ using SQL_Quest.Extentions;
 using TMPro;
 using UnityEngine;
 
-namespace SQL_Quest.UI.Commands
+namespace SQL_Quest.Components.UI.Commands
 {
     public class DropTable : UICommand
     {
@@ -19,7 +19,7 @@ namespace SQL_Quest.UI.Commands
         {
             if (_name.IsEmpty())
                 return;
-            _dbManager.DropTable(gameObject, _name.Text());
+            _dbManager.DropTableCommand(gameObject, _name.GetText());
         }
     }
 }

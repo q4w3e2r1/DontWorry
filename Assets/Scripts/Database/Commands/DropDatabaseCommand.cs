@@ -1,14 +1,18 @@
+using System.IO;
+
 namespace SQL_Quest.Database.Commands
 {
     public class DropDatabaseCommand : DatabaseCommand
     {
         private string _name;
+        private bool _deleteFile;
         private bool _isDatabaseConnected;
 
-        public void Constructor(string name, bool returnMessage = true)
+        public void Constructor(string name, bool deleteFile, bool returnMessage = true)
         {
             _name = name;
-            Constructor(CommandType.Simple, returnMessage);
+            _deleteFile = deleteFile;
+            Constructor(returnMessage);
             _isDatabaseConnected = _dbManager.ConnectedDatabase?.Name == _name;
         }
 
@@ -17,11 +21,11 @@ namespace SQL_Quest.Database.Commands
             base.Execute();
             SaveBackup();
 
-            if (_isDatabaseConnected)
-            {
-                _dbManager.ExistingDatabases[_name].Disconnect();
-                _dbManager.ConnectedDatabase = null;
-            }
+            _dbManager.ExistingDatabases[_name].Disconnect();
+
+            if(_deleteFile)
+                _dbManager.ExistingDatabases[_name].Drop();
+
             _dbManager.ExistingDatabases.Remove(_name);
 
             if (!_returnMessage)

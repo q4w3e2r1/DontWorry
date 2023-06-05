@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f172d36793fadd44984059ed5d4536e2, type: 3}
+  m_Name: DatabaseManager
+  m_EditorClassIdentifier: 
+  _data:
+    _databaseFolder: Level5
+    _databases:
+    - Name: work-2023
+      Type: 1
+      Tables:
+      - Name: calendar
+        _columnsNames:
+        - date
+        _columnsTypes:
+        - TEXT NOT NULL
+      - Name: meeting
+        _columnsNames:
+        - meeting
+        - date
+        _columnsTypes:
+        - TEXT NOT NULL
+        - TEXT NOT NULL
+    _allowedColumnTypes: []
+    _allowedColumnAttributes: []

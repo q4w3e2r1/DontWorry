@@ -3,7 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace SQL_Quest.UI.Commands
+namespace SQL_Quest.Components.UI.Commands
 {
     public class DropDatabase : UICommand
     {
@@ -20,7 +20,7 @@ namespace SQL_Quest.UI.Commands
         {
             if (_name.IsEmpty())
                 return;
-            _dbManager.DropDatabase(gameObject, _name.Text());
+            _dbManager.DropDatabaseCommand(gameObject, _name.GetText());
         }
     }
 }

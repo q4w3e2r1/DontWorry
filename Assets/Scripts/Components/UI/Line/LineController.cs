@@ -13,7 +13,7 @@ namespace SQL_Quest.Components.UI.Line
 
         public void CreateLine()
         {
-            if (GetComponentsInChildren<Line>().Length - 1 == _maxLines)
+            if (GetComponentsInChildren<LineComponent>().Length - 1 == _maxLines)
                 return;
 
             var text = GetComponentsInChildren<TextMeshProUGUI>()[^1].gameObject;
@@ -26,10 +26,10 @@ namespace SQL_Quest.Components.UI.Line
 
         public void DestroyLine()
         {
-            if (GetComponentsInChildren<Line>().Length == 1)
+            if (GetComponentsInChildren<LineComponent>().Length == 1)
                 return;
 
-            Destroy(GetComponentsInChildren<Line>()[^1].gameObject);
+            Destroy(GetComponentsInChildren<LineComponent>()[^1].gameObject);
             _onDestroyLine?.Invoke();
         }
     }

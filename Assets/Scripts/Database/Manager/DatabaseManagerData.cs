@@ -7,14 +7,29 @@ namespace SQL_Quest.Database.Manager
     public class DatabaseManagerData
     {
         [SerializeField] private string _databaseFolder;
-        [SerializeField] private Table[] _tables;
+        [Space]
+        [SerializeField] private DatabaseInspector[] _databases;
         [Space]
         [SerializeField] private string[] _allowedColumnTypes;
         [SerializeField] private string[] _allowedColumnAttributes;
 
         public string DatabaseFolder => _databaseFolder;
-        public Table[] Tables => _tables;
+        public DatabaseInspector[] Databases => _databases;
         public string[] AllowedColumnTypes => _allowedColumnTypes;
         public string[] AllowedColumnAttributes => _allowedColumnAttributes;
+    }
+
+    [Serializable]
+    public class DatabaseInspector
+    {
+        public string Name;
+        public DatabaseInspectorType Type;
+        public Table[] Tables;
+    }
+
+    public enum DatabaseInspectorType
+    {
+        Allowed,
+        Existing
     }
 }

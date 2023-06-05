@@ -15,7 +15,7 @@ namespace SQL_Quest.Database.Commands
             _name = name;
             _columnNames = columnNames;
             _columnTypes = columnTypes;
-            Constructor(CommandType.Simple, returnMessage);
+            Constructor(returnMessage);
         }
 
         public override bool Execute()

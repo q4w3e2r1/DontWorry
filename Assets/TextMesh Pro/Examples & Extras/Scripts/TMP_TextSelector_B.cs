@@ -252,7 +252,7 @@ namespace TMPro.Examples
 
                     TMP_LinkInfo linkInfo = m_TextMeshPro.textInfo.linkInfo[linkIndex];
 
-                    // Debug.Log("Link ID: \"" + linkInfo.GetLinkID() + "\"   Link Text: \"" + linkInfo.GetLinkText() + "\""); // Example of how to retrieve the Link ID and Link Text.
+                    // Debug.Log("Link ID: \"" + linkInfo.GetLinkID() + "\"   Link GetText: \"" + linkInfo.GetLinkText() + "\""); // Example of how to retrieve the Link ID and Link GetText.
 
                     Vector3 worldPointInRectangle;
                     RectTransformUtility.ScreenPointToWorldPointInRectangle(m_TextMeshPro.rectTransform, Input.mousePosition, m_Camera, out worldPointInRectangle);

@@ -1,11 +1,11 @@
-namespace SQL_Quest.UI.Commands
+namespace SQL_Quest.Components.UI.Commands
 {
     public class ShowDatabases : UICommand
     {
         protected override void Start()
         {
             base.Start();
-            _dbManager.ShowDatabases(gameObject);
+            _dbManager.ShowDatabasesCommand(gameObject);
         }
     }
 }

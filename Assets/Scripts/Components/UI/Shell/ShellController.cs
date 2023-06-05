@@ -17,6 +17,7 @@ namespace SQL_Quest.Components.UI.Shell
         [SerializeField] private GameObject _showTables;
         [SerializeField] private GameObject _selectTable;
         [SerializeField] private GameObject _insertInto;
+        [SerializeField] private GameObject _update;
         [SerializeField] private GameObject _dropTable;
 
         private void Start()
@@ -36,8 +37,9 @@ namespace SQL_Quest.Components.UI.Shell
                 "affiliates. Other names may be trademarks of their respective\r\nowners.\n\n";
 
             var commands = new GameObject[]
-            { _createDatabase, _showDatabases, _useDatabases, _dropDatabases,
-              _createTable, _showTables, _selectTable, _insertInto, _dropTable
+            {
+                _createDatabase, _showDatabases, _useDatabases, _dropDatabases,
+                _createTable, _showTables, _selectTable, _insertInto, _insertInto, _update, _dropTable
             };
             for (int i = 0; i < commands.Length; i++)
                 commands[i].SetActive(shellData.Command[i]);

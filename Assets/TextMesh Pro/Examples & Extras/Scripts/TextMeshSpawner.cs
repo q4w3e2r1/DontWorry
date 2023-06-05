@@ -43,10 +43,10 @@ namespace TMPro.Examples
 
                     textMeshPro.text = "!";
                     textMeshPro.color = new Color32(255, 255, 0, 255);
-                    //textMeshPro.Text = "!";
+                    //textMeshPro.GetText = "!";
 
 
-                    // Spawn Floating Text
+                    // Spawn Floating GetText
                     floatingText_Script = go.AddComponent<TextMeshProFloatingText>();
                     floatingText_Script.SpawnType = 0;
                 }
@@ -67,7 +67,7 @@ namespace TMPro.Examples
                     textMesh.color = new Color32(255, 255, 0, 255);
                     textMesh.text = "!";
 
-                    // Spawn Floating Text
+                    // Spawn Floating GetText
                     floatingText_Script = go.AddComponent<TextMeshProFloatingText>();
                     floatingText_Script.SpawnType = 1;
                 }

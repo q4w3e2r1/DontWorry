@@ -3,7 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace SQL_Quest.UI.Commands
+namespace SQL_Quest.Components.UI.Commands
 {
     public class CreateDatabase : UICommand
     {
@@ -20,7 +20,7 @@ namespace SQL_Quest.UI.Commands
         {
             if (_name.IsEmpty())
                 return;
-            _dbManager.CreateDatabase(gameObject, _name.Text());
+            _dbManager.CreateDatabaseCommand(gameObject, _name.GetText());
         }
     }
 }

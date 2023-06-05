@@ -16,7 +16,7 @@ namespace SQL_Quest.Database.Commands
             _selectedValue = selectedValue;
             _filter = filter;
             _writeManyColumns = writeManyColumns;
-            Constructor(CommandType.Simple, returnMessage);
+            Constructor(returnMessage);
         }
 
         public override bool Execute()
@@ -31,6 +31,9 @@ namespace SQL_Quest.Database.Commands
             }
 
             var command = $"SELECT {_selectedValue} FROM {_tableName}{_filter}";
+
+            if (!_returnMessage)
+                return false;
 
             if (_writeManyColumns)
             {
@@ -52,9 +55,6 @@ namespace SQL_Quest.Database.Commands
                 var row = new string[] { _dbManager.ConnectedDatabase.ExecuteQueryWithAnswer(command) };
                 Write(Table.Write(header, row));
             }
-
-            if (!_returnMessage)
-                return false;
 
             _chat.CheckMessage(command);
             return true;

@@ -14,22 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _data:
     _databaseFolder: Level1
-    _tables:
-    - Name: employee
-      DatabaseName: work-2022
-      _columnsNames:
-      - id
-      - name
-      _columnsTypes:
-      - INT AUTO_INCREMENT PRIMARY KEY
-      - TEXT NOT NULL
-    - Name: employee
-      DatabaseName: work-2023
-      _columnsNames:
-      - id
-      - name
-      _columnsTypes:
-      - INT AUTO_INCREMENT PRIMARY KEY
-      - TEXT NOT NULL
+    _databases:
+    - Name: work-2022
+      Type: 1
+      Tables:
+      - Name: employee
+        _columnsNames:
+        - id
+        - name
+        _columnsTypes:
+        - INT PRIMARY KEY AUTO_INCREMENT
+        - TEXT NOT NULL
+    - Name: work-2023
+      Type: 1
+      Tables:
+      - Name: employee
+        _columnsNames:
+        - id
+        - name
+        _columnsTypes:
+        - INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+        - TEXT NOT NULL
     _allowedColumnTypes: []
     _allowedColumnAttributes: []
