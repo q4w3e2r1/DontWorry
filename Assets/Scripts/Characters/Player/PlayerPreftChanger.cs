@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor.EditorTools;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SQL_Quest.Creatures.Player.PlayerPreftChanger
 {
@@ -15,7 +9,7 @@ namespace SQL_Quest.Creatures.Player.PlayerPreftChanger
 
         [ContextMenu("ChangeAll")]
         public void ChangeAll()
-        { 
+        {
             ChangeName();
             ChangeLevelNum();
         }
@@ -34,9 +28,9 @@ namespace SQL_Quest.Creatures.Player.PlayerPreftChanger
 
         [ContextMenu("DeleteAll")]
         public void DeleteAll()
-        { 
+        {
             PlayerPrefs.DeleteKey("Name");
             PlayerPrefs.DeleteKey("LevelNumber");
-        }    
+        }
     }
 }

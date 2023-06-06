@@ -248,8 +248,8 @@ namespace SQL_Quest.Components.UI.Commands
         }
 
         private void UpdateInnerJoinLine(LineComponent line, TMP_Dropdown[] dropdowns, TMP_InputField[] inputFields)
-        { 
-            if(dropdowns.Length == 4 && inputFields.Length == 0)
+        {
+            if (dropdowns.Length == 4 && inputFields.Length == 0)
                 return;
 
             CleanLine(dropdowns, inputFields);
@@ -347,7 +347,7 @@ namespace SQL_Quest.Components.UI.Commands
                         break;
                 }
             }
-            
+
             _dbManager.SelectCommand(gameObject, tableName, selectedValue, filter.ToString(),
                     _additionalSelectionData == null || _additionalSelectionData.WriteManyColumns);
         }

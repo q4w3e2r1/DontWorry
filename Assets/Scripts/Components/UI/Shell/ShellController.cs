@@ -1,5 +1,4 @@
-﻿using SQL_Quest.Creatures.Player;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace SQL_Quest.Components.UI.Shell

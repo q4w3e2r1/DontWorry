@@ -1,5 +1,4 @@
 using SQL_Quest.Extentions;
-using System.Diagnostics;
 using System.Linq;
 
 namespace SQL_Quest.Database.Commands

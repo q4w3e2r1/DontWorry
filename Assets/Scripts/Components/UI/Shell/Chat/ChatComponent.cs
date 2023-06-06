@@ -1,4 +1,3 @@
-using SQL_Quest.Creatures.Player;
 using SQL_Quest.Extentions;
 using System;
 using System.Collections.Generic;
@@ -65,7 +64,7 @@ namespace SQL_Quest.Components.UI.Shell.Chat
             if (firstMessage.AnswerTo.Contains(message))
                 SendMessage(firstMessage, true);
 
-            foreach(var answer in firstMessage.AnswerTo)
+            foreach (var answer in firstMessage.AnswerTo)
                 if (answer[^1] == '*' && message.Contains(answer[..^2]))
                     SendMessage(firstMessage, true);
         }
@@ -89,7 +88,7 @@ namespace SQL_Quest.Components.UI.Shell.Chat
 
             messageGO.GetComponentInParent<ScrollRect>().ScrollToBottom(messageGO);
 
-            if(pushInStack)
+            if (pushInStack)
                 _sentMessages.Push(messageGO);
         }
 

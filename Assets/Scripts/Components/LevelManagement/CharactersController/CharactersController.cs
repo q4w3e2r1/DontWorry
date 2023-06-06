@@ -1,15 +1,10 @@
 ﻿using SQL_Quest.Components.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace SQL_Quest.Components.LevelManagement.CharactersController
-{ 
+{
     public class CharactersController : MonoBehaviour
     {
         [SerializeField] private GameObject _mrNormatt;
@@ -31,6 +26,8 @@ namespace SQL_Quest.Components.LevelManagement.CharactersController
                         return _external.Data;
                     case Mode.Level:
                         var levelNumber = PlayerPrefs.GetInt("LevelNumber");
+                        Debug.Log($"Levels/Level{levelNumber}/CharactersControllers/" +
+                            $"{SceneManager.GetActiveScene().name}CharactersController");
                         return Resources.Load<CharactersControllerDef>
                             ($"Levels/Level{levelNumber}/CharactersControllers/" +
                             $"{SceneManager.GetActiveScene().name}CharactersController").Data;
@@ -49,8 +46,8 @@ namespace SQL_Quest.Components.LevelManagement.CharactersController
             }
             if (_data.HaveHilpy)
             {
-                _mrNormatt.SetActive(true);
-                _mrNormatt.transform.position = _data.HilpyPos;
+                _hilpy.SetActive(true);
+                _hilpy.transform.position = _data.HilpyPos;
             }
         }
     }

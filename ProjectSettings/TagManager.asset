@@ -16,6 +16,7 @@ TagManager:
   - PersonalizedDialog
   - SimpleDialog
   - PlayerData
+  - AudioController
   layers:
   - Default
   - TransparentFX

@@ -1,5 +1,4 @@
 ﻿using SQL_Quest.Components.UI;
-using SQL_Quest.Creatures.Player;
 using SQL_Quest.Extensions;
 using System.Collections;
 using UnityEngine;
@@ -33,7 +32,7 @@ namespace SQL_Quest.Components.LevelManagement
             _onLoad?.Invoke();
             SetPlayerPrefs();
 
-            if(PlayerPrefs.GetInt("LevelNumber") <= 5)
+            if (PlayerPrefs.GetInt("LevelNumber") <= 5)
                 SceneManager.LoadScene(_sceneToLoad);
             else
                 SceneManager.LoadScene("MainMenu");

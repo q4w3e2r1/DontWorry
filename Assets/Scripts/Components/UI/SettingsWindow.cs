@@ -1,6 +1,5 @@
-﻿using SQL_Quest.Components.UI;
+﻿using SQL_Quest.Components.Audio;
 using SQL_Quest.Extensions;
-using SQL_Quest.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,8 +26,11 @@ namespace SQL_Quest.Components.UI
 
         private void OnEnable()
         {
-            _soundVolumeSlider.value = AudioController.Instance.SoundAudioSource.volume;
-            _musicVolumeSlider.value = AudioController.Instance.MusicAudioSource.volume;
+            if (PlayerPrefs.HasKey("SoundVolume") && PlayerPrefs.HasKey("MusicVolume"))
+            {
+                _soundVolumeSlider.value = PlayerPrefs.GetFloat("SoundVolume");
+                _musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+            }
 
             _windowResolutionDropdown.ClearOptions();
 
@@ -66,8 +68,8 @@ namespace SQL_Quest.Components.UI
 
         public void SaveSettings()
         {
-            AudioController.Instance.SoundAudioSource.volume = _soundVolumeSlider.value;
-            AudioController.Instance.MusicAudioSource.volume = _musicVolumeSlider.value;
+            PlayerPrefs.SetFloat("SoundVolume", _soundVolumeSlider.value);
+            PlayerPrefs.SetFloat("MusicVolume", _musicVolumeSlider.value);
 
             PlayerPrefs.SetInt("ResolutionPreference", _resolutionIndex);
             PlayerPrefsExtensions.SetBool("FullScreenPreference", _isFullScreen);

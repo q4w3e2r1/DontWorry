@@ -1,4 +1,3 @@
-using SQL_Quest.Creatures.Player;
 using SQL_Quest.Extentions;
 using System;
 using System.Collections.Generic;
@@ -86,7 +85,7 @@ namespace SQL_Quest.Components.UI.Chat
 
             messageGO.GetComponentInParent<ScrollRect>().ScrollToBottom(messageGO);
 
-            if(pushInStack)
+            if (pushInStack)
                 _sentMessages.Push(messageGO);
         }
 

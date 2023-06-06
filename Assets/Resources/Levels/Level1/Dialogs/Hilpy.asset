@@ -28,6 +28,7 @@ MonoBehaviour:
         \u0437\u0430\u0440\u043F\u043B\u0430\u0442\u0430 \u0437\u0434\u0435\u0441\u044C
         \u0445\u043E\u0440\u043E\u0448\u0430\u044F. \u0414\u0430 \u0438 \u043A\u043E\u043C\u0430\u043D\u0434\u0430
         \u0434\u0440\u0443\u0436\u043D\u0430\u044F."
+      _voice: {fileID: 8300000, guid: 1874d8ecdb6f84043b9cbd6444ee3daf, type: 3}
       _icon: {fileID: 21300000, guid: ba23df28ab1933245a8aad7f733ca01f, type: 3}
       _side: 1
     - _name: "\u0425\u0438\u043B\u043F\u0438"
@@ -38,6 +39,6 @@ MonoBehaviour:
         \u043D\u0430\u0432\u0435\u0440\u043D\u043E\u0435, \u0443\u0436\u0435 \u0441\u043A\u0430\u0437\u0430\u043B,
         \u0447\u0442\u043E \u0442\u044B \u043C\u043E\u0436\u0435\u0448\u044C \u0432\u044B\u0431\u0440\u0430\u0442\u044C
         \u043B\u044E\u0431\u043E\u0439 \u043A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440"
+      _voice: {fileID: 0}
       _icon: {fileID: 21300000, guid: ba23df28ab1933245a8aad7f733ca01f, type: 3}
       _side: 1
-    _type: 1

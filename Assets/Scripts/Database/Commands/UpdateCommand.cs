@@ -1,12 +1,5 @@
-﻿using SQL_Quest.Extentions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SQL_Quest.Database.Commands
-{ 
+﻿namespace SQL_Quest.Database.Commands
+{
     public class UpdateCommand : DatabaseCommand
     {
         private string _tableName;

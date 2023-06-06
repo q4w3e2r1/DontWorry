@@ -1,10 +1,7 @@
 using SQL_Quest.Components.UI;
-using SQL_Quest.Creatures.Player;
 using SQL_Quest.Database.Commands;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -50,7 +47,7 @@ namespace SQL_Quest.Database.Manager
         {
             Cursor.visible = true;
 
-            foreach(var database in _data.Databases) 
+            foreach (var database in _data.Databases)
             {
                 var tableDictionary = new Dictionary<string, Table>();
                 foreach (var table in database.Tables)

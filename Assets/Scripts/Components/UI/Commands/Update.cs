@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-using TMPro;
-using SQL_Quest.Extentions;
-using System.Linq;
+﻿using SQL_Quest.Extentions;
 using System;
-using SQL_Quest.Components.UI.Line;
-using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UnityEngine;
 
 namespace SQL_Quest.Components.UI.Commands
 {
@@ -52,7 +50,7 @@ namespace SQL_Quest.Components.UI.Commands
 
         public void Execute()
         {
-            if(_tableName.IsEmpty() || IsLineEmpty(_setLine) || IsLineEmpty(_whereLine)) 
+            if (_tableName.IsEmpty() || IsLineEmpty(_setLine) || IsLineEmpty(_whereLine))
                 return;
 
             _dbManager.UpdateCommand(gameObject, _tableName.GetText(), _setLine.ToString(), _whereLine.ToString());

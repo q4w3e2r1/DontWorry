@@ -1,4 +1,4 @@
-using SQL_Quest.Creatures.Player;
+using SQL_Quest.Components.Audio;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -55,6 +55,8 @@ namespace SQL_Quest.Components.UI.Dialogs
         {
             CurrentContent.Text.text = string.Empty;
             CurrentContent.Name.text = CurrentSentence.Name == _playerNamePlacer ? _playerName : CurrentSentence.Name;
+            if (CurrentSentence.Voice != null)
+                AudioHandler.Instance.PlaySound(CurrentSentence.Voice);
             CurrentContent.TrySetIcon(CurrentSentence.Icon);
 
             var text = CurrentSentence.Value.Replace(_playerNamePlacer, _playerName);

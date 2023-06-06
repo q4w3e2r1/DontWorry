@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace SQL_Quest.Database.Commands
 {
     public class DropDatabaseCommand : DatabaseCommand
@@ -23,7 +21,7 @@ namespace SQL_Quest.Database.Commands
 
             _dbManager.ExistingDatabases[_name].Disconnect();
 
-            if(_deleteFile)
+            if (_deleteFile)
                 _dbManager.ExistingDatabases[_name].Drop();
 
             _dbManager.ExistingDatabases.Remove(_name);
