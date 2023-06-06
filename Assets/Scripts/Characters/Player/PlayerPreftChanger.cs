@@ -20,14 +20,23 @@ namespace SQL_Quest.Creatures.Player.PlayerPreftChanger
             ChangeLevelNum();
         }
 
+        [ContextMenu("ChangeName")]
         public void ChangeName()
         {
             PlayerPrefs.SetString("Name", _name);
         }
 
+        [ContextMenu("ChangeLevelNum")]
         public void ChangeLevelNum()
         {
             PlayerPrefs.SetInt("LevelNumber", _levelNum);
         }
+
+        [ContextMenu("DeleteAll")]
+        public void DeleteAll()
+        { 
+            PlayerPrefs.DeleteKey("Name");
+            PlayerPrefs.DeleteKey("LevelNumber");
+        }    
     }
 }

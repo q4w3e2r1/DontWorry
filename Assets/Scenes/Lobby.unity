@@ -904,6 +904,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82ca10fe8f797464e893b8ee91f7c5d0, type: 3}
+--- !u!1 &741379252 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 369949553744526870, guid: 82ca10fe8f797464e893b8ee91f7c5d0, type: 3}
+  m_PrefabInstance: {fileID: 741379251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &741379253 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1161492933728149678, guid: 82ca10fe8f797464e893b8ee91f7c5d0, type: 3}
+  m_PrefabInstance: {fileID: 741379251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1501028032
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1368,6 +1378,22 @@ PrefabInstance:
     - target: {fileID: 3976797868916770998, guid: c490c158a369061418b9d7e4e8d41565, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976797868916771145, guid: c490c158a369061418b9d7e4e8d41565, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 741379253}
+    - target: {fileID: 3976797868916771145, guid: c490c158a369061418b9d7e4e8d41565, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 741379252}
+    - target: {fileID: 3976797868916771145, guid: c490c158a369061418b9d7e4e8d41565, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976797868916771145, guid: c490c158a369061418b9d7e4e8d41565, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetActive
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c490c158a369061418b9d7e4e8d41565, type: 3}

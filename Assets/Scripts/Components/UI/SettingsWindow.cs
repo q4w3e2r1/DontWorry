@@ -8,7 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Components.UI
+namespace SQL_Quest.Components.UI
 {
     public class SettingsWindow : MonoBehaviour
     {
@@ -27,6 +27,9 @@ namespace Assets.Scripts.Components.UI
 
         private void OnEnable()
         {
+            _soundVolumeSlider.value = AudioController.Instance.SoundAudioSource.volume;
+            _musicVolumeSlider.value = AudioController.Instance.MusicAudioSource.volume;
+
             _windowResolutionDropdown.ClearOptions();
 
             resolutions = Screen.resolutions.Reverse().ToArray();
@@ -41,8 +44,9 @@ namespace Assets.Scripts.Components.UI
 
             _windowfullScreenToggle.isOn = Screen.fullScreen;
 
-            //if (PlayerPrefs.HasKey("DarkTheme"))
-            //    _windowDarkThemeToggle.isOn = PlayerPrefsExtensions.GetBool("DarkTheme");
+            if (!PlayerPrefs.HasKey("DarkTheme"))
+                PlayerPrefsExtensions.SetBool("DarkTheme", false);
+            _windowDarkThemeToggle.isOn = PlayerPrefsExtensions.GetBool("DarkTheme");
         }
 
         public void SetResolution(int resolutionIndex)
@@ -62,6 +66,9 @@ namespace Assets.Scripts.Components.UI
 
         public void SaveSettings()
         {
+            AudioController.Instance.SoundAudioSource.volume = _soundVolumeSlider.value;
+            AudioController.Instance.MusicAudioSource.volume = _musicVolumeSlider.value;
+
             PlayerPrefs.SetInt("ResolutionPreference", _resolutionIndex);
             PlayerPrefsExtensions.SetBool("FullScreenPreference", _isFullScreen);
             PlayerPrefsExtensions.SetBool("DarkTheme", _isDarkTheme);
