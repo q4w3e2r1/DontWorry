@@ -35,5 +35,14 @@
             _chat.CheckMessage(command);
             return true;
         }
+
+        public override void Undo()
+        {
+            var undoCommand = gameObject.AddComponent<UpdateCommand>();
+            undoCommand.Constructor(_tableName, _filter, _setValues, false);
+            undoCommand.Execute();
+            Destroy(undoCommand);
+            base.Undo();
+        }
     }
 }
