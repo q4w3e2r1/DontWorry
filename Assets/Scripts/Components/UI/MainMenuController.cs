@@ -30,12 +30,14 @@ namespace SQL_Quest.Components.UI
             PlayerPrefs.DeleteKey("LevelNumber");
             _continueButton.interactable = PlayerPrefs.HasKey("Name");
             PlayerPrefsExtensions.SetBool("CompleteGame", true);
+            PlayerPrefs.Save();
         }
 
         public void StartNewGame()
         {
             PlayerPrefs.SetString("Name", _nameInputField.textComponent.text);
             PlayerPrefs.SetInt("LevelNumber", 1);
+            PlayerPrefs.Save();
             Cursor.visible = false;
         }
     }

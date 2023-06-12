@@ -72,8 +72,9 @@ namespace SQL_Quest.Components.UI
             PlayerPrefs.SetFloat("MusicVolume", _musicVolumeSlider.value);
 
             PlayerPrefs.SetInt("ResolutionPreference", _resolutionIndex);
-            PlayerPrefsExtensions.SetBool("FullScreenPreference", _isFullScreen);
-            PlayerPrefsExtensions.SetBool("DarkTheme", _isDarkTheme);
+            PlayerPrefsExtensions.SetBool("FullScreenPreference", _windowfullScreenToggle.isOn);
+            PlayerPrefsExtensions.SetBool("DarkTheme", _windowDarkThemeToggle.isOn);
+            PlayerPrefs.Save();
 
             LoadSettings();
         }
@@ -81,9 +82,8 @@ namespace SQL_Quest.Components.UI
         private void LoadSettings()
         {
             var resolution = resolutions[PlayerPrefs.GetInt("ResolutionPreference")];
-            Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen, resolution.refreshRate);
-
-            Screen.fullScreen = PlayerPrefsExtensions.GetBool("FullScreenPreference");
+            var isFullScreen = PlayerPrefsExtensions.GetBool("FullScreenPreference");
+            Screen.SetResolution(resolution.width, resolution.height, isFullScreen, resolution.refreshRate);
         }
     }
 }
